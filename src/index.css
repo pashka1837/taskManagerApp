@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,600;6..12,800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button:focus,
+button:focus-visible,
+button:focus-within {
+  outline: none !important;
+}
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+button::selection {
+  color: none;
+  background: none;
+}
+
+/* button:active {
+  outline: none !important;
+  box-shadow: none;
+} */
+
+body {
+  /* font-family: "Nunito Sans", sans-serif; */
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1rem;
+  --btnPrime-txt-clr: #ffffff;
+  --btnPrime-bg-clr: #635fc7;
+  --btnPrime-bg-hvr-clr: #a8a4ff;
+
+  --btnSecon-txt-clr: #635fc7;
+  --btnSecon-bg-clr: rgba(99, 95, 199, 0.1);
+  --btnSecon-bg-hvr-clr: rgba(99, 95, 199, 0.25);
+  --dngr-color: #ea5555;
+  -dngr-hvr-clr: #ff9898;
+
+  --nav-height: 10vh;
+}
+#root {
+  /* height: 100dvh; */
+}
+
+.btn {
+  font-weight: 700;
+  font-size: 1em;
+  padding: 0.7em 1.5em;
+  border-radius: 2em;
+}
+
+.btnPrime {
+  background-color: var(--btnPrime-bg-clr);
+  color: var(--btnPrime-txt-clr);
+}
+
+.btnPrime:hover {
+  background-color: var(--btnPrime-bg-hvr-clr);
+}
+
+.btnSecon {
+  background-color: var(--btnSecon-bg-clr);
+  color: var(--btnSecon-txt-clr);
+}
+.btnSecon:hover {
+  background-color: var(--btnSecon-bg-hvr-clr);
+}
+
+main {
+  height: 90dvh;
+  padding: 2%;
+  /* margin-top: var(--nav-height); */
+}

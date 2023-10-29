@@ -1,0 +1,24 @@
+.navbar {
+  height: var(--nav-height);
+  width: 100vw;
+  padding: 0.5% 2%;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1em;
+}
+
+.logoContainer,
+.btnContainer {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.MoreVertBtn {
+  cursor: pointer;
+}
+
+/* display="grid" gridTemplateColumns="repeat(2, auto)" justifyContent="space-between" alignItems="center" */

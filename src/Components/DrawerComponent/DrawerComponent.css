@@ -1,0 +1,17 @@
+.MuiDrawer-root {
+  height: 90vh;
+}
+
+.MuiDrawer-root,
+.MuiDrawer-root > div {
+  top: var(--nav-height);
+}
+
+.MuiDrawer-backdrop {
+  backdrop-filter: blur(0px) !important;
+  background-color: transparent !important;
+}
+
+/* .MuiDrawer-content {
+  width: 20vw !important;
+} */
