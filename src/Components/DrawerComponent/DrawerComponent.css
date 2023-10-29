@@ -4,12 +4,31 @@
 
 .MuiDrawer-root,
 .MuiDrawer-root > div {
-  top: var(--nav-height);
+  top: var(--nav-height) !important;
+  right: calc(100vw - var(--drawer-width)) !important;
+  /* bottom: calc(100vh- var(--nav-height)) !important; */
 }
 
 .MuiDrawer-backdrop {
   backdrop-filter: blur(0px) !important;
   background-color: transparent !important;
+}
+
+.MuiDrawer-content {
+  padding-right: 2%;
+  display: grid;
+  row-gap: 2%;
+  width: var(--drawer-width) !important;
+  height: calc(100dvh - var(--nav-height)) !important;
+}
+
+.drawer {
+  height: 100%;
+  padding: 5% 0;
+  display: grid;
+  justify-items: stretch;
+  grid-template-rows: min-content;
+  row-gap: 0.8em;
 }
 
 /* .MuiDrawer-content {

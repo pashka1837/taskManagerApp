@@ -1,22 +1,12 @@
-import { useState } from 'react';
-import DrawerComponent from '../Components/DrawerComponent/DrawerComponent';
+import { useSelector } from 'react-redux';
 
 export default function Landing() {
-  const [open, setOpen] = useState(false);
+  const isOpen = useSelector((store) => store.drawer.isOpen);
 
-  function toggleDrawer(inOpen) {
-    return (event) => {
-      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-        return;
-      }
-      setOpen(inOpen);
-    };
-  }
   return (
-    <main style={{ transform: open ? 'translateX(clamp(256px, 20%, 100%))' : 'translateX(0)' }}>
-      <button onClick={toggleDrawer(!open)} className="btnPrime" type="button">open</button>
+    <main style={{ left: isOpen ? 'var(--drawer-width)' : '0' }}>
       <h2>some</h2>
-      <DrawerComponent toggleDrawer={toggleDrawer} open={open} />
+      <div className="someDiv"> some infdo</div>
     </main>
   );
 }

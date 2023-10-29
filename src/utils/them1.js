@@ -1,6 +1,9 @@
 import { extendTheme } from '@mui/joy/styles';
 
 const theme = extendTheme({
+  typography: {
+    fontFamily: 'Plus Jakarta Sans,  sans-serif',
+  },
   colorSchemes: {
     light: {
       palette: {
@@ -22,6 +25,25 @@ const theme = extendTheme({
           solidDisabledBorder: 'var(--joy-palette-btnPrime-300)',
           solidDisabledBg: 'var(--joy-palette-btnPrime-300)',
           solidDisabledColor: 'var(--joy-palette-btnPrime-200)',
+        },
+        btnList: {
+          100: '#FFFFFF',
+          200: '#F4F7FD',
+          300: '#d0cfee',
+          400: '#A8A4FF',
+          500: '#635FC7',
+          plainColor: '#828FA3',
+
+          plainHoverColor: '#635FC7',
+          plainHoverBg: '#dfdff3',
+
+          plainDisabledBg: '#635FC7',
+          plainDisabledColor: '#FFFFFF',
+        },
+
+        btnListSelected: {
+          plainBg: '#635FC7',
+          plainColor: '#FFFFFF',
         },
 
         btnSecon: {

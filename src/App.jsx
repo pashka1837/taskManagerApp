@@ -8,6 +8,8 @@ import theme from './utils/them1';
 import './App.css';
 import HomeLayout from './Pages/HomeLayout';
 import Landing from './Pages/Landing';
+import store from './store';
+import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,10 @@ function App() {
   return (
     <CssVarsProvider theme={theme}>
       <CssBaseline />
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+
     </CssVarsProvider>
   );
 }

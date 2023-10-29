@@ -27,7 +27,7 @@ button::selection {
 
 body {
   /* font-family: "Nunito Sans", sans-serif; */
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif !important;
   font-size: 1rem;
   --btnPrime-txt-clr: #ffffff;
   --btnPrime-bg-clr: #635fc7;
@@ -40,9 +40,12 @@ body {
   -dngr-hvr-clr: #ff9898;
 
   --nav-height: 10vh;
+  --drawer-width: clamp(256px, 16%, 100%);
 }
 #root {
-  /* height: 100dvh; */
+  height: 100dvh;
+  width: 100vw;
+  position: relative;
 }
 
 .btn {
@@ -70,7 +73,19 @@ body {
 }
 
 main {
-  height: 90dvh;
   padding: 2%;
-  /* margin-top: var(--nav-height); */
+  position: absolute;
+  top: var(--nav-height);
+  bottom: 0;
+  right: 0;
+  transition: all ease 0.3s;
+  overflow: scroll;
+}
+
+.someDiv {
+  display: grid;
+  place-items: center;
+  width: 120vw;
+  height: 90%;
+  /* overflow: visible; */
 }
