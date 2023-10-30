@@ -33,6 +33,7 @@ const theme = extendTheme({
           400: '#A8A4FF',
           500: '#635FC7',
           plainColor: '#828FA3',
+          softColor: '#635FC7',
 
           plainHoverColor: '#635FC7',
           plainHoverBg: '#dfdff3',

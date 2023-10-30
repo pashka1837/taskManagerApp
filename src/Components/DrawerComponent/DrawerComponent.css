@@ -27,10 +27,17 @@
   padding: 5% 0;
   display: grid;
   justify-items: stretch;
-  grid-template-rows: min-content;
+  grid-template-rows: min-content 1fr;
   row-gap: 0.8em;
 }
 
 /* .MuiDrawer-content {
   width: 20vw !important;
 } */
+.drawerTitle {
+  font-weight: 500;
+  color: #828fa3;
+  letter-spacing: 3px;
+  padding-left: 1em;
+  text-transform: uppercase;
+}

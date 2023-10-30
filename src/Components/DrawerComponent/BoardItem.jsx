@@ -1,30 +1,26 @@
 import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
-import {
-  ListItem, ListItemButton, ListItemDecorator,
-} from '@mui/joy';
+import { ListItem, ListItemButton } from '@mui/joy';
 import { useDispatch } from 'react-redux';
 import { setCurrent } from '../../features/drawer/drawerSlice';
 
-export default function Board({ name, active }) {
+export default function BoardItem({ name, active }) {
   const dispatch = useDispatch();
   return (
     <ListItem onClick={() => dispatch(setCurrent(name))}>
       <ListItemButton
         color={active ? 'btnListSelected' : 'btnList'}
         variant="plain"
+        selected={active}
         sx={{
-          paddingLeft: '1em',
+          paddingLeft: '2em',
           fontSize: '1em',
           fontWeight: '500',
-          paddingY: '1em',
+          paddingY: '0.8em',
           borderTopRightRadius: '25px',
           borderBottomRightRadius: '25px',
         }}
-        selected={active}
       >
-        <ListItemDecorator sx={{ paddingRight: '1em' }}>
-          <SpaceDashboardOutlinedIcon />
-        </ListItemDecorator>
+        <SpaceDashboardOutlinedIcon />
         {name}
       </ListItemButton>
     </ListItem>

@@ -40,7 +40,7 @@ body {
   -dngr-hvr-clr: #ff9898;
 
   --nav-height: 10vh;
-  --drawer-width: clamp(256px, 16%, 100%);
+  --drawer-width: clamp(300px, 16%, 100%);
 }
 #root {
   height: 100dvh;
@@ -80,6 +80,8 @@ main {
   right: 0;
   transition: all ease 0.3s;
   overflow: scroll;
+  display: grid;
+  gap: 1.5em;
 }
 
 .someDiv {
@@ -88,4 +90,13 @@ main {
   width: 120vw;
   height: 90%;
   /* overflow: visible; */
+}
+
+.drawer > .MuiList-root > .MuiListItem-root {
+  padding-left: 1em;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 0.8em 0;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
