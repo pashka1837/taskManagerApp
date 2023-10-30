@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import data from '../../../../data.json';
 
@@ -31,6 +32,7 @@ const drawerSlice = createSlice({
       // };
       console.log('addBoard');
     },
+
   },
 
 });

@@ -6,16 +6,19 @@ import Box from '@mui/joy/Box';
 import Sheet from '@mui/joy/Sheet';
 import { useDispatch } from 'react-redux';
 import { Typography } from '@mui/material';
-import logoSvg from '../../assets/logo-dark.svg';
+import { useColorScheme } from '@mui/joy';
+import logoLightSvg from '../../assets/logo-dark.svg';
+import logoDarkSvg from '../../assets/logo-light.svg';
 import { toggleDrawer } from '../../features/drawer/drawerSlice';
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const { mode } = useColorScheme();
   return (
     <Sheet className="navbar">
       <Box className="logoContainer">
-        <img src={logoSvg} alt="logo" />
-        <Typography level="h1" fontSize="xl">Platform Launch</Typography>
+        <img src={(mode === 'light') ? logoLightSvg : logoDarkSvg} alt="logo" />
+        {/* <Typography level="h1" fontSize="xl">Platform Launch</Typography> */}
         <h2>Platform Launch</h2>
       </Box>
 

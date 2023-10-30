@@ -18,6 +18,7 @@ const theme = extendTheme({
           solidColor: 'var(--joy-palette-btnPrime-100)',
 
           solidActiveBg: 'var(--joy-palette-btnPrime-500)',
+          solidActiveBorder: 'var(--joy-palette-btnPrime-500)',
 
           solidHoverBg: 'var(--joy-palette-btnPrime-400)',
           solidHoverBorder: 'var(--joy-palette-btnPrime-400)',
@@ -113,8 +114,11 @@ const theme = extendTheme({
           500: '#2B2C37',
           600: '#20212c',
           700: '#000112',
-          body: 'var(--joy-palette-background-200)',
+          // body: 'var(--joy-palette-background-200)',
+          body: '#E9EFFA',
+
           popup: 'var(--joy-palette-background-50)',
+          // body: 'var(--joy-palette-background-200)'
           // level1: 'var(--joy-palette-neutral-100)',
           // level2: 'var(--joy-palette-neutral-200)',
           surface: '#F4F7FD',

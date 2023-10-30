@@ -11,9 +11,9 @@
 .MuiCard-root {
   cursor: pointer;
   /* border: none !important; */
-  box-shadow: 1px 1px 5px 0.5px #828fa3;
+  box-shadow: 1px 1px 5px 0.5px #e4ebfa;
 }
-
+/* 828fa3 */
 .MuiCard-root:hover {
   color: #635fc7;
 }

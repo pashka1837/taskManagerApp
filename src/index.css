@@ -92,11 +92,20 @@ main {
   /* overflow: visible; */
 }
 
-.drawer > .MuiList-root > .MuiListItem-root {
+/* .drawer > .MuiList-root > .MuiListItem-root {
   padding-left: 1em;
   font-size: 1em;
   font-weight: 500;
   padding: 0.8em 0;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
+} */
+
+/* landing */
+.newColumn {
+  display: grid;
+  /* background-color: #e4ebfa; */
+  border-radius: 10px;
+  place-items: center;
+  height: 100%;
 }

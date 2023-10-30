@@ -11,6 +11,8 @@ export default function HideDrawerBtn() {
         alignSelf: 'end',
         borderTopRightRadius: '25px',
         borderBottomRightRadius: '25px',
+        borderTopLeftRadius: '0px',
+        borderBottomLeftRadius: '0px',
         textAlign: 'start',
       }}
       onClick={() => dispatch(toggleDrawer())}

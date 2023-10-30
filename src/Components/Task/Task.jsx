@@ -1,10 +1,11 @@
-import { Card, CardContent } from '@mui/joy';
+import { Card, CardContent, useColorScheme } from '@mui/joy';
 
 import './Task.css';
 
 export default function Task({
   description, status, subtasks, title,
 }) {
+  const { mode, setMode } = useColorScheme();
   let finnishedSubTasks = 0;
   if (subtasks.length) {
     subtasks.forEach((st) => {
@@ -12,7 +13,10 @@ export default function Task({
     });
   }
   return (
-    <Card variant="plain">
+    <Card
+      variant="plain"
+      sx={{ boxShadow: mode === 'dark' && 'none' }}
+    >
       <CardContent>
         <h4 className="taskTitle">
           {title}
