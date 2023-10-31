@@ -7,6 +7,15 @@ const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
+        focusVisible: '#635FC7',
+        textSecon: '#828FA3',
+
+        btnCross: {
+          100: '#828FA3',
+          plainBorder: 'transparent',
+          plainColor: '#828FA3',
+
+        },
         btnPrime: {
           100: '#FFFFFF',
           200: '#F4F7FD',
@@ -94,7 +103,7 @@ const theme = extendTheme({
           outlinedBorder: 'var(--joy-palette-inputPrime-50)',
 
           outlinedActiveBorder: 'var(--joy-palette-inputPrime-300)',
-
+          outlinedFocusBorder: 'var(--joy-palette-inputPrime-300)',
           outlinedHoverBorder: 'var(--joy-palette-inputPrime-300)',
         },
         checkBoxPrime: {
@@ -105,6 +114,7 @@ const theme = extendTheme({
           solidHoverBg: '#b1afe3',
           solidHoverBorder: '#b1afe3',
         },
+
         background: {
           50: '#FFFFFF',
           100: '#F4F7FD',

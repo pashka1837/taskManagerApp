@@ -15,7 +15,7 @@
 }
 
 .MuiDrawer-content {
-  padding-right: 2%;
+  /* padding-right: 2%; */
   display: grid;
   row-gap: 2%;
   width: var(--drawer-width) !important;
@@ -24,7 +24,7 @@
 
 .drawer {
   height: 100%;
-  padding: 5% 0;
+  padding: 5% 5% 5% 0;
   display: grid;
   justify-items: stretch;
   grid-template-rows: min-content 1fr;

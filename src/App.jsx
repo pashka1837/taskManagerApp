@@ -10,6 +10,7 @@ import HomeLayout from './Pages/HomeLayout';
 import Landing from './Pages/Landing';
 import store from './store';
 import { Provider } from 'react-redux';
+import AddBoard from './Pages/AddBoard';
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,8 @@ const router = createBrowserRouter([
     element: <HomeLayout />,
     children: [
       {
-        index: true,
-        element: <Landing />,
+        path: 'add-board',
+        element: <AddBoard />,
       },
     ],
   },

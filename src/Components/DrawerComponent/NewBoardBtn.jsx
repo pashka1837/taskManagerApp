@@ -2,14 +2,16 @@ import Add from '@mui/icons-material/Add';
 import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
 import { ListItem, ListItemButton } from '@mui/joy';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { addBoard } from '../../features/drawer/drawerSlice';
 
 export default function NewBoardBtn() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <ListItem>
       <ListItemButton
-        onClick={() => dispatch(addBoard())}
+        onClick={() => navigate('/add-board')}
         color="btnList"
         variant="soft"
         sx={{
