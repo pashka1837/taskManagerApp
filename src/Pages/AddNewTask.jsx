@@ -12,7 +12,7 @@ export function action(store) {
       title: formData.get('title'),
       description: formData.get('description'),
       status,
-      subtasks,
+      subtasks: subtasks.length ? subtasks : [],
     };
     store.dispatch(addTask(newTask));
     return redirect('/');
@@ -22,7 +22,7 @@ export function action(store) {
 export default function AddNewTask() {
   const navigate = useNavigate();
   const { current } = useSelector((store) => store.drawer);
-  const columns = current.columns.map((c) => c.name.charAt(0).toUpperCase() + c.name.slice(1));
+  const columns = current.columns.map((c) => c.name.charAt(0) + c.name.slice(1));
 
   const taskNewModal = {
     title: 'Add New Task',

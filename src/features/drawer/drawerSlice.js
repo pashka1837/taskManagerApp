@@ -3,13 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 import data from '../../../../data.json';
 
 function getBoardsFromLC() {
-  return localStorage.getItem('boards') || [...Object.values(data.boards)];
+  return JSON.parse(localStorage.getItem('boards')) || [...Object.values(data.boards)];
+}
+
+function getCurrentFromLC(boards) {
+  return JSON.parse(localStorage.getItem('current')) || boards[0];
 }
 const boards = getBoardsFromLC();
 const defaultState = {
   isOpen: false,
-  boards,
-  current: boards[0],
+  boards: getBoardsFromLC(),
+  current: getCurrentFromLC(boards),
 };
 
 const drawerSlice = createSlice({
@@ -23,32 +27,36 @@ const drawerSlice = createSlice({
       const newCur = action.payload;
       const indxOfNewBoard = state.boards.findIndex((item) => item.name === newCur);
       state.current = state.boards[indxOfNewBoard];
+      localStorage.setItem('current', JSON.stringify(state.current));
     },
     addBoard: (state, action) => {
-      // console.log(payload.action);
       const newBoard = action.payload;
       state.boards.push(newBoard);
       state.current = state.boards.at(-1);
+      drawerSlice.caseReducers.saveToLC(state);
     },
     addTask: (state, action) => {
       const newTask = action.payload;
-      const column = state.current.columns.find((column) => column.name === newTask.status);
+      const currentBoard = state.boards.find((board) => board.name === state.current.name);
+      const column = currentBoard.columns.find((column) => column.name === newTask.status);
       if (column) {
         column.tasks.push(newTask);
+        state.current = currentBoard;
+        drawerSlice.caseReducers.saveToLC(state);
         return;
       }
       const newColumn = {
         name: newTask.status,
         tasks: [newTask],
       };
-      state.current.columns.push(newColumn);
-      // column.tasks.push(newTask);
-
-      // console.log(newBoard);
-      // state.boards.push(newBoard);
-      // state.current = state.boards.at(-1);
+      currentBoard.columns.push(newColumn);
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
     },
-
+    saveToLC: (state) => {
+      localStorage.setItem('boards', JSON.stringify(state.boards));
+      localStorage.setItem('current', JSON.stringify(state.current));
+    },
   },
 
 });

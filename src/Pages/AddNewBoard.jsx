@@ -8,8 +8,9 @@ export function action(store) {
     const columns = formData.getAll('columns').map((col) => ({ name: col, tasks: [] }));
     const newBoard = {
       name: formData.get('board name'),
-      columns: [...columns],
+      columns: columns.length ? columns : [{ name: 'Todo', tasks: [] }, { name: 'Doing', tasks: [] }, { name: 'Done', tasks: [] }],
     };
+    console.log(newBoard);
     store.dispatch(addBoard(newBoard));
     return redirect('/');
   };

@@ -13,9 +13,9 @@ export default function SelectCompon({ modalData }) {
         variant="outlined"
         defaultValue={statusOptions[0]}
         required
-        sx={{ textTransform: 'capitalize' }}
+        // sx={{ textTransform: 'capitalize' }}
       >
-        {statusOptions.map((op) => <Option key={op} sx={{ textTransform: 'capitalize' }} value={op}>{op}</Option>)}
+        {statusOptions.map((op) => <Option key={op} value={op}>{op}</Option>)}
       </Select>
     </FormControl>
   );
