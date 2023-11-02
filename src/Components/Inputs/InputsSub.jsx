@@ -6,7 +6,9 @@ import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 
 export default function InputsSub({ modalData }) {
-  const { label3: label, btnSubTitle: btnName, inputValues } = modalData;
+  const {
+    label3: label, btnSubTitle: btnName, inputValues,
+  } = modalData;
 
   const [inputs, setInputs] = useState([...inputValues]);
 
@@ -21,7 +23,7 @@ export default function InputsSub({ modalData }) {
   }
   return (
     <Stack spacing={1}>
-      <FormLabel>
+      <FormLabel sx={{ textTransform: 'capitalize' }}>
         {label}
       </FormLabel>
       {inputs.map((inp) => (
@@ -31,7 +33,7 @@ export default function InputsSub({ modalData }) {
               color="inputPrime"
               variant="outlined"
               type="text"
-              name="Column"
+              name={label}
               defaultValue={inp.name}
               placeholder={inp.plcHolder || ''}
               sx={{ width: '100%', paddingX: '2%' }}

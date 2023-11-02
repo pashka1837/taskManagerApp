@@ -20,6 +20,11 @@ button::selection {
   background: none;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #828fa3 !important;
+  /* opacity: 1; Firefox */
+}
 /* button:active {
   outline: none !important;
   box-shadow: none;
@@ -108,4 +113,7 @@ main {
   border-radius: 10px;
   place-items: center;
   height: 100%;
+}
+.MuiSelect-listbox {
+  z-index: 1601 !important;
 }

@@ -7,12 +7,14 @@ import Sheet from '@mui/joy/Sheet';
 import { useDispatch } from 'react-redux';
 import { Typography } from '@mui/material';
 import { useColorScheme } from '@mui/joy';
+import { useNavigate } from 'react-router-dom';
 import logoLightSvg from '../../assets/logo-dark.svg';
 import logoDarkSvg from '../../assets/logo-light.svg';
 import { toggleDrawer } from '../../features/drawer/drawerSlice';
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { mode } = useColorScheme();
   return (
     <Sheet className="navbar">
@@ -23,7 +25,7 @@ export default function Navbar() {
       </Box>
 
       <Box className="btnContainer">
-        <Button onClick={() => dispatch(toggleDrawer())} color="btnPrime" variant="solid" startDecorator={<Add />}> Add New Task</Button>
+        <Button onClick={() => navigate('/add-task')} color="btnPrime" variant="solid" startDecorator={<Add />}> Add New Task</Button>
         <MoreVertIcon onClick={() => console.log('hey')} className="MoreVertBtn" />
       </Box>
     </Sheet>

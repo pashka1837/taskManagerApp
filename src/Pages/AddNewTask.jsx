@@ -1,16 +1,41 @@
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { addTask } from '../features/drawer/drawerSlice';
+import Modal from '../Components/Modal';
+
+export function action(store) {
+  return async ({ request }) => {
+    const formData = await request.formData();
+    const subtasks = formData.getAll('subtasks').map((sub) => ({ title: sub, isCompleted: false }));
+    const status = formData.get('status');
+    const newTask = {
+      title: formData.get('title'),
+      description: formData.get('description'),
+      status,
+      subtasks,
+    };
+    store.dispatch(addTask(newTask));
+    return redirect('/');
+  };
+}
 
 export default function AddNewTask() {
   const navigate = useNavigate();
+  const { current } = useSelector((store) => store.drawer);
+  const columns = current.columns.map((c) => c.name.charAt(0).toUpperCase() + c.name.slice(1));
 
-  const boardNewModal = {
-    title: 'Add New Board',
-    label1: 'Board Name',
-    label1PlaceHolder: 'e.g. Web Design',
-    label3: 'Board Columns',
-    btnSubTitle: 'Add New Column',
-    btnMainTitle: 'Create New Board',
-    inputValues: [{ id: 0, name: 'Todo' }, { id: 1, name: 'Doing' }],
+  const taskNewModal = {
+    title: 'Add New Task',
+    label1: 'title',
+    label1PlaceHolder: 'e.g. Take coffee break',
+    label2: 'description',
+    label2PlaceHolder: 'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.',
+    label3: 'subtasks',
+    label4: 'status',
+    statusOptions: columns.length ? columns : ['Todo', 'Doing', 'Done'],
+    btnSubTitle: 'Add New Subtask',
+    btnMainTitle: 'Create Task',
+    inputValues: [{ id: 0, name: '', plcHolder: 'e.g. Make coffee' }, { id: 1, name: '', plcHolder: 'e.g. Drink coffee & smile' }],
   };
 
   function handleClickOutside(e) {
@@ -33,7 +58,7 @@ export default function AddNewTask() {
         zIndex: '1600',
       }}
     >
-      <Modal modalData={boardNewModal} />
+      <Modal modalData={taskNewModal} />
     </div>
   );
 }

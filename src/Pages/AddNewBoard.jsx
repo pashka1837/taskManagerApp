@@ -5,9 +5,9 @@ import { addBoard } from '../features/drawer/drawerSlice';
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const columns = formData.getAll('Column').map((col) => ({ name: col, tasks: [] }));
+    const columns = formData.getAll('columns').map((col) => ({ name: col, tasks: [] }));
     const newBoard = {
-      name: formData.get('Board Name'),
+      name: formData.get('board name'),
       columns: [...columns],
     };
     store.dispatch(addBoard(newBoard));
@@ -20,9 +20,9 @@ export default function AddNewBoard() {
 
   const boardNewModal = {
     title: 'Add New Board',
-    label1: 'Board Name',
+    label1: 'board name',
     label1PlaceHolder: 'e.g. Web Design',
-    label3: 'Board Columns',
+    label3: 'columns',
     btnSubTitle: 'Add New Column',
     btnMainTitle: 'Create New Board',
     inputValues: [{ id: 0, name: 'Todo' }, { id: 1, name: 'Doing' }],

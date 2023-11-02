@@ -11,6 +11,7 @@ import HomeLayout from './Pages/HomeLayout';
 import store from './store';
 
 import AddNewBoard, { action as actionNewBoard } from './Pages/AddNewBoard';
+import AddNewTask, { action as actionNewTask } from './Pages/AddNewTask';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
         path: 'add-board',
         element: <AddNewBoard />,
         action: actionNewBoard(store),
+      },
+      {
+        path: 'add-task',
+        element: <AddNewTask />,
+        action: actionNewTask(store),
       },
     ],
   },

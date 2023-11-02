@@ -1,16 +1,17 @@
-import { FormControl, FormLabel, Input } from '@mui/joy';
+import {
+  FormControl, FormLabel, Textarea,
+} from '@mui/joy';
 
-export default function InputsTitle({ modalData }) {
-  const { label1: label, name, label1PlaceHolder: placeHolder } = modalData;
+export default function InputDescr({ modalData }) {
+  const { label2: label, name, label2PlaceHolder: placeHolder } = modalData;
   return (
     <FormControl>
       <FormLabel sx={{ textTransform: 'capitalize' }}>
         {label}
       </FormLabel>
-      <Input
+      <Textarea
         color="inputPrime"
         variant="outlined"
-        required
         type="text"
         name={label}
         defaultValue={name}
