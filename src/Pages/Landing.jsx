@@ -1,12 +1,8 @@
 import { useSelector } from 'react-redux';
-import {
-  Box, Button, Sheet, useColorScheme,
-} from '@mui/joy';
-import Add from '@mui/icons-material/Add';
 import Column from '../Components/Column/Column';
+import NewColumn from '../Components/Column/NewColumn';
 
 export default function Landing() {
-  const { mode } = useColorScheme();
   const { isOpen, current } = useSelector((store) => store.drawer);
   const { columns } = current;
 
@@ -17,42 +13,7 @@ export default function Landing() {
         ? null
         : columns.map((column) => <Column key={column.name} {...column} />)
       }
-      <div className="columnContainer">
-        <h3
-          className="columnTitle"
-          style={{ color: 'transparent', userSelect: 'none' }}
-        >
-          x
-        </h3>
-        <div
-          className="newColumn"
-          style={{ backgroundColor: (mode === 'light') ? '#e4ebfa' : '#2B2C37' }}
-        >
-          <Button
-            color="btnList"
-            variant="plain"
-            sx={{
-              fontSize: '1.5em',
-              fontWeight: '500',
-              paddingY: '0.8em',
-              letterSpacing: '3px',
-              backgroundColor: 'transparent',
-            }}
-          >
-            + New Column
-          </Button>
-
-        </div>
-      </div>
-
+      <NewColumn />
     </main>
   );
 }
-
-{ /* <h2 style={{
-            fontWeight: '500', color: '#828FA3', paddingLeft: '1em', letterSpacing: '3px',
-          }}
-          >
-            {' '}
-            + New Column
-          </h2> */ }

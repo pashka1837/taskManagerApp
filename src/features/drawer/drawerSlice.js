@@ -24,13 +24,12 @@ const drawerSlice = createSlice({
       const indxOfNewBoard = state.boards.findIndex((item) => item.name === newCur);
       state.current = state.boards[indxOfNewBoard];
     },
-    addBoard: (state, payload) => {
-      // const newColumns = payload.action.map(((item) => ({ name: item, tasks: null })));
-      // const newBoard = {
-      //   name: payload.action,
-      //   colums: newColumns,
-      // };
-      console.log('addBoard');
+    addBoard: (state, action) => {
+      // console.log(payload.action);
+      const newBoard = action.payload;
+      console.log(newBoard);
+      state.boards.push(newBoard);
+      state.current = state.boards.at(-1);
     },
 
   },

@@ -1,11 +1,16 @@
-import { Card, CardContent, useColorScheme } from '@mui/joy';
+import {
+  Card, CardContent, Typography, useColorScheme,
+} from '@mui/joy';
 
 import './Task.css';
 
-export default function Task({
-  description, status, subtasks, title,
-}) {
+export default function Task({ task }) {
   const { mode, setMode } = useColorScheme();
+
+  const {
+    description, status, subtasks, title,
+  } = task;
+
   let finnishedSubTasks = 0;
   if (subtasks.length) {
     subtasks.forEach((st) => {
@@ -18,12 +23,24 @@ export default function Task({
       sx={{ boxShadow: mode === 'dark' && 'none' }}
     >
       <CardContent>
-        <h4 className="taskTitle">
+        <Typography
+          sx={{
+            color: 'textPrime',
+            fontSize: 'm',
+            fontWeight: '600',
+          }}
+        >
           {title}
-        </h4>
+        </Typography>
         {subtasks.length
           ? (
-            <h6 className="subTasksQ">
+            <Typography
+              sx={{
+                color: 'textSecon',
+                fontSize: 's',
+                fontWeight: '600',
+              }}
+            >
               {finnishedSubTasks}
               {' '}
               of
@@ -31,7 +48,7 @@ export default function Task({
               {subtasks.length}
               {' '}
               subtasks
-            </h6>
+            </Typography>
           )
           : <h6 className="subTasksQ">No subtasks</h6> }
       </CardContent>

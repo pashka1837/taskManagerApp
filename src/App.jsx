@@ -1,3 +1,4 @@
+import { Provider } from 'react-redux';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,10 +8,9 @@ import CssBaseline from '@mui/joy/CssBaseline';
 import theme from './utils/them1';
 import './App.css';
 import HomeLayout from './Pages/HomeLayout';
-import Landing from './Pages/Landing';
 import store from './store';
-import { Provider } from 'react-redux';
-import AddBoard from './Pages/AddBoard';
+
+import AddNewBoard, { action as actionNewBoard } from './Pages/AddNewBoard';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +19,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'add-board',
-        element: <AddBoard />,
+        element: <AddNewBoard />,
+        action: actionNewBoard(store),
       },
     ],
   },

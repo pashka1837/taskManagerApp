@@ -7,8 +7,12 @@ const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
+        text: {
+          primary: '#000112',
+        },
         focusVisible: '#635FC7',
         textSecon: '#828FA3',
+        textPrime: '#000112',
 
         btnCross: {
           100: '#828FA3',
@@ -138,6 +142,12 @@ const theme = extendTheme({
     },
     dark: {
       palette: {
+        text: {
+          primary: '#FFFFFF',
+        },
+        focusVisible: '#635FC7',
+        textSecon: '#828FA3',
+        textPrime: '#FFFFFF',
         selectPrime: {
           50: '#dfdff3',
           100: '#FFFFFF',
@@ -154,6 +164,18 @@ const theme = extendTheme({
           outlinedActiveBorder: 'var(--joy-palette-selectPrime-500)',
 
           outlinedDisabledBorder: 'var(--joy-palette-primary-300)',
+        },
+        inputPrime: {
+          50: '#dfdff3',
+          100: '#FFFFFF',
+          200: '#000112',
+          300: '#635FC7',
+          outlinedColor: 'var(--joy-palette-inputPrime-100)',
+          outlinedBorder: '#828FA3',
+
+          outlinedActiveBorder: 'var(--joy-palette-inputPrime-300)',
+          outlinedFocusBorder: 'var(--joy-palette-inputPrime-300)',
+          outlinedHoverBorder: 'var(--joy-palette-inputPrime-300)',
         },
         background: {
           50: '#FFFFFF',

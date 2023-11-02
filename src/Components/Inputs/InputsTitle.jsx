@@ -3,7 +3,7 @@ import { FormControl, FormLabel, Input } from '@mui/joy';
 export default function InputsTitle({ label, name, placeHolder }) {
   return (
     <FormControl>
-      <FormLabel sx={{ color: 'textSecon' }} color="textSecon">
+      <FormLabel>
         {label}
       </FormLabel>
       <Input
@@ -11,7 +11,8 @@ export default function InputsTitle({ label, name, placeHolder }) {
         variant="outlined"
         required
         type="text"
-        name={name}
+        name={label}
+        // defaultValue={name}
         defaultValue={name}
         placeholder={placeHolder}
       />

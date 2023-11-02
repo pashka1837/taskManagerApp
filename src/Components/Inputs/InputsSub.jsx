@@ -5,8 +5,10 @@ import {
 import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 
-export default function InputsSub({ label, btnName }) {
-  const [inputs, setInputs] = useState([{ id: 0, name: 'Todo' }, { id: 1, name: 'Doing' }]);
+export default function InputsSub({ modalData }) {
+  const { label3: label, btnSubTitle: btnName, inputValues } = modalData;
+
+  const [inputs, setInputs] = useState([...inputValues]);
 
   function addInput() {
     const newInput = { id: inputs.length + 1, name: this.id };
@@ -18,49 +20,49 @@ export default function InputsSub({ label, btnName }) {
     setInputs(newInputs);
   }
   return (
-
-    <FormControl>
-      <Stack spacing={1}>
-        <FormLabel sx={{ color: 'textSecon' }} color="textSecon">
-          {label}
-        </FormLabel>
-        {inputs.map((inp) => (
-          <Stack key={inp.id} flexDirection="row" alignItems="center">
+    <Stack spacing={1}>
+      <FormLabel>
+        {label}
+      </FormLabel>
+      {inputs.map((inp) => (
+        <FormControl key={inp.id}>
+          <Stack flexDirection="row" alignItems="center">
             <Input
               color="inputPrime"
               variant="outlined"
               type="text"
-              name={inp.name}
+              name="Column"
               defaultValue={inp.name}
+              placeholder={inp.plcHolder || ''}
+              sx={{ width: '100%', paddingX: '2%' }}
               required
             />
             <Button
               onClick={() => removeInput(inp.id)}
               color="btnCross"
               variant="plain"
+              sx={{ paddingX: '2%' }}
             >
               <ClearIcon />
             </Button>
           </Stack>
-        ))}
-        <Button
-          onClick={addInput}
-          color="btnSecon"
-          variant="solid"
-          startDecorator={<Add />}
-          sx={{
-            borderTopRightRadius: '25px',
-            borderBottomRightRadius: '25px',
-            borderTopLeftRadius: '25px',
-            borderBottomLeftRadius: '25px',
-          }}
-        >
-          Add New
-          {' '}
-          {btnName}
-        </Button>
-      </Stack>
+        </FormControl>
+      ))}
+      <Button
+        onClick={addInput}
+        color="btnSecon"
+        variant="solid"
+        startDecorator={<Add />}
+        sx={{
+          borderTopRightRadius: '25px',
+          borderBottomRightRadius: '25px',
+          borderTopLeftRadius: '25px',
+          borderBottomLeftRadius: '25px',
+        }}
+      >
+        {btnName}
+      </Button>
+    </Stack>
 
-    </FormControl>
   );
 }

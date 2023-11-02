@@ -1,19 +1,28 @@
+import { Typography } from '@mui/joy';
 import Task from '../Task/Task';
 import './Column.css';
 
 export default function Column({ name, tasks }) {
-  if (!tasks.length) return null;
   return (
     <div className="columnContainer">
-      <h3 className="columnTitle">
+      <Typography
+        sx={{
+          color: 'textSecon',
+          fontSize: 'xl',
+          paddingBottom: '1.5em',
+          letterSpacing: '3px',
+          fontWeight: '600',
+          textTransform: 'uppercase',
+        }}
+      >
         {name}
         {' '}
         (
         {tasks.length}
         )
-      </h3>
+      </Typography>
       <div className="tasksContainer">
-        {tasks.map((task) => <Task key={task.name} {...task} />)}
+        { tasks.map((task) => <Task key={task.title} task={task} />)}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import ChangeThemeBtn from './ChangeThemeBtn';
 export default function DrawerComponent() {
   const { isOpen, boards } = useSelector((store) => store.drawer);
   return (
-    <Drawer open={isOpen}>
+    <Drawer disableEnforceFocus open={isOpen}>
       <Box className="drawer">
         <h4 className="drawerTitle">
           ALL BOARDS (
