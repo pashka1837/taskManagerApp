@@ -14,6 +14,6 @@
   box-shadow: 1px 1px 5px 0.5px #e4ebfa;
 }
 /* 828fa3 */
-.MuiCard-root:hover {
+.MuiCard-root:hover > .MuiCardContent-root > .MuiTypography-body-lg {
   color: #635fc7;
 }

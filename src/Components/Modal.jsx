@@ -2,10 +2,9 @@ import { Form } from 'react-router-dom';
 import {
   Button, Sheet, Stack, Typography,
 } from '@mui/joy';
-import InputsSub from './Inputs/InputsSub';
-import InputsTitle from './Inputs/InputsTitle';
-import InputDescr from './Inputs/InputDescr';
-import SelectCompon from './Inputs/SelectCompon';
+import {
+  InputDescr, InputsSub, InputsTitle, SelectCompon,
+} from './Inputs/index';
 
 export default function Modal({ modalData }) {
   return (
@@ -19,7 +18,7 @@ export default function Modal({ modalData }) {
     >
       <Form method="post">
         <Stack spacing={2}>
-          <Typography sx={{ color: 'textPrime' }} fontSize="xl" fontWeight="700">{modalData.title}</Typography>
+          <Typography level="h4" fontWeight="700">{modalData.title}</Typography>
           <InputsTitle modalData={modalData} />
           {modalData.title.includes('Task')
            && <InputDescr modalData={modalData} /> }

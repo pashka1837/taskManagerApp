@@ -6,9 +6,9 @@ export default function Column({ name, tasks }) {
   return (
     <div className="columnContainer">
       <Typography
+        level="h5"
         sx={{
           color: 'textSecon',
-          fontSize: 'xl',
           paddingBottom: '1.5em',
           letterSpacing: '3px',
           fontWeight: '600',

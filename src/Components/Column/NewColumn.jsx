@@ -1,3 +1,4 @@
+import { Add } from '@mui/icons-material';
 import { Button, Typography, useColorScheme } from '@mui/joy';
 
 export default function NewColumn() {
@@ -5,12 +6,11 @@ export default function NewColumn() {
   return (
     <div className="columnContainer">
       <Typography
+        level="h5"
         sx={{
           color: 'transparent',
-          fontSize: 'xl',
           paddingBottom: '1.5em',
           letterSpacing: '3px',
-          fontWeight: '600',
           textTransform: 'uppercase',
           userSelect: 'none',
         }}
@@ -24,15 +24,15 @@ export default function NewColumn() {
         <Button
           color="btnList"
           variant="plain"
+          startDecorator={<Add />}
           sx={{
             fontSize: '1.5em',
             fontWeight: '500',
             paddingY: '0.8em',
-            letterSpacing: '3px',
             backgroundColor: 'transparent',
           }}
         >
-          + New Column
+          New Column
         </Button>
 
       </div>
