@@ -1,7 +1,7 @@
 import { FormControl, FormLabel, Input } from '@mui/joy';
 
 export default function InputsTitle({ modalData }) {
-  const { label1: label, name, label1PlaceHolder: placeHolder } = modalData;
+  const { label1: label, label1Name: name, label1PlaceHolder: placeHolder } = modalData;
   return (
     <FormControl>
       <FormLabel sx={{ textTransform: 'capitalize' }}>

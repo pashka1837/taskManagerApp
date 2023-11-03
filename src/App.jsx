@@ -9,9 +9,9 @@ import theme from './utils/them1';
 import './App.css';
 import HomeLayout from './Pages/HomeLayout';
 import store from './store';
-
-import AddNewBoard, { action as actionNewBoard } from './Pages/AddNewBoard';
-import AddNewTask, { action as actionNewTask } from './Pages/AddNewTask';
+import {
+  AddNewBoard, actionNewBoard, AddNewTask, actionNewTask, EditBoard, actionEditBoard,
+} from './Pages/index';
 
 const router = createBrowserRouter([
   {
@@ -24,10 +24,21 @@ const router = createBrowserRouter([
         action: actionNewBoard(store),
       },
       {
+        path: 'edit-board',
+        element: <EditBoard />,
+        action: actionEditBoard(store),
+      },
+      {
+        path: 'delete',
+        element: <EditBoard />,
+        action: actionNewTask(store),
+      },
+      {
         path: 'add-task',
         element: <AddNewTask />,
         action: actionNewTask(store),
       },
+
     ],
   },
 ]);

@@ -55,6 +55,14 @@ const theme = extendTheme({
           plainDisabledBg: '#635FC7',
           plainDisabledColor: '#FFFFFF',
         },
+        dropDownDelete: {
+          plainColor: '#FF9898',
+          plainHoverColor: '#EA5555',
+        },
+        dropDownEdit: {
+          plainColor: '#828FA3',
+          plainHoverColor: '#635FC7',
+        },
 
         btnListSelected: {
           plainBg: '#635FC7',

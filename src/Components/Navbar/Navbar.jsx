@@ -7,6 +7,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import logoLightSvg from '../../assets/logo-dark.svg';
 import logoDarkSvg from '../../assets/logo-light.svg';
+import DropDownMenu from '../DropDownMenu';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -39,7 +40,8 @@ export default function Navbar() {
         >
           Add New Task
         </Button>
-        <MoreVertIcon onClick={() => console.log('hey')} className="MoreVertBtn" />
+        <DropDownMenu />
+        {/* <MoreVertIcon onClick={() => console.log('hey')} className="MoreVertBtn" /> */}
       </Box>
     </Sheet>
   );
