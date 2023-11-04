@@ -3,9 +3,16 @@ import {
 } from '@mui/joy/';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function DropDownMenu() {
   const navigate = useNavigate();
+  const { current } = useSelector((store) => store.drawer);
+  const stateToSend = {
+    title: 'Delete this board?',
+    text: `Are you sure you want to delete the ‘${current.name}’ board? This action will remove all columns and tasks and cannot be reversed.`,
+    deleteFN: 'board',
+  };
   return (
     <Dropdown>
       <MenuButton
@@ -16,7 +23,7 @@ export default function DropDownMenu() {
       </MenuButton>
       <Menu>
         <MenuItem onClick={() => navigate('/edit-board')} color="dropDownEdit" variant="plain">Edit Board</MenuItem>
-        <MenuItem onClick={() => navigate('/delete-board')} color="dropDownDelete" variant="plain">Delete Board</MenuItem>
+        <MenuItem onClick={() => navigate('/delete', { state: stateToSend })} color="dropDownDelete" variant="plain">Delete Board</MenuItem>
       </Menu>
     </Dropdown>
   );

@@ -10,7 +10,7 @@ import './App.css';
 import HomeLayout from './Pages/HomeLayout';
 import store from './store';
 import {
-  AddNewBoard, actionNewBoard, AddNewTask, actionNewTask, EditBoard, actionEditBoard,
+  AddNewBoard, actionNewBoard, AddNewTask, actionNewTask, EditBoard, actionEditBoard, Delete,
 } from './Pages/index';
 
 const router = createBrowserRouter([
@@ -30,8 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'delete',
-        element: <EditBoard />,
-        action: actionNewTask(store),
+        element: <Delete />,
       },
       {
         path: 'add-task',

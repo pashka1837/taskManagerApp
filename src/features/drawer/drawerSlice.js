@@ -16,7 +16,7 @@ const defaultState = {
   current: getCurrentFromLC(boards),
 };
 
-const drawerSlice = createSlice({
+export const drawerSlice = createSlice({
   name: 'drawer',
   initialState: defaultState,
   reducers: {
@@ -37,11 +37,16 @@ const drawerSlice = createSlice({
     },
     editBoard: (state, action) => {
       const { name, columns } = action.payload;
-      console.log(name, columns);
       const currentBoard = state.boards.find((board) => board.name === state.current.name);
       currentBoard.columns = columns;
       currentBoard.name = name;
       state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
+    },
+    deleteBoard: (state, action) => {
+      const leftBoards = state.boards.filter((board) => board.name !== state.current.name);
+      state.boards = leftBoards;
+      state.current = state.boards[0];
       drawerSlice.caseReducers.saveToLC(state);
     },
     addTask: (state, action) => {
@@ -72,5 +77,5 @@ const drawerSlice = createSlice({
 export default drawerSlice.reducer;
 
 export const {
-  toggleDrawer, setCurrent, addBoard, addTask, editBoard,
+  toggleDrawer, setCurrent, addBoard, addTask, editBoard, deleteBoard,
 } = drawerSlice.actions;

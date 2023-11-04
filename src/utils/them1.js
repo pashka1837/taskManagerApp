@@ -13,6 +13,19 @@ const theme = extendTheme({
         focusVisible: '#635FC7',
         textSecon: '#828FA3',
         textPrime: '#000112',
+        dangerColor: '#EA5555',
+
+        btnDanger: {
+          solidBorder: 'var(--joy-palette-dangerColor)',
+          solidBg: 'var(--joy-palette-dangerColor)',
+          solidColor: '#FFFFFF',
+
+          solidActiveBg: 'var(--joy-palette-dangerColor)',
+          solidActiveBorder: 'var(--joy-palette-dangerColor)',
+
+          solidHoverBg: '#FF9898',
+          solidHoverBorder: '#FF9898',
+        },
 
         btnCross: {
           100: '#828FA3',
@@ -156,6 +169,7 @@ const theme = extendTheme({
         focusVisible: '#635FC7',
         textSecon: '#828FA3',
         textPrime: '#FFFFFF',
+
         selectPrime: {
           50: '#dfdff3',
           100: '#FFFFFF',
