@@ -131,13 +131,18 @@ const theme = extendTheme({
           outlinedFocusBorder: 'var(--joy-palette-inputPrime-300)',
           outlinedHoverBorder: 'var(--joy-palette-inputPrime-300)',
         },
+        // checkBoxPrime: {
+        //   50: '#E4EBFA',
+        //   solidBg: '#FFFFFF',
+        // },
+        // checkBoxPrimeChecked: {
+        //   solidBg: '#635FC7',
+        //   solidColor: '#FFFFFF',
+        // },
         checkBoxPrime: {
-          50: '#E4EBFA',
-          solidBg: '#E4EBFA',
-          solidBorder: '#E4EBFA',
-
-          solidHoverBg: '#b1afe3',
-          solidHoverBorder: '#b1afe3',
+          solidBg: '#FFFFFF',
+          solidColor: '#828FA3',
+          solidHoverColor: '#000112',
         },
 
         background: {

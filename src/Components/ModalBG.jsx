@@ -1,11 +1,17 @@
 import { useNavigate, useSubmit } from 'react-router-dom';
 
-export default function ModalBG({ children, myRef }) {
+export default function ModalBG({ children, formRef, ids }) {
   const submit = useSubmit();
   const navigate = useNavigate();
+
   function handleClickOutside(e) {
     if (e.currentTarget === e.target) {
-      submit(myRef.current, { method: 'post' });
+      if (formRef) {
+        const formData = new FormData();
+        formData.set('taskId', ids.id);
+        formData.set('columnName', ids.columnName);
+        submit(formRef.current, { method: 'post' });
+      }
       navigate('/');
     }
   }

@@ -1,9 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import data from '../../../../data.json';
+import { boards1 } from '../../../../someData';
 
+// function getBoardsFromLC() {
+//   return JSON.parse(localStorage.getItem('boards')) || [...Object.values(data.boards)];
+// }
 function getBoardsFromLC() {
-  return JSON.parse(localStorage.getItem('boards')) || [...Object.values(data.boards)];
+  return boards1;
 }
 
 function getCurrentFromLC(boards) {
@@ -38,7 +42,8 @@ export const drawerSlice = createSlice({
     editBoard: (state, action) => {
       const { name, columns } = action.payload;
       const currentBoard = state.boards.find((board) => board.name === state.current.name);
-      currentBoard.columns = columns;
+      const newColumns = currentBoard.columns.filter((col) => columns.includes(col.name));
+      currentBoard.columns = newColumns;
       currentBoard.name = name;
       state.current = currentBoard;
       drawerSlice.caseReducers.saveToLC(state);
@@ -52,7 +57,7 @@ export const drawerSlice = createSlice({
     addTask: (state, action) => {
       const newTask = action.payload;
       const currentBoard = state.boards.find((board) => board.name === state.current.name);
-      const column = currentBoard.columns.find((column) => column.name === newTask.status);
+      const column = currentBoard.columns.find((columnn) => columnn.name === newTask.status);
       if (column) {
         column.tasks.push(newTask);
         state.current = currentBoard;
@@ -67,6 +72,33 @@ export const drawerSlice = createSlice({
       state.current = currentBoard;
       drawerSlice.caseReducers.saveToLC(state);
     },
+    changeTaskStatus: (state, action) => {
+      const {
+        columnName, taskId, descr, subtasks, curStatus,
+      } = action.payload;
+      const currentBoard = state.boards.find((board) => board.name === state.current.name);
+      const column = currentBoard.columns.find((columnn) => columnn.name === columnName);
+      const task = column.tasks.find((taskk) => taskk.id === taskId);
+      task.description = descr;
+
+      task.subtasks.forEach((subT) => {
+        // subT.isCompleted = false;
+        // subtasks.forEach((chSubt) => {
+        //   if (subT.id === chSubt)subT.isCompleted = true;
+        // });
+        subT.isCompleted = subtasks.includes(subT.id);
+      });
+
+      if (columnName !== curStatus) {
+        const taskIndex = column.tasks.findIndex((taskk) => taskk.id === taskId);
+        column.tasks.splice(taskIndex, 1);
+        const newColumn = currentBoard.columns.find((columnn) => columnn.name === curStatus);
+        newColumn.tasks.push(task);
+      }
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
+    },
+
     saveToLC: (state) => {
       localStorage.setItem('boards', JSON.stringify(state.boards));
       localStorage.setItem('current', JSON.stringify(state.current));
@@ -78,4 +110,5 @@ export default drawerSlice.reducer;
 
 export const {
   toggleDrawer, setCurrent, addBoard, addTask, editBoard, deleteBoard,
+  changeTaskStatus,
 } = drawerSlice.actions;

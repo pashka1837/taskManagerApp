@@ -8,7 +8,9 @@ import ModalBG from '../Components/ModalBG';
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const subtasks = formData.getAll('subtasks').map((sub) => ({ title: sub, isCompleted: false }));
+    // let subtasks = formData.getAll('subtasks').map((sub) => ({ title: sub, isCompleted: false }));
+    let subtasks = formData.getAll('subtasks');
+    subtasks.length ? subtasks = subtasks.map((sub) => ({ title: sub, isCompleted: false, id: nanoid() })) : [];
     const status = formData.get('status');
     const newTask = {
       id: nanoid(),
@@ -31,6 +33,7 @@ export default function AddNewTask() {
     label1: 'title',
     label1PlaceHolder: 'e.g. Take coffee break',
     label2: 'description',
+    inpName2: 'description',
     label2PlaceHolder: 'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.',
     label3: 'subtasks',
     label4: 'status',

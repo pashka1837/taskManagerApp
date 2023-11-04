@@ -7,7 +7,9 @@ import ModalBG from '../Components/ModalBG';
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const columns = formData.getAll('columns').map((col) => ({ name: col, tasks: [] }));
+    const columns = formData.getAll('columns');
+
+    // const columns = formData.getAll('columns').map((col) => ({ name: col, tasks: [] }));
     const editedBoard = {
       name: formData.get('board name'),
       columns: columns.length ? columns : [{ name: 'Todo', tasks: [] }, { name: 'Doing', tasks: [] }, { name: 'Done', tasks: [] }],

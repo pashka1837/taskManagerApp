@@ -127,3 +127,15 @@ main {
   background-color: rgba(1, 1, 1, 0.6);
   z-index: 1600;
 }
+
+/* inputCheckBox */
+.subTaskCheckBox {
+  display: grid;
+  align-items: center;
+  justify-items: start;
+  padding: 1em;
+}
+
+/* .MuiCheckbox-root {
+  padding: 1em;
+} */

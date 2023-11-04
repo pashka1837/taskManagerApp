@@ -3,7 +3,9 @@ import {
 } from '@mui/joy';
 
 export default function InputDescr({ modalData }) {
-  const { label2: label, name, label2PlaceHolder: placeHolder } = modalData;
+  const {
+    label2: label, inpName2, defValue2, label2PlaceHolder: placeHolder,
+  } = modalData;
   return (
     <FormControl>
       <FormLabel sx={{ textTransform: 'capitalize' }}>
@@ -13,8 +15,8 @@ export default function InputDescr({ modalData }) {
         color="inputPrime"
         variant="outlined"
         type="text"
-        name={label}
-        defaultValue={name}
+        name={inpName2}
+        defaultValue={defValue2}
         placeholder={placeHolder}
       />
     </FormControl>
