@@ -35,6 +35,15 @@ const drawerSlice = createSlice({
       state.current = state.boards.at(-1);
       drawerSlice.caseReducers.saveToLC(state);
     },
+    editBoard: (state, action) => {
+      const { name, columns } = action.payload;
+      console.log(name, columns);
+      const currentBoard = state.boards.find((board) => board.name === state.current.name);
+      currentBoard.columns = columns;
+      currentBoard.name = name;
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
+    },
     addTask: (state, action) => {
       const newTask = action.payload;
       const currentBoard = state.boards.find((board) => board.name === state.current.name);
@@ -63,5 +72,5 @@ const drawerSlice = createSlice({
 export default drawerSlice.reducer;
 
 export const {
-  toggleDrawer, setCurrent, addBoard, addTask,
+  toggleDrawer, setCurrent, addBoard, addTask, editBoard,
 } = drawerSlice.actions;

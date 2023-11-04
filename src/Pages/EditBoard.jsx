@@ -1,18 +1,17 @@
 import { redirect, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Modal from '../Components/Modal';
-import { addBoard } from '../features/drawer/drawerSlice';
+import { editBoard } from '../features/drawer/drawerSlice';
 
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
     const columns = formData.getAll('columns').map((col) => ({ name: col, tasks: [] }));
-    const newBoard = {
+    const editedBoard = {
       name: formData.get('board name'),
       columns: columns.length ? columns : [{ name: 'Todo', tasks: [] }, { name: 'Doing', tasks: [] }, { name: 'Done', tasks: [] }],
     };
-    console.log(newBoard);
-    // store.dispatch(addBoard(newBoard));
+    store.dispatch(editBoard(editedBoard));
     return redirect('/');
   };
 }
