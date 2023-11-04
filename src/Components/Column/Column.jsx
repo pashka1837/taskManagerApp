@@ -22,7 +22,7 @@ export default function Column({ name, tasks }) {
         )
       </Typography>
       <div className="tasksContainer">
-        { tasks.map((task) => <Task key={task.title} task={task} />)}
+        { tasks.map((task) => <Task key={task.title} task={task} columnName={name} />)}
       </div>
     </div>
   );

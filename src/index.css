@@ -117,3 +117,13 @@ main {
 .MuiSelect-listbox {
   z-index: 1601 !important;
 }
+
+.modalBG {
+  position: absolute;
+  inset: 0px;
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr;
+  background-color: rgba(1, 1, 1, 0.6);
+  z-index: 1600;
+}

@@ -1,6 +1,7 @@
 import { redirect, useNavigate } from 'react-router-dom';
 import Modal from '../Components/Modal';
 import { addBoard } from '../features/drawer/drawerSlice';
+import ModalBG from '../Components/ModalBG';
 
 export function action(store) {
   return async ({ request }) => {
@@ -17,8 +18,6 @@ export function action(store) {
 }
 
 export default function AddNewBoard() {
-  const navigate = useNavigate();
-
   const boardNewModal = {
     title: 'Add New Board',
     label1: 'board name',
@@ -29,27 +28,9 @@ export default function AddNewBoard() {
     inputValues: [{ id: 0, name: 'Todo' }, { id: 1, name: 'Doing' }],
   };
 
-  function handleClickOutside(e) {
-    if (e.currentTarget === e.target) navigate('/');
-  }
-
   return (
-    <div
-      onClick={handleClickOutside}
-      style={{
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        display: 'grid',
-        placeItems: 'center',
-        gridTemplateColumns: '1fr',
-        backgroundColor: ' rgba(1, 1, 1, 0.6)',
-        zIndex: '1600',
-      }}
-    >
+    <ModalBG>
       <Modal modalData={boardNewModal} />
-    </div>
+    </ModalBG>
   );
 }

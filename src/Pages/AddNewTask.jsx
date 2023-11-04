@@ -1,7 +1,9 @@
-import { redirect, useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { addTask } from '../features/drawer/drawerSlice';
 import Modal from '../Components/Modal';
+import ModalBG from '../Components/ModalBG';
 
 export function action(store) {
   return async ({ request }) => {
@@ -9,6 +11,7 @@ export function action(store) {
     const subtasks = formData.getAll('subtasks').map((sub) => ({ title: sub, isCompleted: false }));
     const status = formData.get('status');
     const newTask = {
+      id: nanoid(),
       title: formData.get('title'),
       description: formData.get('description'),
       status,
@@ -20,7 +23,6 @@ export function action(store) {
 }
 
 export default function AddNewTask() {
-  const navigate = useNavigate();
   const { current } = useSelector((store) => store.drawer);
   const columns = current.columns.map((c) => c.name.charAt(0) + c.name.slice(1));
 
@@ -38,27 +40,9 @@ export default function AddNewTask() {
     inputValues: [{ id: 0, name: '', plcHolder: 'e.g. Make coffee' }, { id: 1, name: '', plcHolder: 'e.g. Drink coffee & smile' }],
   };
 
-  function handleClickOutside(e) {
-    if (e.currentTarget === e.target) navigate('/');
-  }
-
   return (
-    <div
-      onClick={handleClickOutside}
-      style={{
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        display: 'grid',
-        placeItems: 'center',
-        gridTemplateColumns: '1fr',
-        backgroundColor: ' rgba(1, 1, 1, 0.6)',
-        zIndex: '1600',
-      }}
-    >
+    <ModalBG>
       <Modal modalData={taskNewModal} />
-    </div>
+    </ModalBG>
   );
 }

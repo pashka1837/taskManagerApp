@@ -10,8 +10,10 @@ import './App.css';
 import HomeLayout from './Pages/HomeLayout';
 import store from './store';
 import {
-  AddNewBoard, actionNewBoard, AddNewTask, actionNewTask, EditBoard, actionEditBoard, Delete,
+  AddNewBoard,
+  actionNewBoard, AddNewTask, actionNewTask, EditBoard, actionEditBoard, Delete, SingleTask,
 } from './Pages/index';
+import { action } from './Pages/SingleTask';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,11 @@ const router = createBrowserRouter([
         path: 'add-task',
         element: <AddNewTask />,
         action: actionNewTask(store),
+      },
+      {
+        path: 'task',
+        element: <SingleTask />,
+        action,
       },
 
     ],

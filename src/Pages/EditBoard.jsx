@@ -1,7 +1,8 @@
-import { redirect, useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Modal from '../Components/Modal';
 import { editBoard } from '../features/drawer/drawerSlice';
+import ModalBG from '../Components/ModalBG';
 
 export function action(store) {
   return async ({ request }) => {
@@ -17,7 +18,6 @@ export function action(store) {
 }
 
 export default function EditBoard() {
-  const navigate = useNavigate();
   const { current } = useSelector((store) => store.drawer);
   const columns = current.columns.map((c, i) => ({ id: i, name: c.name }));
 
@@ -32,27 +32,9 @@ export default function EditBoard() {
     inputValues: current.columns.length ? columns : [{ id: 0, name: 'Todo' }, { id: 1, name: 'Doing' }],
   };
 
-  function handleClickOutside(e) {
-    if (e.currentTarget === e.target) navigate('/');
-  }
-
   return (
-    <div
-      onClick={handleClickOutside}
-      style={{
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        display: 'grid',
-        placeItems: 'center',
-        gridTemplateColumns: '1fr',
-        backgroundColor: ' rgba(1, 1, 1, 0.6)',
-        zIndex: '1600',
-      }}
-    >
+    <ModalBG>
       <Modal modalData={boardNewModal} />
-    </div>
+    </ModalBG>
   );
 }

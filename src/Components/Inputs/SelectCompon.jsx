@@ -3,7 +3,7 @@ import {
 } from '@mui/joy';
 
 export default function SelectCompon({ modalData }) {
-  const { label4: label, statusOptions } = modalData;
+  const { label4: label, statusOptions, curStatus } = modalData;
   return (
     <FormControl>
       <FormLabel sx={{ textTransform: 'capitalize' }}>{label}</FormLabel>
@@ -11,7 +11,7 @@ export default function SelectCompon({ modalData }) {
         name={label}
         color="selectPrime"
         variant="outlined"
-        defaultValue={statusOptions[0]}
+        defaultValue={curStatus || statusOptions[0]}
         required
       >
         {statusOptions.map((op) => <Option key={op} value={op}>{op}</Option>)}
