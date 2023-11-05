@@ -2,21 +2,23 @@ import {
   FormControl, FormLabel, Textarea,
 } from '@mui/joy';
 
-export default function InputDescr({ modalData }) {
-  const {
-    label2: label, inpName2, defValue2, label2PlaceHolder: placeHolder,
-  } = modalData;
+export default function InputDescr({
+  label, placeHolder, inputDescValue, setInputDescValue,
+}) {
+  function changeInput(e) {
+    setInputDescValue(e.target.value);
+  }
   return (
     <FormControl>
       <FormLabel sx={{ textTransform: 'capitalize' }}>
         {label}
       </FormLabel>
       <Textarea
+        onChange={changeInput}
         color="inputPrime"
         variant="outlined"
         type="text"
-        name={inpName2}
-        defaultValue={defValue2}
+        defaultValue={inputDescValue}
         placeholder={placeHolder}
       />
     </FormControl>

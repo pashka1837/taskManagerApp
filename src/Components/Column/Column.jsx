@@ -2,7 +2,7 @@ import { Typography } from '@mui/joy';
 import Task from '../Task/Task';
 import './Column.css';
 
-export default function Column({ name, tasks }) {
+export default function Column({ name, tasks, id }) {
   return (
     <div className="columnContainer">
       <Typography
@@ -18,12 +18,17 @@ export default function Column({ name, tasks }) {
         {name}
         {' '}
         (
-        {tasks.length}
+        {tasks?.length || '0'}
         )
       </Typography>
-      <div className="tasksContainer">
-        { tasks.map((task) => <Task key={task.title} task={task} columnName={name} />)}
-      </div>
+      {tasks?.length
+        ? (
+          <div className="tasksContainer">
+            { tasks.map((task) => <Task key={task.title} task={task} columnID={id} />)}
+          </div>
+        )
+        : null}
+
     </div>
   );
 }

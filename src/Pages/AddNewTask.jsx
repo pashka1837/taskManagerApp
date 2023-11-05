@@ -2,21 +2,18 @@ import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { addTask } from '../features/drawer/drawerSlice';
-import Modal from '../Components/Modal';
 import ModalBG from '../Components/ModalBG';
+import ManageTask from '../Components/ManageTask';
 
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    // let subtasks = formData.getAll('subtasks').map((sub) => ({ title: sub, isCompleted: false }));
-    let subtasks = formData.getAll('subtasks');
-    subtasks.length ? subtasks = subtasks.map((sub) => ({ title: sub, isCompleted: false, id: nanoid() })) : [];
-    const status = formData.get('status');
+    const subtasks = JSON.parse(formData.get('subtasks')).map((st) => ({ id: st.id, title: st.name }));
     const newTask = {
       id: nanoid(),
-      title: formData.get('title'),
-      description: formData.get('description'),
-      status,
+      title: formData.get('taskName'),
+      description: formData.get('desc'),
+      status: formData.get('status') || nanoid(),
       subtasks: subtasks.length ? subtasks : [],
     };
     store.dispatch(addTask(newTask));
@@ -26,26 +23,46 @@ export function action(store) {
 
 export default function AddNewTask() {
   const { current } = useSelector((store) => store.drawer);
-  const columns = current.columns.map((c) => c.name.charAt(0) + c.name.slice(1));
+  const columns = current.columns.map((col) => ({ name: col.name, id: col.id }));
 
-  const taskNewModal = {
-    title: 'Add New Task',
-    label1: 'title',
-    label1PlaceHolder: 'e.g. Take coffee break',
-    label2: 'description',
-    inpName2: 'description',
-    label2PlaceHolder: 'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.',
-    label3: 'subtasks',
-    label4: 'status',
-    statusOptions: columns.length ? columns : ['Todo', 'Doing', 'Done'],
-    btnSubTitle: 'Add New Subtask',
-    btnMainTitle: 'Create Task',
-    inputValues: [{ id: 0, name: '', plcHolder: 'e.g. Make coffee' }, { id: 1, name: '', plcHolder: 'e.g. Drink coffee & smile' }],
+  const modalTitle = 'Add New Task';
+
+  const inputsTitle = {
+    label: 'title',
+    placeHolder: 'e.g. Take coffee break',
+    defaultValue: '',
   };
+
+  const inputDesc = {
+    label: 'description',
+    placeHolder: 'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.',
+    defaultValue: '',
+  };
+
+  const inputsSub = {
+    label: 'subtasks',
+    inputValues: [{ id: nanoid(), name: '', placeHolder: 'e.g. Make coffee' }, { id: nanoid(), name: '', placeHolder: 'e.g. Drink coffee & smile' }],
+    btnValue: 'Create Task',
+  };
+
+  const selectComp = {
+    label: 'status',
+    defaultValue: columns?.at(0)?.id,
+    selectValues: columns,
+  };
+
+  const mainBtnValue = 'Save Changes';
 
   return (
     <ModalBG>
-      <Modal modalData={taskNewModal} />
+      <ManageTask
+        modalTitle={modalTitle}
+        inputsTitle={inputsTitle}
+        inputDesc={inputDesc}
+        inputsSub={inputsSub}
+        selectComp={selectComp}
+        mainBtnValue={mainBtnValue}
+      />
     </ModalBG>
   );
 }

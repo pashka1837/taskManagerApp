@@ -1,21 +1,20 @@
 import CheckIcon from '@mui/icons-material/Check';
 import {
-  Checkbox, FormControl, Radio, Sheet, useColorScheme,
+  Checkbox, FormControl, Sheet, useColorScheme,
 } from '@mui/joy';
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
 
 export default function InputCheckBox({
-  title, isCompleted, id, subT, setSubT,
+  title, isCompleted, id, subTaskValues, setSelectCompValue,
 }) {
   const { mode } = useColorScheme();
 
   function changeIsComplete() {
-    const indexOf = subT.findIndex((s) => s.id === id);
-    const newSubT = [...subT];
+    const indexOf = subTaskValues.findIndex((s) => s.id === id);
+    const newSubT = [...subTaskValues];
     const newSub = { title, id, isCompleted: !isCompleted };
     newSubT.splice(indexOf, 1, newSub);
-    setSubT(newSubT);
+    setSelectCompValue(newSubT);
   }
   return (
 
@@ -29,7 +28,6 @@ export default function InputCheckBox({
           color: 'textSecon',
           '&:hover': { backgroundColor: '#b1afe3', color: 'textPrime' },
         }}
-
       >
         <Checkbox
           onChange={changeIsComplete}
@@ -37,9 +35,7 @@ export default function InputCheckBox({
           color="checkBoxPrime"
           overlay
           checked={isCompleted}
-          // change id
-          value={id || nanoid()}
-          name="subtask"
+          value={id}
           label={title}
           sx={{
             color: isCompleted ? 'textSecon' : 'textPrime',

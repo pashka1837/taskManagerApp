@@ -5,7 +5,7 @@ import './Task.css';
 import { useNavigate } from 'react-router-dom';
 import { subtasksDone } from '../../utils';
 
-export default function Task({ task, columnName }) {
+export default function Task({ task, columnID }) {
   const navigate = useNavigate();
   const { mode } = useColorScheme();
   const { subtasks, title, id } = task;
@@ -19,7 +19,7 @@ export default function Task({ task, columnName }) {
   function openTask() {
     const stateToSend = {
       id,
-      columnName,
+      columnID,
     };
     navigate('/task', { state: stateToSend });
   }

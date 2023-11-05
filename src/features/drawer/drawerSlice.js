@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import data from '../../../../data.json';
-import { boards1 } from '../../../../someData';
+import boards1 from '../../../someData';
 
-// function getBoardsFromLC() {
-//   return JSON.parse(localStorage.getItem('boards')) || [...Object.values(data.boards)];
-// }
 function getBoardsFromLC() {
-  return boards1;
+  return JSON.parse(localStorage.getItem('boards')) || boards1;
 }
+// function getBoardsFromLC() {
+//   return boards1;
+// }
 
 function getCurrentFromLC(boards) {
   return JSON.parse(localStorage.getItem('current')) || boards[0];
@@ -40,9 +40,24 @@ export const drawerSlice = createSlice({
       drawerSlice.caseReducers.saveToLC(state);
     },
     editBoard: (state, action) => {
-      const { name, columns } = action.payload;
-      const currentBoard = state.boards.find((board) => board.name === state.current.name);
-      const newColumns = currentBoard.columns.filter((col) => columns.includes(col.name));
+      const { id, name, columns } = action.payload;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      const newColumns = [];
+      if (columns.length) {
+        columns.forEach((updCol) => {
+          const curCol = currentBoard.columns.find((col) => updCol.id === col.id);
+          if (curCol) {
+            curCol.name = updCol.name;
+            newColumns.push(curCol);
+          } else {
+            const newColumn = {
+              id: updCol.id,
+              name: updCol.name,
+            };
+            newColumns.push(newColumn);
+          }
+        });
+      }
       currentBoard.columns = newColumns;
       currentBoard.name = name;
       state.current = currentBoard;
@@ -56,16 +71,18 @@ export const drawerSlice = createSlice({
     },
     addTask: (state, action) => {
       const newTask = action.payload;
-      const currentBoard = state.boards.find((board) => board.name === state.current.name);
-      const column = currentBoard.columns.find((columnn) => columnn.name === newTask.status);
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      const column = currentBoard.columns.find((columnn) => columnn.id === newTask.status);
       if (column) {
+        if (!column.tasks) column.tasks = [];
         column.tasks.push(newTask);
         state.current = currentBoard;
         drawerSlice.caseReducers.saveToLC(state);
         return;
       }
       const newColumn = {
-        name: newTask.status,
+        id: newTask.status,
+        name: 'New',
         tasks: [newTask],
       };
       currentBoard.columns.push(newColumn);

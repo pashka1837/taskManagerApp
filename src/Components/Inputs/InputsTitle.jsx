@@ -1,19 +1,24 @@
 import { FormControl, FormLabel, Input } from '@mui/joy';
 
-export default function InputsTitle({ modalData }) {
-  const { label1: label, label1Name: name, label1PlaceHolder: placeHolder } = modalData;
+export default function InputsTitle({
+  label, placeHolder, inputTitleValue, setInputTitleValue,
+}) {
+  function changeInput(e) {
+    console.log(e.target.value);
+    setInputTitleValue(e.target.value);
+  }
   return (
     <FormControl>
       <FormLabel sx={{ textTransform: 'capitalize' }}>
         {label}
       </FormLabel>
       <Input
+        onChange={changeInput}
         color="inputPrime"
         variant="outlined"
         required
         type="text"
-        name={label}
-        defaultValue={name}
+        defaultValue={inputTitleValue}
         placeholder={placeHolder}
       />
     </FormControl>

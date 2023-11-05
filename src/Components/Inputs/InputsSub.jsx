@@ -2,40 +2,46 @@ import Add from '@mui/icons-material/Add';
 import {
   Button, FormControl, FormLabel, Input, Stack,
 } from '@mui/joy';
-import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
+import { nanoid } from 'nanoid';
 
-export default function InputsSub({ modalData }) {
-  const {
-    label3: label, btnSubTitle: btnName, inputValues,
-  } = modalData;
-
-  const [inputs, setInputs] = useState([...inputValues]);
-
+export default function InputsSub({
+  label, btnValue, inputSubValues, setIinputSubValues,
+}) {
   function addInput() {
-    const newInput = { id: inputs.length + 1, name: this.id };
-    setInputs([...inputs, newInput]);
+    const newInput = { id: nanoid(), name: '' };
+    setIinputSubValues([...inputSubValues, newInput]);
   }
 
   function removeInput(id) {
-    const newInputs = inputs.filter((inp) => inp.id !== id);
-    setInputs(newInputs);
+    const newInputs = inputSubValues.filter((inp) => inp.id !== id);
+    setIinputSubValues(newInputs);
+  }
+
+  function onInputChange(id, e) {
+    const curInput = inputSubValues.find((inp) => inp.id === id);
+    const curInputIndex = inputSubValues.findIndex((inp) => inp.id === id);
+    const { value } = e.target;
+    curInput.name = value;
+    const newInputs = [...inputSubValues];
+    newInputs.splice(curInputIndex, 1, curInput);
+    setIinputSubValues(newInputs);
   }
   return (
     <Stack spacing={1}>
       <FormLabel sx={{ textTransform: 'capitalize' }}>
         {label}
       </FormLabel>
-      {inputs.map((inp) => (
+      {inputSubValues.map((inp) => (
         <FormControl key={inp.id}>
           <Stack flexDirection="row" alignItems="center">
             <Input
+              onChange={(e) => onInputChange(inp.id, e)}
               color="inputPrime"
               variant="outlined"
               type="text"
-              name={label}
               defaultValue={inp.name}
-              placeholder={inp.plcHolder || ''}
+              placeholder={inp.placeholder}
               sx={{ width: '100%', paddingX: '2%' }}
               required
             />
@@ -62,7 +68,7 @@ export default function InputsSub({ modalData }) {
           borderBottomLeftRadius: '25px',
         }}
       >
-        {btnName}
+        {btnValue}
       </Button>
     </Stack>
 

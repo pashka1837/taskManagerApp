@@ -1,36 +1,50 @@
-import { redirect, useNavigate } from 'react-router-dom';
-import Modal from '../Components/Modal';
+import { redirect } from 'react-router-dom';
+import { nanoid } from 'nanoid';
 import { addBoard } from '../features/drawer/drawerSlice';
 import ModalBG from '../Components/ModalBG';
+import ManageBoardComp from '../Components/ManageBoardComp';
 
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const columns = formData.getAll('columns').map((col) => ({ name: col, tasks: [] }));
+    const columns = JSON.parse(formData.get('columns'));
     const newBoard = {
-      name: formData.get('board name'),
-      columns: columns.length ? columns : [{ name: 'Todo', tasks: [] }, { name: 'Doing', tasks: [] }, { name: 'Done', tasks: [] }],
+      id: nanoid(),
+      name: formData.get('boardName'),
+      columns: columns.length ? columns : [],
     };
-    console.log(newBoard);
     store.dispatch(addBoard(newBoard));
     return redirect('/');
   };
 }
 
 export default function AddNewBoard() {
-  const boardNewModal = {
-    title: 'Add New Board',
-    label1: 'board name',
-    label1PlaceHolder: 'e.g. Web Design',
-    label3: 'columns',
-    btnSubTitle: 'Add New Column',
-    btnMainTitle: 'Create New Board',
-    inputValues: [{ id: 0, name: 'Todo' }, { id: 1, name: 'Doing' }],
+  const modalTitle = 'Add New Board';
+
+  const inputsTitle = {
+    inputName: 'boardName',
+    label: 'board name',
+    placeHolder: 'e.g. Web Design',
+    defaultValue: '',
   };
+
+  const inputsSub = {
+    label: 'columns',
+    inputName: 'column',
+    inputValues: [{ id: nanoid(), name: 'Todo' }, { id: nanoid(), name: 'Doing' }],
+    btnValue: 'Add New Column',
+  };
+
+  const mainBtnValue = 'Create New Board';
 
   return (
     <ModalBG>
-      <Modal modalData={boardNewModal} />
+      <ManageBoardComp
+        modalTitle={modalTitle}
+        inputsTitle={inputsTitle}
+        inputsSub={inputsSub}
+        mainBtnValue={mainBtnValue}
+      />
     </ModalBG>
   );
 }

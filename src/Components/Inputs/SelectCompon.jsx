@@ -1,20 +1,26 @@
 import {
   FormControl, FormLabel, Option, Select,
 } from '@mui/joy';
+import { nanoid } from 'nanoid';
 
-export default function SelectCompon({ modalData }) {
-  const { label4: label, statusOptions, curStatus } = modalData;
+export default function SelectCompon({
+  label, selectValues, setSelectCompValue,
+}) {
+  function changeSelected(e) {
+    const newStatus = selectValues.find((op) => op.name === e.target.textContent);
+    setSelectCompValue(newStatus.id);
+  }
   return (
     <FormControl>
       <FormLabel sx={{ textTransform: 'capitalize' }}>{label}</FormLabel>
       <Select
-        name={label}
+        onChange={changeSelected}
         color="selectPrime"
         variant="outlined"
-        defaultValue={curStatus || statusOptions[0]}
+        defaultValue={selectValues?.at(0).name}
         required
       >
-        {statusOptions.map((op) => <Option key={op} value={op}>{op}</Option>)}
+        {selectValues.map((op) => <Option key={nanoid()} value={op.name}>{op.name}</Option>)}
       </Select>
     </FormControl>
   );

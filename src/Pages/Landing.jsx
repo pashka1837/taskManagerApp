@@ -10,7 +10,7 @@ export default function Landing() {
   return (
     <main className="board" style={{ left: isOpen ? 'var(--drawer-width)' : '0', gridTemplateColumns: `repeat(${columns.length + 1}, 280px)` }}>
       {
-      (!sortColumns.length)
+      (!sortColumns?.length)
         ? null
         : sortColumns.map((column) => <Column key={column.name} {...column} />)
       }
