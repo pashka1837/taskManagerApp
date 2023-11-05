@@ -3,6 +3,7 @@ import {
   Button, Sheet, Stack, Typography,
 } from '@mui/joy';
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import {
   InputDescr, InputsSub, InputsTitle, SelectCompon,
 } from './Inputs/index';
@@ -23,7 +24,7 @@ export default function ManageTask({
     formData.set('taskName', inputTitleValue);
     formData.set('desc', inputDescValue);
     formData.set('subtasks', JSON.stringify(inputSubValues));
-    formData.set('status', selectCompValue);
+    formData.set('status', selectCompValue || nanoid());
     submit(formData, { method: 'post' });
   }
 

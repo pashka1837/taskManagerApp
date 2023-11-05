@@ -13,7 +13,7 @@ export function action(store) {
       id: nanoid(),
       title: formData.get('taskName'),
       description: formData.get('desc'),
-      status: formData.get('status') || nanoid(),
+      status: formData.get('status'),
       subtasks: subtasks.length ? subtasks : [],
     };
     store.dispatch(addTask(newTask));

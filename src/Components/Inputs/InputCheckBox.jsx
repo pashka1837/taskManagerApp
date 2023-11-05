@@ -5,7 +5,7 @@ import {
 import { nanoid } from 'nanoid';
 
 export default function InputCheckBox({
-  title, isCompleted, id, subTaskValues, setSelectCompValue,
+  title, isCompleted, id, subTaskValues, setSubTaskValues,
 }) {
   const { mode } = useColorScheme();
 
@@ -14,7 +14,7 @@ export default function InputCheckBox({
     const newSubT = [...subTaskValues];
     const newSub = { title, id, isCompleted: !isCompleted };
     newSubT.splice(indexOf, 1, newSub);
-    setSelectCompValue(newSubT);
+    setSubTaskValues(newSubT);
   }
   return (
 

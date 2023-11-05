@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { redirect, useLocation } from 'react-router-dom';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import ModalBG from '../Components/ModalBG';
@@ -11,19 +11,11 @@ export function action(store) {
     const taskInfo = {
       columnID: formData.get('columnID'),
       taskId: formData.get('taskId'),
-      // descr: formData.get('description'),
       subtasks: JSON.parse(formData.get('subTasks')),
       curStatus: formData.get('status'),
     };
-    // const curStatus = formData.get('current status');
-    // const subtasks = formData.getAll('subtask');
-    // const descr = formData.get('description');
-    // const columnName = formData.get('columnName');
-    // const taskId = formData.get('taskId');
-    // console.log(curStatus, subtasks, descr, columnName, taskId);
-    // store.dispatch(changeTaskStatus(taskInfo));
-    console.log(taskInfo);
-    return null;
+    store.dispatch(changeTaskStatus(taskInfo));
+    return redirect('/');
   };
 }
 export default function SingleTask() {
@@ -38,12 +30,12 @@ export default function SingleTask() {
 
   const selectComp = {
     label: 'status',
-    defaultValue: column?.id,
+    defaultValue: columnID,
     selectValues: current.columns,
   };
 
   return (
-    <ModalBG formRef={formRef} ids={location.state}>
+    <ModalBG formRef={formRef}>
       <SingleTaskComp
         task={task}
         selectComp={selectComp}

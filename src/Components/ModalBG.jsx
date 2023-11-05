@@ -7,9 +7,6 @@ export default function ModalBG({ children, formRef }) {
   function handleClickOutside(e) {
     if (e.currentTarget === e.target) {
       if (formRef) {
-        // const formData = new FormData();
-        // formData.set('taskId', ids.id);
-        // formData.set('columnName', ids.columnName);
         submit(formRef.current, { method: 'post' });
       }
       navigate('/');

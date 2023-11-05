@@ -1,40 +1,34 @@
 import {
   Sheet, Stack, Typography,
 } from '@mui/joy';
-import { useSelector } from 'react-redux';
 import { Form, useSubmit } from 'react-router-dom';
-import { useState } from 'react';
-import { InputDescr, SelectCompon } from './Inputs';
+import { useEffect, useState } from 'react';
+import { SelectCompon } from './Inputs';
 import { subtasksDone } from '../utils';
 import InputCheckBox from './Inputs/InputCheckBox';
 
 export default function SingleTaskComp({
   task, selectComp, formRef, columnID,
 }) {
-  const submit = useSubmit();
-
   const {
     title, subtasks, description, id,
   } = task;
 
+  const submit = useSubmit();
+
   const [selectCompValue, setSelectCompValue] = useState(selectComp.defaultValue);
   const [subTaskValues, setSubTaskValues] = useState(subtasks);
 
-  // dont` touch
-  // const inputDescr = {
-  //   label2: 'description',
-  //   inpName2: 'description',
-  //   defValue2: description,
-  //   label2PlaceHolder: '',
-  // };
+  useEffect(() => {
+    handleSubmit();
+  }, [selectCompValue, subTaskValues]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    formData.set('status', JSON.stringify(selectCompValue));
-    formData.set('subTasks', subTaskValues);
+  function handleSubmit() {
+    const formData = new FormData();
+    formData.set('status', (selectCompValue));
+    formData.set('subTasks', JSON.stringify(subTaskValues));
     formData.set('taskId', id);
-    formData.set('columnName', columnID);
+    formData.set('columnID', columnID);
     formRef.current = formData;
   }
 
@@ -47,10 +41,7 @@ export default function SingleTaskComp({
         borderRadius: '9px',
       }}
     >
-      <Form ref={formRef} method="post" onSubmit={handleSubmit}>
-        {/* <input style={{ display: 'none' }} name="taskId" type="text" defaultValue={taskId} />
-        <input style={{ display: 'none' }} name="columnName" type="text" defaultValue={column.name} /> */}
-
+      <Form>
         <Stack spacing={2}>
           <Typography level="h4" fontWeight="700">
             {title}
@@ -83,7 +74,16 @@ export default function SingleTaskComp({
               />
             ))
             : null}
-          <SelectCompon {...selectComp} setSelectCompValue={setSelectCompValue} />
+          {selectComp?.selectValues?.length
+            ? (
+              <SelectCompon
+                {...selectComp}
+                setSelectCompValue={setSelectCompValue}
+                selectCompValue={selectCompValue}
+              />
+            )
+            : null}
+
         </Stack>
       </Form>
 

@@ -91,25 +91,19 @@ export const drawerSlice = createSlice({
     },
     changeTaskStatus: (state, action) => {
       const {
-        columnName, taskId, descr, subtasks, curStatus,
+        columnID, taskId, subtasks, curStatus,
       } = action.payload;
-      const currentBoard = state.boards.find((board) => board.name === state.current.name);
-      const column = currentBoard.columns.find((columnn) => columnn.name === columnName);
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      const column = currentBoard.columns.find((columnn) => columnn.id === columnID);
       const task = column.tasks.find((taskk) => taskk.id === taskId);
-      task.description = descr;
 
-      task.subtasks.forEach((subT) => {
-        // subT.isCompleted = false;
-        // subtasks.forEach((chSubt) => {
-        //   if (subT.id === chSubt)subT.isCompleted = true;
-        // });
-        subT.isCompleted = subtasks.includes(subT.id);
-      });
+      task.subtasks = subtasks;
 
-      if (columnName !== curStatus) {
+      if (columnID !== curStatus) {
         const taskIndex = column.tasks.findIndex((taskk) => taskk.id === taskId);
         column.tasks.splice(taskIndex, 1);
-        const newColumn = currentBoard.columns.find((columnn) => columnn.name === curStatus);
+        const newColumn = currentBoard.columns.find((columnn) => columnn.id === curStatus);
+        if (!(newColumn.tasks?.length)) newColumn.tasks = [];
         newColumn.tasks.push(task);
       }
       state.current = currentBoard;

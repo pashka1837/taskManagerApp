@@ -4,7 +4,6 @@ export default function InputsTitle({
   label, placeHolder, inputTitleValue, setInputTitleValue,
 }) {
   function changeInput(e) {
-    console.log(e.target.value);
     setInputTitleValue(e.target.value);
   }
   return (
