@@ -3,10 +3,13 @@ import {
 } from '@mui/joy';
 import './Task.css';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { subtasksDone } from '../../utils';
+import { setCurColumn, setCurTask } from '../../features/drawer/drawerSlice';
 
 export default function Task({ task, columnID }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { mode } = useColorScheme();
   const { subtasks, title, id } = task;
 
@@ -17,11 +20,9 @@ export default function Task({ task, columnID }) {
   //   });
   // }
   function openTask() {
-    const stateToSend = {
-      id,
-      columnID,
-    };
-    navigate('/task', { state: stateToSend });
+    dispatch(setCurTask(id));
+    dispatch(setCurColumn(columnID));
+    navigate('/task');
   }
 
   return (

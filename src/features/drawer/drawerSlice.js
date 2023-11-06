@@ -16,14 +16,32 @@ function getCurrentFromLC(boards) {
 const boards = getBoardsFromLC();
 const defaultState = {
   isOpen: false,
-  boards: getBoardsFromLC(),
-  current: getCurrentFromLC(boards),
+  boards: getBoardsFromLC() || [],
+  current: getCurrentFromLC(boards) || null,
+  currentTask: null,
+  currentColumn: null,
 };
+
+function changeColumn(state, newColID, currentBoard, column, updTask) {
+  if (state.currentColumn !== newColID) {
+    const taskIndex = column.tasks.findIndex((taskk) => taskk.id === state.currentTask);
+    column.tasks.splice(taskIndex, 1);
+    const newColumn = currentBoard.columns.find((columnn) => columnn.id === newColID);
+    if (!(newColumn.tasks?.length)) newColumn.tasks = [];
+    newColumn.tasks.push(updTask);
+  }
+}
 
 export const drawerSlice = createSlice({
   name: 'drawer',
   initialState: defaultState,
   reducers: {
+    setCurTask: (state, action) => {
+      state.currentTask = action.payload;
+    },
+    setCurColumn: (state, action) => {
+      state.currentColumn = action.payload;
+    },
     toggleDrawer: (state) => {
       state.isOpen = !state.isOpen;
     },
@@ -66,7 +84,7 @@ export const drawerSlice = createSlice({
     deleteBoard: (state, action) => {
       const leftBoards = state.boards.filter((board) => board.name !== state.current.name);
       state.boards = leftBoards;
-      state.current = state.boards[0];
+      state.current = state.boards[0] || null;
       drawerSlice.caseReducers.saveToLC(state);
     },
     addTask: (state, action) => {
@@ -89,11 +107,32 @@ export const drawerSlice = createSlice({
       state.current = currentBoard;
       drawerSlice.caseReducers.saveToLC(state);
     },
-    deleteTask: (state, action) => {
-      const { id: taskID, columnID } = action.payload;
+    editTask: (state, action) => {
+      const {
+        title, description, status, subtasks,
+      } = action.payload;
       const currentBoard = state.boards.find((board) => board.id === state.current.id);
-      const column = currentBoard.columns.find((columnn) => columnn.id === columnID);
-      const newTasksAr = column.tasks.filter((task) => task.id !== taskID);
+      const column = currentBoard.columns.find((columnn) => columnn.id === state.currentColumn);
+      const updTask = column.tasks.find((tsk) => tsk.id === state.currentTask);
+      updTask.title = title;
+      updTask.description = description;
+      // const updSubTasks = subtasks.map((st) => {
+      //   const updST = updTask.subtasks.find((oldST) => oldST.id === st.id);
+      //   if (updST) {
+      //     updST.title = st.title;
+      //     return updST;
+      //   }
+      //   return { ...st, isCompleted: false };
+      // });
+      updTask.subtasks = subtasks;
+      changeColumn(state, status, currentBoard, column, updTask);
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
+    },
+    deleteTask: (state) => {
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      const column = currentBoard.columns.find((columnn) => columnn.id === state.currentColumn);
+      const newTasksAr = column.tasks.filter((task) => task.id !== state.currentTask);
       column.tasks = newTasksAr;
       state.current = currentBoard;
       drawerSlice.caseReducers.saveToLC(state);
@@ -107,14 +146,8 @@ export const drawerSlice = createSlice({
       const task = column.tasks.find((taskk) => taskk.id === taskId);
 
       task.subtasks = subtasks;
+      changeColumn(state, curStatus, currentBoard, column, task);
 
-      if (columnID !== curStatus) {
-        const taskIndex = column.tasks.findIndex((taskk) => taskk.id === taskId);
-        column.tasks.splice(taskIndex, 1);
-        const newColumn = currentBoard.columns.find((columnn) => columnn.id === curStatus);
-        if (!(newColumn.tasks?.length)) newColumn.tasks = [];
-        newColumn.tasks.push(task);
-      }
       state.current = currentBoard;
       drawerSlice.caseReducers.saveToLC(state);
     },
@@ -130,5 +163,5 @@ export default drawerSlice.reducer;
 
 export const {
   toggleDrawer, setCurrent, addBoard, addTask, editBoard, deleteBoard,
-  changeTaskStatus, deleteTask,
+  changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask,
 } = drawerSlice.actions;

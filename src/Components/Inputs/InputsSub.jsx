@@ -6,23 +6,27 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { nanoid } from 'nanoid';
 
 export default function InputsSub({
-  label, btnValue, inputSubValues, setIinputSubValues,
+  label, btnValue, inputSubValues, setIinputSubValues, setSubError,
 }) {
   function addInput() {
-    const newInput = { id: nanoid(), name: '' };
+    setSubError(false);
+    const newInput = { id: nanoid(), name: '', isError: false };
     setIinputSubValues([...inputSubValues, newInput]);
   }
 
   function removeInput(id) {
+    setSubError(false);
     const newInputs = inputSubValues.filter((inp) => inp.id !== id);
     setIinputSubValues(newInputs);
   }
 
   function onInputChange(id, e) {
+    setSubError(false);
     const curInput = inputSubValues.find((inp) => inp.id === id);
     const curInputIndex = inputSubValues.findIndex((inp) => inp.id === id);
     const { value } = e.target;
     curInput.name = value;
+    curInput.isError = false;
     const newInputs = [...inputSubValues];
     newInputs.splice(curInputIndex, 1, curInput);
     setIinputSubValues(newInputs);
@@ -37,13 +41,19 @@ export default function InputsSub({
           <Stack flexDirection="row" alignItems="center">
             <Input
               onChange={(e) => onInputChange(inp.id, e)}
-              color="inputPrime"
+              color={inp.isError ? 'danger' : 'inputPrime'}
               variant="outlined"
               type="text"
               defaultValue={inp.name}
               placeholder={inp.placeholder}
-              sx={{ width: '100%', paddingX: '2%' }}
-              required
+              endDecorator={inp.isError && (
+                <span className="inptErrorMsg">Can't be empty</span>
+              )}
+              sx={{
+                width: '100%',
+                paddingX: '2%',
+                borderColor: inp.isError && 'dangerColor',
+              }}
             />
             <Button
               onClick={() => removeInput(inp.id)}

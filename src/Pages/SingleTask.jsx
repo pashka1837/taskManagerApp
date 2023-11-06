@@ -1,4 +1,4 @@
-import { redirect, useLocation } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import ModalBG from '../Components/ModalBG';
@@ -20,11 +20,11 @@ export function action(store) {
 }
 export default function SingleTask() {
   const formRef = useRef();
+  const {
+    currentTask: taskId,
+    currentColumn: columnID, current,
+  } = useSelector((store) => store.drawer);
 
-  const location = useLocation();
-  const { id: taskId, columnID } = location.state;
-
-  const { current } = useSelector((store) => store.drawer);
   const column = current.columns.find((colum) => colum.id === columnID);
   const task = column.tasks.find((taskk) => taskk.id === taskId);
 
@@ -38,8 +38,6 @@ export default function SingleTask() {
     title: 'Delete this task?',
     text: `Are you sure you want to delete the ‘${task.title}’ task and its subtasks? This action cannot be reversed.`,
     deleteFN: 'task',
-    id: taskId,
-    columnID,
     editRoute: '/edit-task',
     btnName: 'Task',
   };

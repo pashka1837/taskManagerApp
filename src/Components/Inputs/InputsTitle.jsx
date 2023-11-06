@@ -1,9 +1,14 @@
-import { FormControl, FormLabel, Input } from '@mui/joy';
+import {
+  FormControl, FormLabel, Input,
+} from '@mui/joy';
+
+import { inputClasses } from '@mui/joy/Input';
 
 export default function InputsTitle({
-  label, placeHolder, inputTitleValue, setInputTitleValue,
+  label, placeHolder, isTitleError, setTitleError, inputTitleValue, setInputTitleValue,
 }) {
   function changeInput(e) {
+    setTitleError(false);
     setInputTitleValue(e.target.value);
   }
   return (
@@ -13,12 +18,17 @@ export default function InputsTitle({
       </FormLabel>
       <Input
         onChange={changeInput}
-        color="inputPrime"
+        color={isTitleError ? 'danger' : 'inputPrime'}
         variant="outlined"
-        required
         type="text"
         defaultValue={inputTitleValue}
         placeholder={placeHolder}
+        endDecorator={isTitleError && (
+        <span className="inptErrorMsg">Can't be empty</span>
+        )}
+        sx={{
+          borderColor: isTitleError && 'dangerColor',
+        }}
       />
     </FormControl>
   );

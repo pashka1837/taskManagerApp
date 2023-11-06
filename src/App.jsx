@@ -14,6 +14,7 @@ import {
   actionNewBoard, AddNewTask, actionNewTask,
   EditBoard, actionEditBoard, Delete,
   SingleTask, actionChangeTaskStatus,
+  EditTask, actionEditTask,
 } from './Pages/index';
 
 const router = createBrowserRouter([
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
         path: 'add-task',
         element: <AddNewTask />,
         action: actionNewTask(store),
+      },
+      {
+        path: 'edit-task',
+        element: <EditTask />,
+        action: actionEditTask(store),
       },
       {
         path: 'task',

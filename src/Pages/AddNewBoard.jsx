@@ -7,7 +7,7 @@ import ManageBoardComp from '../Components/ManageBoardComp';
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const columns = JSON.parse(formData.get('columns'));
+    const columns = JSON.parse(formData.get('columns')).map((col) => ({ name: col.name, id: col.id }));
     const newBoard = {
       id: nanoid(),
       name: formData.get('boardName'),

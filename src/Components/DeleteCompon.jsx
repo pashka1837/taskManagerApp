@@ -10,13 +10,13 @@ export default function DeleteCompon() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
-    title, text, deleteFN, id, columnID,
+    title, text, deleteFN,
   } = location.state;
 
   function deleteFunc() {
     if (deleteFN === 'board') {
       dispatch(deleteBoard());
-    } else if (deleteFN === 'task') dispatch(deleteTask({ id, columnID }));
+    } else if (deleteFN === 'task') dispatch(deleteTask());
     navigate('/');
   }
   return (

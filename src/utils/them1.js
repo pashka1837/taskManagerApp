@@ -14,6 +14,11 @@ const theme = extendTheme({
         textSecon: '#828FA3',
         textPrime: '#000112',
         dangerColor: '#EA5555',
+        danger: {
+          300: '#EA5555',
+          400: '#EA5555',
+          500: '#EA5555',
+        },
 
         btnDanger: {
           solidBorder: 'var(--joy-palette-dangerColor)',
@@ -31,6 +36,7 @@ const theme = extendTheme({
           100: '#828FA3',
           plainBorder: 'transparent',
           plainColor: '#828FA3',
+          plainHoverColor: '#EA5555',
 
         },
         btnPrime: {
@@ -126,19 +132,11 @@ const theme = extendTheme({
           300: '#635FC7',
           outlinedColor: 'var(--joy-palette-inputPrime-200)',
           outlinedBorder: 'var(--joy-palette-inputPrime-50)',
-
           outlinedActiveBorder: 'var(--joy-palette-inputPrime-300)',
           outlinedFocusBorder: 'var(--joy-palette-inputPrime-300)',
           outlinedHoverBorder: 'var(--joy-palette-inputPrime-300)',
         },
-        // checkBoxPrime: {
-        //   50: '#E4EBFA',
-        //   solidBg: '#FFFFFF',
-        // },
-        // checkBoxPrimeChecked: {
-        //   solidBg: '#635FC7',
-        //   solidColor: '#FFFFFF',
-        // },
+
         checkBoxPrime: {
           // solidBg: '#FFFFFF',
           solidBg: 'var(--joy-palette-background-popup)',
@@ -176,6 +174,11 @@ const theme = extendTheme({
         focusVisible: '#635FC7',
         textSecon: '#828FA3',
         textPrime: '#FFFFFF',
+        danger: {
+          300: '#EA5555',
+          400: '#EA5555',
+          500: '#EA5555',
+        },
 
         selectPrime: {
           50: '#dfdff3',

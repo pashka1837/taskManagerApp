@@ -7,7 +7,7 @@ import ManageBoardComp from '../Components/ManageBoardComp';
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const columns = JSON.parse(formData.get('columns'));
+    const columns = JSON.parse(formData.get('columns')).map((col) => ({ id: col.id, name: col.name }));
     const editedBoard = {
       id: store.getState().drawer.current.id,
       name: formData.get('boardName'),

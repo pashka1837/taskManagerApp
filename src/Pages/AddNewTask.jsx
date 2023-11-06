@@ -8,11 +8,11 @@ import ManageTask from '../Components/ManageTask';
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const subtasks = JSON.parse(formData.get('subtasks')).map((st) => ({ id: st.id, title: st.name }));
+    const subtasks = JSON.parse(formData.get('subtasks')).map((st) => ({ id: st.id, title: st.name, isCompleted: st.isCompleted || false }));
     const newTask = {
       id: nanoid(),
       title: formData.get('taskName'),
-      description: formData.get('desc'),
+      description: formData.get('desc') || '',
       status: formData.get('status'),
       subtasks: subtasks.length ? subtasks : [],
     };
@@ -41,8 +41,12 @@ export default function AddNewTask() {
 
   const inputsSub = {
     label: 'subtasks',
-    inputValues: [{ id: nanoid(), name: '', placeHolder: 'e.g. Make coffee' }, { id: nanoid(), name: '', placeHolder: 'e.g. Drink coffee & smile' }],
-    btnValue: 'Create Task',
+    inputValues: [{
+      id: nanoid(), name: '', placeHolder: 'e.g. Make coffee',
+    }, {
+      id: nanoid(), name: '', placeHolder: 'e.g. Drink coffee & smile',
+    }],
+    btnValue: 'Add New Subtask',
   };
 
   const selectComp = {
@@ -51,7 +55,7 @@ export default function AddNewTask() {
     selectValues: columns,
   };
 
-  const mainBtnValue = 'Save Changes';
+  const mainBtnValue = 'Create Task';
 
   return (
     <ModalBG>

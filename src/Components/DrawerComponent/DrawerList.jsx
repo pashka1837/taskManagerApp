@@ -8,13 +8,14 @@ export default function DrawerList() {
   return (
     <List size="lg">
       {boards.length
-            && boards.map((board) => (
-              <BoardItem
-                key={board.name}
-                active={board.name === current.name}
-                name={board.name}
-              />
-            ))}
+        ? boards.map((board) => (
+          <BoardItem
+            key={board.name}
+            active={board.name === current.name}
+            name={board.name}
+          />
+        ))
+        : null}
       <NewBoardBtn />
     </List>
   );

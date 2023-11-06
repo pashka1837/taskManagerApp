@@ -7,6 +7,7 @@ import { nanoid } from 'nanoid';
 import {
   InputDescr, InputsSub, InputsTitle, SelectCompon,
 } from './Inputs/index';
+import { inputsValidation } from '../utils/index';
 
 export default function ManageTask({
   modalTitle, inputsTitle, inputDesc, inputsSub, selectComp, mainBtnValue,
@@ -18,8 +19,12 @@ export default function ManageTask({
   const [inputSubValues, setIinputSubValues] = useState(inputsSub.inputValues);
   const [selectCompValue, setSelectCompValue] = useState(selectComp.defaultValue);
 
+  const [isTitleError, setTitleError] = useState(false);
+  const [isSubError, setSubError] = useState(false);
+
   function handleSubmit(e) {
     e.preventDefault();
+    if (inputsValidation(inputTitleValue, inputSubValues, setTitleError, setSubError)) return;
     const formData = new FormData(e.target);
     formData.set('taskName', inputTitleValue);
     formData.set('desc', inputDescValue);
@@ -42,6 +47,8 @@ export default function ManageTask({
           <Typography level="h4" fontWeight="700">{modalTitle}</Typography>
           <InputsTitle
             {...inputsTitle}
+            isTitleError={isTitleError}
+            setTitleError={setTitleError}
             inputTitleValue={inputTitleValue}
             setInputTitleValue={setInputTitleValue}
           />
@@ -52,6 +59,7 @@ export default function ManageTask({
           />
           <InputsSub
             {...inputsSub}
+            setSubError={setSubError}
             inputSubValues={inputSubValues}
             setIinputSubValues={setIinputSubValues}
           />

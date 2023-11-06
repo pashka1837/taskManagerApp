@@ -30,6 +30,7 @@ export default function NewColumn() {
             fontWeight: '500',
             paddingY: '0.8em',
             backgroundColor: 'transparent',
+            '&:hover': { backgroundColor: 'transparent' },
           }}
         >
           New Column

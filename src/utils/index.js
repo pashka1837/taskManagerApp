@@ -8,4 +8,14 @@ function subtasksDone(subtasks) {
   return finnishedSubTasks;
 }
 
-export { subtasksDone };
+function inputsValidation(inputTitleValue, inputSubValues, setTitleError, setSubError) {
+  if (!inputTitleValue) { setTitleError(true); }
+  let isEr = false;
+  inputSubValues.forEach((st) => {
+    if (!st.name) { st.isError = true; isEr = true; }
+  });
+  if (isEr || !inputTitleValue) { setSubError(true); return true; }
+  return false;
+}
+
+export { subtasksDone, inputsValidation };

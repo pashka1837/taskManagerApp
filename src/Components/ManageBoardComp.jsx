@@ -4,6 +4,7 @@ import {
 } from '@mui/joy';
 import { useState } from 'react';
 import { InputsSub, InputsTitle } from './Inputs/index';
+import { inputsValidation } from '../utils/index';
 
 export default function ManageBoardComp({
   modalTitle, inputsTitle, inputsSub, mainBtnValue,
@@ -13,8 +14,13 @@ export default function ManageBoardComp({
   const [inputTitleValue, setInputTitleValue] = useState(inputsTitle.defaultValue);
   const [inputSubValues, setIinputSubValues] = useState(inputsSub.inputValues);
 
+  const [isTitleError, setTitleError] = useState(false);
+  const [isSubError, setSubError] = useState(false);
+
   function handleSubmit(e) {
     e.preventDefault();
+    if (inputsValidation(inputTitleValue, inputSubValues, setTitleError, setSubError)) return;
+
     const formData = new FormData(e.target);
     formData.set('columns', JSON.stringify(inputSubValues));
     formData.set('boardName', inputTitleValue);
@@ -35,11 +41,14 @@ export default function ManageBoardComp({
           <Typography level="h4" fontWeight="700">{modalTitle}</Typography>
           <InputsTitle
             {...inputsTitle}
+            isTitleError={isTitleError}
+            setTitleError={setTitleError}
             inputTitleValue={inputTitleValue}
             setInputTitleValue={setInputTitleValue}
           />
           <InputsSub
             {...inputsSub}
+            setSubError={setSubError}
             inputSubValues={inputSubValues}
             setIinputSubValues={setIinputSubValues}
           />

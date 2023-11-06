@@ -18,7 +18,7 @@ export default function DropDownMenu({ stateToSend }) {
       </MenuButton>
       <Menu>
         <MenuItem
-          onClick={() => navigate(stateToSend.editRoute)}
+          onClick={() => navigate(stateToSend.editRoute, { state: stateToSend })}
           color="dropDownEdit"
           variant="plain"
         >

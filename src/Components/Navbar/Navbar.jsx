@@ -12,13 +12,12 @@ import DropDownMenu from '../DropDownMenu';
 export default function Navbar() {
   const navigate = useNavigate();
   const { mode } = useColorScheme();
-  const { current } = useSelector((store) => store.drawer);
+  const { current, boards } = useSelector((store) => store.drawer);
 
   const stateToSend = {
     title: 'Delete this board?',
-    text: `Are you sure you want to delete the ‘${current.name}’ board? This action will remove all columns and tasks and cannot be reversed.`,
+    text: `Are you sure you want to delete the ‘${current?.name}’ board? This action will remove all columns and tasks and cannot be reversed.`,
     deleteFN: 'board',
-    id: current.id,
     editRoute: '/edit-board',
     btnName: 'Board',
   };
@@ -41,6 +40,7 @@ export default function Navbar() {
           onClick={() => navigate('/add-task')}
           color="btnPrime"
           variant="solid"
+          disabled={!boards.length}
           startDecorator={<Add />}
           sx={{
             borderTopRightRadius: '25px',

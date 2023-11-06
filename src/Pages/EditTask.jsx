@@ -1,57 +1,69 @@
-import { redirect, useLocation } from 'react-router-dom';
-import { useRef } from 'react';
+import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { editTask } from '../features/drawer/drawerSlice';
 import ModalBG from '../Components/ModalBG';
-import SingleTaskComp from '../Components/SingleTaskComp';
-import { changeTaskStatus } from '../features/drawer/drawerSlice';
+import ManageTask from '../Components/ManageTask';
 
 export function action(store) {
   return async ({ request }) => {
     const formData = await request.formData();
-    const taskInfo = {
-      columnID: formData.get('columnID'),
-      taskId: formData.get('taskId'),
-      subtasks: JSON.parse(formData.get('subTasks')),
-      curStatus: formData.get('status'),
+    const subtasks = JSON.parse(formData.get('subtasks')).map((st) => ({ id: st.id, title: st.name, isCompleted: st.isCompleted || false }));
+    const newTask = {
+      title: formData.get('taskName'),
+      description: formData.get('desc'),
+      status: formData.get('status'),
+      subtasks: subtasks.length ? subtasks : [],
     };
-    store.dispatch(changeTaskStatus(taskInfo));
+    store.dispatch(editTask(newTask));
     return redirect('/');
   };
 }
+
 export default function EditTask() {
-  const formRef = useRef();
+  const { current, currentTask, currentColumn } = useSelector((store) => store.drawer);
+  const columns = current.columns.map((col) => ({ name: col.name, id: col.id }));
+  const column = current.columns.find((col) => col.id === currentColumn);
+  const task = column.tasks.find((taskk) => taskk.id === currentTask);
 
-  const location = useLocation();
-  const { id: taskId, columnID } = location.state;
+  const modalTitle = 'Edit Task';
 
-  const { current } = useSelector((store) => store.drawer);
-  const column = current.columns.find((colum) => colum.id === columnID);
-  const task = column.tasks.find((taskk) => taskk.id === taskId);
+  const inputsTitle = {
+    label: 'title',
+    placeHolder: 'e.g. Take coffee break',
+    defaultValue: task?.title,
+  };
+
+  const inputDesc = {
+    label: 'description',
+    placeHolder: 'e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little.',
+    defaultValue: task?.description,
+  };
+
+  const inputsSub = {
+    label: 'subtasks',
+    inputValues: task?.subtasks.map((st) => ({
+      name: st.title, id: st.id, isCompleted: st.isCompleted,
+    })),
+    btnValue: 'Add New Subtask',
+  };
 
   const selectComp = {
-    label: 'Current Status',
-    defaultValue: columnID,
-    selectValues: current.columns,
+    label: 'status',
+    defaultValue: currentColumn,
+    selectValues: columns,
   };
 
-  const stateToSend = {
-    title: 'Delete this task?',
-    text: `Are you sure you want to delete the ‘${task.title}’ task and its subtasks? This action cannot be reversed.`,
-    deleteFN: 'task',
-    id: taskId,
-    columnID,
-    editRoute: '/edit-task',
-    btnName: 'Task',
-  };
+  const mainBtnValue = 'Save Changes';
 
   return (
-    <ModalBG formRef={formRef}>
-      <SingleTaskComp
-        task={task}
+    <ModalBG>
+      <ManageTask
+        modalTitle={modalTitle}
+        inputsTitle={inputsTitle}
+        inputDesc={inputDesc}
+        inputsSub={inputsSub}
         selectComp={selectComp}
-        formRef={formRef}
-        columnID={columnID}
-        stateToSend={stateToSend}
+        mainBtnValue={mainBtnValue}
       />
     </ModalBG>
   );

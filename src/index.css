@@ -23,7 +23,7 @@ button::selection {
 input::placeholder,
 textarea::placeholder {
   color: #828fa3 !important;
-  /* opacity: 1; Firefox */
+  opacity: 1;
 }
 /* button:active {
   outline: none !important;
@@ -137,6 +137,16 @@ main {
   align-items: center;
   justify-items: start;
   padding: 1em;
+}
+
+.inptErrorMsg {
+  font-size: 0.8em;
+  color: #ea5555;
+  background-color: transparent;
+}
+.inptErrorMsg::selection {
+  color: none;
+  background: none;
 }
 
 /* .MuiCheckbox-root {

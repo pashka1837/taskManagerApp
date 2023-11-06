@@ -2,7 +2,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import {
   Checkbox, FormControl, Sheet, useColorScheme,
 } from '@mui/joy';
-import { nanoid } from 'nanoid';
 
 export default function InputCheckBox({
   title, isCompleted, id, subTaskValues, setSubTaskValues,
@@ -35,7 +34,7 @@ export default function InputCheckBox({
           color="checkBoxPrime"
           overlay
           checked={isCompleted}
-          value={id}
+          // value={id}
           label={title}
           sx={{
             color: isCompleted ? 'textSecon' : 'textPrime',
