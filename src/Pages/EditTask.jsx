@@ -18,7 +18,7 @@ export function action(store) {
     return redirect('/');
   };
 }
-export default function SingleTask() {
+export default function EditTask() {
   const formRef = useRef();
 
   const location = useLocation();

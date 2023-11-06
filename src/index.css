@@ -117,6 +117,9 @@ main {
 .MuiSelect-listbox {
   z-index: 1601 !important;
 }
+.MuiMenu-root {
+  z-index: 1601 !important;
+}
 
 .modalBG {
   position: absolute;

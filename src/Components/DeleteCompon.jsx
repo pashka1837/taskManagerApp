@@ -3,18 +3,20 @@ import {
 } from '@mui/joy';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { deleteBoard } from '../features/drawer/drawerSlice';
+import { deleteBoard, deleteTask } from '../features/drawer/drawerSlice';
 
 export default function DeleteCompon() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { title, text, deleteFN } = location.state;
+  const {
+    title, text, deleteFN, id, columnID,
+  } = location.state;
 
   function deleteFunc() {
     if (deleteFN === 'board') {
       dispatch(deleteBoard());
-    } else console.log('task');
+    } else if (deleteFN === 'task') dispatch(deleteTask({ id, columnID }));
     navigate('/');
   }
   return (

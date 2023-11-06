@@ -140,7 +140,9 @@ const theme = extendTheme({
         //   solidColor: '#FFFFFF',
         // },
         checkBoxPrime: {
-          solidBg: '#FFFFFF',
+          // solidBg: '#FFFFFF',
+          solidBg: 'var(--joy-palette-background-popup)',
+          solidBorder: '#828FA3',
           solidColor: '#828FA3',
           solidHoverColor: '#000112',
         },
@@ -203,6 +205,14 @@ const theme = extendTheme({
           outlinedActiveBorder: 'var(--joy-palette-inputPrime-300)',
           outlinedFocusBorder: 'var(--joy-palette-inputPrime-300)',
           outlinedHoverBorder: 'var(--joy-palette-inputPrime-300)',
+        },
+        checkBoxPrime: {
+          // solidBg: '#FFFFFF',
+          solidBg: 'var(--joy-palette-background-surface)',
+          solidBorder: 'var(--joy-palette-background-surface)',
+
+          solidColor: '#828FA3',
+          solidHoverColor: '#000112',
         },
         background: {
           50: '#FFFFFF',

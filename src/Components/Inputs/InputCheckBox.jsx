@@ -41,6 +41,7 @@ export default function InputCheckBox({
             color: isCompleted ? 'textSecon' : 'textPrime',
             textDecoration: isCompleted ? 'line-through' : 'none',
             borderRadius: '0px',
+            alignItems: 'center',
           }}
           checkedIcon={(
             <CheckIcon style={{

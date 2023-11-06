@@ -89,6 +89,15 @@ export const drawerSlice = createSlice({
       state.current = currentBoard;
       drawerSlice.caseReducers.saveToLC(state);
     },
+    deleteTask: (state, action) => {
+      const { id: taskID, columnID } = action.payload;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      const column = currentBoard.columns.find((columnn) => columnn.id === columnID);
+      const newTasksAr = column.tasks.filter((task) => task.id !== taskID);
+      column.tasks = newTasksAr;
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
+    },
     changeTaskStatus: (state, action) => {
       const {
         columnID, taskId, subtasks, curStatus,
@@ -121,5 +130,5 @@ export default drawerSlice.reducer;
 
 export const {
   toggleDrawer, setCurrent, addBoard, addTask, editBoard, deleteBoard,
-  changeTaskStatus,
+  changeTaskStatus, deleteTask,
 } = drawerSlice.actions;

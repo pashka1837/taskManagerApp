@@ -1,10 +1,10 @@
 import './Navbar.css';
 import Add from '@mui/icons-material/Add';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   useColorScheme, Typography, Box, Sheet, Button,
 } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import logoLightSvg from '../../assets/logo-dark.svg';
 import logoDarkSvg from '../../assets/logo-light.svg';
 import DropDownMenu from '../DropDownMenu';
@@ -12,6 +12,17 @@ import DropDownMenu from '../DropDownMenu';
 export default function Navbar() {
   const navigate = useNavigate();
   const { mode } = useColorScheme();
+  const { current } = useSelector((store) => store.drawer);
+
+  const stateToSend = {
+    title: 'Delete this board?',
+    text: `Are you sure you want to delete the ‘${current.name}’ board? This action will remove all columns and tasks and cannot be reversed.`,
+    deleteFN: 'board',
+    id: current.id,
+    editRoute: '/edit-board',
+    btnName: 'Board',
+  };
+
   return (
     <Sheet className="navbar">
       <Box className="logoContainer">
@@ -40,7 +51,7 @@ export default function Navbar() {
         >
           Add New Task
         </Button>
-        <DropDownMenu />
+        <DropDownMenu stateToSend={stateToSend} />
         {/* <MoreVertIcon onClick={() => console.log('hey')} className="MoreVertBtn" /> */}
       </Box>
     </Sheet>

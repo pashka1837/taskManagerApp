@@ -1,20 +1,19 @@
 import {
   Sheet, Stack, Typography,
 } from '@mui/joy';
-import { Form, useSubmit } from 'react-router-dom';
+import { Form } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SelectCompon } from './Inputs';
 import { subtasksDone } from '../utils';
 import InputCheckBox from './Inputs/InputCheckBox';
+import DropDownMenu from './DropDownMenu';
 
 export default function SingleTaskComp({
-  task, selectComp, formRef, columnID,
+  task, selectComp, formRef, columnID, stateToSend,
 }) {
   const {
     title, subtasks, description, id,
   } = task;
-
-  const submit = useSubmit();
 
   const [selectCompValue, setSelectCompValue] = useState(selectComp.defaultValue);
   const [subTaskValues, setSubTaskValues] = useState(subtasks);
@@ -43,14 +42,20 @@ export default function SingleTaskComp({
     >
       <Form>
         <Stack spacing={2}>
-          <Typography level="h4" fontWeight="700">
-            {title}
-          </Typography>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Typography level="h4" fontWeight="700">
+              {title}
+            </Typography>
+            <DropDownMenu stateToSend={stateToSend} />
+          </Stack>
 
           <Typography
             level="body-sm"
             fontWeight="600"
-            textColor="textPrime"
+            textColor="textSecon"
           >
             {description}
 
