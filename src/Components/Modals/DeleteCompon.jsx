@@ -3,7 +3,7 @@ import {
 } from '@mui/joy';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { deleteBoard, deleteTask } from '../features/drawer/drawerSlice';
+import { deleteBoard, deleteTask } from '../../features/drawer/drawerSlice';
 
 export default function DeleteCompon() {
   const location = useLocation();

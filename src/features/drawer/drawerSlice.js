@@ -3,21 +3,25 @@ import { createSlice } from '@reduxjs/toolkit';
 import data from '../../../../data.json';
 import boards1 from '../../../someData';
 
-function getBoardsFromLC() {
-  return JSON.parse(localStorage.getItem('boards')) || boards1;
-}
 // function getBoardsFromLC() {
-//   return boards1;
+//   return JSON.parse(localStorage.getItem('boards')) || boards1;
 // }
-
-function getCurrentFromLC(boards) {
-  return JSON.parse(localStorage.getItem('current')) || boards[0];
+function getBoardsFromLC() {
+  return JSON.parse(localStorage.getItem('boards')) || [];
 }
+
+// function getCurrentFromLC(boards) {
+//   return JSON.parse(localStorage.getItem('current')) || boards[0];
+// }
+function getCurrentFromLC() {
+  return JSON.parse(localStorage.getItem('current')) || null;
+}
+
 const boards = getBoardsFromLC();
 const defaultState = {
   isOpen: false,
-  boards: getBoardsFromLC() || [],
-  current: getCurrentFromLC(boards) || null,
+  boards: getBoardsFromLC(),
+  current: getCurrentFromLC(),
   currentTask: null,
   currentColumn: null,
 };

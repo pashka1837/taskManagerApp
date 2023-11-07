@@ -40,7 +40,7 @@ export default function Navbar() {
           onClick={() => navigate('/add-task')}
           color="btnPrime"
           variant="solid"
-          disabled={!boards.length}
+          disabled={!boards?.length || !current?.columns?.length}
           startDecorator={<Add />}
           sx={{
             borderTopRightRadius: '25px',
@@ -52,7 +52,6 @@ export default function Navbar() {
           Add New Task
         </Button>
         <DropDownMenu stateToSend={stateToSend} />
-        {/* <MoreVertIcon onClick={() => console.log('hey')} className="MoreVertBtn" /> */}
       </Box>
     </Sheet>
   );

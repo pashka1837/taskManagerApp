@@ -4,8 +4,8 @@ import {
 import './Task.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { subtasksDone } from '../../utils';
-import { setCurColumn, setCurTask } from '../../features/drawer/drawerSlice';
+import { subtasksDone } from '../../../utils';
+import { setCurColumn, setCurTask } from '../../../features/drawer/drawerSlice';
 
 export default function Task({ task, columnID }) {
   const navigate = useNavigate();

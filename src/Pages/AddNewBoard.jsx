@@ -1,8 +1,8 @@
 import { redirect } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { addBoard } from '../features/drawer/drawerSlice';
-import ModalBG from '../Components/ModalBG';
-import ManageBoardComp from '../Components/ManageBoardComp';
+import ModalBG from '../Components/Modals/ModalBG';
+import ManageBoardComp from '../Components/Modals/ManageBoardComp';
 
 export function action(store) {
   return async ({ request }) => {

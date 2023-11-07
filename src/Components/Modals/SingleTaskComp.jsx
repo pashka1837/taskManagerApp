@@ -3,10 +3,10 @@ import {
 } from '@mui/joy';
 import { Form } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { SelectCompon } from './Inputs';
-import { subtasksDone } from '../utils';
-import InputCheckBox from './Inputs/InputCheckBox';
-import DropDownMenu from './DropDownMenu';
+import { SelectCompon } from '../Inputs';
+import { subtasksDone } from '../../utils';
+import InputCheckBox from '../Inputs/InputCheckBox';
+import DropDownMenu from '../DropDownMenu';
 
 export default function SingleTaskComp({
   task, selectComp, formRef, columnID, stateToSend,

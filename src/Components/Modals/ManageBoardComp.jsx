@@ -3,21 +3,16 @@ import {
   Button, Sheet, Stack, Typography,
 } from '@mui/joy';
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
-import {
-  InputDescr, InputsSub, InputsTitle, SelectCompon,
-} from './Inputs/index';
-import { inputsValidation } from '../utils/index';
+import { InputsSub, InputsTitle } from '../Inputs/index';
+import { inputsValidation } from '../../utils/index';
 
-export default function ManageTask({
-  modalTitle, inputsTitle, inputDesc, inputsSub, selectComp, mainBtnValue,
+export default function ManageBoardComp({
+  modalTitle, inputsTitle, inputsSub, mainBtnValue,
 }) {
   const submit = useSubmit();
 
   const [inputTitleValue, setInputTitleValue] = useState(inputsTitle.defaultValue);
-  const [inputDescValue, setInputDescValue] = useState(inputDesc.defaultValue);
   const [inputSubValues, setIinputSubValues] = useState(inputsSub.inputValues);
-  const [selectCompValue, setSelectCompValue] = useState(selectComp.defaultValue);
 
   const [isTitleError, setTitleError] = useState(false);
   const [isSubError, setSubError] = useState(false);
@@ -25,11 +20,10 @@ export default function ManageTask({
   function handleSubmit(e) {
     e.preventDefault();
     if (inputsValidation(inputTitleValue, inputSubValues, setTitleError, setSubError)) return;
+
     const formData = new FormData(e.target);
-    formData.set('taskName', inputTitleValue);
-    formData.set('desc', inputDescValue);
-    formData.set('subtasks', JSON.stringify(inputSubValues));
-    formData.set('status', selectCompValue || nanoid());
+    formData.set('columns', JSON.stringify(inputSubValues));
+    formData.set('boardName', inputTitleValue);
     submit(formData, { method: 'post' });
   }
 
@@ -52,28 +46,12 @@ export default function ManageTask({
             inputTitleValue={inputTitleValue}
             setInputTitleValue={setInputTitleValue}
           />
-          <InputDescr
-            {...inputDesc}
-            inputDescValue={inputDescValue}
-            setInputDescValue={setInputDescValue}
-          />
           <InputsSub
             {...inputsSub}
             setSubError={setSubError}
             inputSubValues={inputSubValues}
             setIinputSubValues={setIinputSubValues}
           />
-          {selectComp?.selectValues?.length
-            ? (
-              <SelectCompon
-                {...selectComp}
-                selectValues={selectComp.selectValues}
-                selectCompValue={selectCompValue}
-                setSelectCompValue={setSelectCompValue}
-              />
-            )
-            : null}
-
           <Button
             color="btnPrime"
             variant="solid"

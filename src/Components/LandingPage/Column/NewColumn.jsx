@@ -1,8 +1,10 @@
 import { Add } from '@mui/icons-material';
 import { Button, Typography, useColorScheme } from '@mui/joy';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewColumn() {
   const { mode } = useColorScheme();
+  const navigate = useNavigate();
   return (
     <div className="columnContainer">
       <Typography
@@ -22,6 +24,7 @@ export default function NewColumn() {
         style={{ backgroundColor: (mode === 'light') ? '#e4ebfa' : '#2B2C37' }}
       >
         <Button
+          onClick={() => navigate('/edit-board')}
           color="btnList"
           variant="plain"
           startDecorator={<Add />}

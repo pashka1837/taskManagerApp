@@ -1,7 +1,7 @@
-import DeleteCompon from '../Components/DeleteCompon';
-import ModalBG from '../Components/ModalBG';
+import DeleteCompon from '../Components/Modals/DeleteCompon';
+import ModalBG from '../Components/Modals/ModalBG';
 
-export default function Delete({ data }) {
+export default function Delete() {
   return (
     <ModalBG>
       <DeleteCompon />

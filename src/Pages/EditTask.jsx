@@ -1,8 +1,8 @@
 import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { editTask } from '../features/drawer/drawerSlice';
-import ModalBG from '../Components/ModalBG';
-import ManageTask from '../Components/ManageTask';
+import ModalBG from '../Components/Modals/ModalBG';
+import ManageTask from '../Components/Modals/ManageTask';
 
 export function action(store) {
   return async ({ request }) => {

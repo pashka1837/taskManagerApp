@@ -6,7 +6,6 @@ import {
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import theme from './utils/them1';
-import './App.css';
 import HomeLayout from './Pages/HomeLayout';
 import store from './store';
 import {
