@@ -2,7 +2,7 @@ import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { editBoard } from '../features/drawer/drawerSlice';
 import ModalBG from '../Components/Modals/ModalBG';
-import ManageBoardComp from '../Components/Modals/ManageBoardComp';
+import ManageBoard from '../Components/Modals/ManageBoard';
 
 export function action(store) {
   return async ({ request }) => {
@@ -11,7 +11,7 @@ export function action(store) {
     const editedBoard = {
       id: store.getState().drawer.current.id,
       name: formData.get('boardName'),
-      columns: columns.length ? columns : [],
+      columns,
     };
     store.dispatch(editBoard(editedBoard));
     return redirect('/');
@@ -32,7 +32,7 @@ export default function EditBoard() {
 
   const inputsSub = {
     label: 'columns',
-    inputValues: columns.length ? columns : [],
+    inputValues: columns,
     btnValue: 'Add New Column',
   };
 
@@ -40,7 +40,7 @@ export default function EditBoard() {
 
   return (
     <ModalBG>
-      <ManageBoardComp
+      <ManageBoard
         modalTitle={modalTitle}
         inputsTitle={inputsTitle}
         inputsSub={inputsSub}

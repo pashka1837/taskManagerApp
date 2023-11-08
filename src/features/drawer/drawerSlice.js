@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import data from '../../../../data.json';
 import boards1 from '../../../someData';
 
 // function getBoardsFromLC() {
@@ -18,8 +17,10 @@ function getCurrentFromLC() {
 }
 
 const boards = getBoardsFromLC();
+
 const defaultState = {
   isOpen: false,
+  isMenuOpen: false,
   boards: getBoardsFromLC(),
   current: getCurrentFromLC(),
   currentTask: null,
@@ -46,12 +47,15 @@ export const drawerSlice = createSlice({
     setCurColumn: (state, action) => {
       state.currentColumn = action.payload;
     },
-    toggleDrawer: (state) => {
-      state.isOpen = !state.isOpen;
+    toggleDrawer: (state, action) => {
+      state.isOpen = action.payload;
+    },
+    toggleMenu: (state, action) => {
+      state.isMenuOpen = action.payload;
     },
     setCurrent: (state, action) => {
       const newCur = action.payload;
-      const indxOfNewBoard = state.boards.findIndex((item) => item.name === newCur);
+      const indxOfNewBoard = state.boards.findIndex((item) => item.id === newCur);
       state.current = state.boards[indxOfNewBoard];
       localStorage.setItem('current', JSON.stringify(state.current));
     },
@@ -91,6 +95,13 @@ export const drawerSlice = createSlice({
       state.current = state.boards[0] || null;
       drawerSlice.caseReducers.saveToLC(state);
     },
+    addColumns: (state, action) => {
+      const newColumns = action.payload;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      newColumns.forEach((newC) => currentBoard.columns.push(newC));
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
+    },
     addTask: (state, action) => {
       const newTask = action.payload;
       const currentBoard = state.boards.find((board) => board.id === state.current.id);
@@ -120,14 +131,7 @@ export const drawerSlice = createSlice({
       const updTask = column.tasks.find((tsk) => tsk.id === state.currentTask);
       updTask.title = title;
       updTask.description = description;
-      // const updSubTasks = subtasks.map((st) => {
-      //   const updST = updTask.subtasks.find((oldST) => oldST.id === st.id);
-      //   if (updST) {
-      //     updST.title = st.title;
-      //     return updST;
-      //   }
-      //   return { ...st, isCompleted: false };
-      // });
+
       updTask.subtasks = subtasks;
       changeColumn(state, status, currentBoard, column, updTask);
       state.current = currentBoard;
@@ -166,6 +170,6 @@ export const drawerSlice = createSlice({
 export default drawerSlice.reducer;
 
 export const {
-  toggleDrawer, setCurrent, addBoard, addTask, editBoard, deleteBoard,
-  changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask,
+  toggleDrawer, toggleMenu, setCurrent, addBoard, addTask, editBoard, deleteBoard,
+  changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask, addColumns,
 } = drawerSlice.actions;

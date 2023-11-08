@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { Box } from '@mui/joy';
 import Column from '../Components/LandingPage/Column/Column';
 import NewColumn from '../Components/LandingPage/Column/NewColumn';
 import NoContent from '../Components/LandingPage/NoContent';
@@ -19,22 +20,22 @@ export default function Landing() {
   if (!current.columns?.length) {
     const data = {
       title: 'This board is empty. Create a new column to get started.',
-      route: '/edit-board',
+      route: '/add-column',
       btnTitle: 'Add New Column',
     };
     return (<NoContent isOpen={isOpen} {...data} />);
   }
 
   return (
-    <main
+    <Box
       className="board"
-      style={{
-        left: isOpen ? 'var(--drawer-width)' : '0',
-        gridTemplateColumns: `repeat(${columns.length + 1}, 280px)`,
+      sx={{
+        left: { xs: '0', sm: isOpen ? 'var(--drawer-width)' : '0' },
+        gridTemplateColumns: `repeat(${columns.length + 1}, minmax(250px,280px))`,
       }}
     >
       {columns.map((column) => <Column key={column.name} {...column} />)}
       <NewColumn />
-    </main>
+    </Box>
   );
 }

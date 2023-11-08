@@ -14,8 +14,9 @@ export default function HideDrawerBtn() {
         borderTopLeftRadius: '0px',
         borderBottomLeftRadius: '0px',
         textAlign: 'start',
+        display: { xs: 'none', sm: 'flex' },
       }}
-      onClick={() => dispatch(toggleDrawer())}
+      onClick={() => dispatch(toggleDrawer(false))}
       color="btnList"
       variant="plain"
       startDecorator={<VisibilityOffOutlinedIcon />}

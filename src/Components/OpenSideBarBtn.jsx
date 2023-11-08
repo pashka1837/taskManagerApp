@@ -20,6 +20,7 @@ export default function OpenSideBarBtn() {
         borderTopRightRadius: '25px',
         borderBottomRightRadius: '25px',
         zIndex: '100',
+        display: { xs: 'none', sm: 'block' },
       }}
     >
       <VisibilityIcon />

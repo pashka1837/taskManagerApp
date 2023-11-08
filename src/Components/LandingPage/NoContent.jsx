@@ -1,4 +1,6 @@
-import { Button, Stack, Typography } from '@mui/joy';
+import {
+  Box, Button, Stack, Typography,
+} from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 import { Add } from '@mui/icons-material';
 
@@ -8,11 +10,12 @@ export default function NoContent({
   const navigate = useNavigate();
 
   return (
-    <main
+    <Box
       className="board"
-      style={{
-        left: isOpen ? 'var(--drawer-width)' : '0',
+      sx={{
+        left: { xs: '0', sm: isOpen ? 'var(--drawer-width)' : '0' },
         placeContent: 'center',
+        padding: '10%',
       }}
     >
       <Stack spacing={3} alignItems="center">
@@ -21,6 +24,7 @@ export default function NoContent({
           sx={{
             fontWeight: '700',
             color: 'textSecon',
+            textAlign: 'center',
           }}
         >
           {title}
@@ -40,6 +44,6 @@ export default function NoContent({
           {btnTitle}
         </Button>
       </Stack>
-    </main>
+    </Box>
   );
 }

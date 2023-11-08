@@ -22,9 +22,10 @@ export default function DeleteCompon() {
   return (
     <Sheet
       sx={{
-        padding: '2%',
-        width: '25%',
-        minWidth: '305px',
+        p: 4,
+        width: {
+          xs: '90%', sm: '50%', md: '35%', lg: '30%', xl: '25%',
+        },
         borderRadius: '9px',
       }}
     >

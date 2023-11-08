@@ -2,7 +2,7 @@ import { redirect } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { addBoard } from '../features/drawer/drawerSlice';
 import ModalBG from '../Components/Modals/ModalBG';
-import ManageBoardComp from '../Components/Modals/ManageBoardComp';
+import ManageBoard from '../Components/Modals/ManageBoard';
 
 export function action(store) {
   return async ({ request }) => {
@@ -11,18 +11,17 @@ export function action(store) {
     const newBoard = {
       id: nanoid(),
       name: formData.get('boardName'),
-      columns: columns.length ? columns : [],
+      columns,
     };
     store.dispatch(addBoard(newBoard));
     return redirect('/');
   };
 }
 
-export default function AddNewBoard() {
+export default function NewBoard() {
   const modalTitle = 'Add New Board';
 
   const inputsTitle = {
-    inputName: 'boardName',
     label: 'board name',
     placeHolder: 'e.g. Web Design',
     defaultValue: '',
@@ -30,7 +29,6 @@ export default function AddNewBoard() {
 
   const inputsSub = {
     label: 'columns',
-    inputName: 'column',
     inputValues: [{ id: nanoid(), name: 'Todo' }, { id: nanoid(), name: 'Doing' }],
     btnValue: 'Add New Column',
   };
@@ -39,7 +37,7 @@ export default function AddNewBoard() {
 
   return (
     <ModalBG>
-      <ManageBoardComp
+      <ManageBoard
         modalTitle={modalTitle}
         inputsTitle={inputsTitle}
         inputsSub={inputsSub}

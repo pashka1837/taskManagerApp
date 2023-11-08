@@ -108,6 +108,12 @@ const theme = extendTheme({
           solidDisabledColor: '#635FC7',
           solidDisabledBorder: '#E4EBFA',
         },
+        btnHelper: {
+          plainColor: '#828FA3',
+          plainBg: 'transparent',
+          plainHoverBg: 'transparent',
+          plainHoverColor: '#000112',
+        },
         selectPrime: {
           50: '#dfdff3',
           100: '#FFFFFF',

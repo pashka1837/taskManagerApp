@@ -17,8 +17,8 @@
 
 .MuiDrawer-content {
   /* padding-right: 2%; */
-  display: grid;
-  row-gap: 2%;
+  /* display: grid;
+  row-gap: 2%; */
   width: var(--drawer-width) !important;
   height: calc(100dvh - var(--nav-height)) !important;
 }
@@ -35,10 +35,10 @@
 /* .MuiDrawer-content {
   width: 20vw !important;
 } */
-.drawerTitle {
+/* .drawerTitle {
   font-weight: 500;
   color: #828fa3;
   letter-spacing: 3px;
   padding-left: 1em;
   text-transform: uppercase;
-}
+} */

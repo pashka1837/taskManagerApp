@@ -10,9 +10,10 @@ export default function DrawerList() {
       {boards.length
         ? boards.map((board) => (
           <BoardItem
-            key={board.name}
-            active={board.name === current.name}
+            key={board.id}
+            active={board.id === current.id}
             name={board.name}
+            id={board.id}
           />
         ))
         : null}

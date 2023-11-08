@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { InputsSub, InputsTitle } from '../Inputs/index';
 import { inputsValidation } from '../../utils/index';
 
-export default function ManageBoardComp({
+export default function ManageBoard({
   modalTitle, inputsTitle, inputsSub, mainBtnValue,
 }) {
   const submit = useSubmit();
@@ -30,9 +30,10 @@ export default function ManageBoardComp({
   return (
     <Sheet
       sx={{
-        padding: '2%',
-        width: '25%',
-        minWidth: '305px',
+        p: 4,
+        width: {
+          xs: '90%', sm: '50%', md: '35%', lg: '30%', xl: '20%',
+        },
         borderRadius: '9px',
       }}
     >

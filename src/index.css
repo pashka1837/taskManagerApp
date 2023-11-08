@@ -33,7 +33,7 @@ textarea::placeholder {
 body {
   /* font-family: "Nunito Sans", sans-serif; */
   font-family: "Plus Jakarta Sans", sans-serif !important;
-  font-size: 1rem;
+  /* font-size: 0.5rem !important; */
   --btnPrime-txt-clr: #ffffff;
   --btnPrime-bg-clr: #635fc7;
   --btnPrime-bg-hvr-clr: #a8a4ff;
@@ -47,37 +47,20 @@ body {
   --nav-height: 10vh;
   --drawer-width: clamp(300px, 16%, 100%);
 }
+
+html {
+  font-size: 1rem;
+}
+
 #root {
   height: 100dvh;
   width: 100vw;
   position: relative;
 }
 
-.btn {
-  font-weight: 700;
-  font-size: 1em;
-  padding: 0.7em 1.5em;
-  border-radius: 2em;
-}
+/* LANDING */
 
-.btnPrime {
-  background-color: var(--btnPrime-bg-clr);
-  color: var(--btnPrime-txt-clr);
-}
-
-.btnPrime:hover {
-  background-color: var(--btnPrime-bg-hvr-clr);
-}
-
-.btnSecon {
-  background-color: var(--btnSecon-bg-clr);
-  color: var(--btnSecon-txt-clr);
-}
-.btnSecon:hover {
-  background-color: var(--btnSecon-bg-hvr-clr);
-}
-
-main {
+.board {
   padding: 2%;
   position: absolute;
   top: var(--nav-height);
@@ -109,7 +92,6 @@ main {
 /* landing */
 .newColumn {
   display: grid;
-  /* background-color: #e4ebfa; */
   border-radius: 10px;
   place-items: center;
   height: 100%;
@@ -117,9 +99,19 @@ main {
 .MuiSelect-listbox {
   z-index: 1601 !important;
 }
+/* landing */
+
+/* DROPDOWN */
 .MuiMenu-root {
   z-index: 1601 !important;
 }
+.MuiMenu-root.Mui-expanded.boardsMenu {
+  width: 60vw;
+  min-width: 230px;
+  max-width: 280px;
+  transform: translate(20vw, 100px) !important;
+}
+/* DROPDOWN */
 
 .modalBG {
   position: absolute;
@@ -148,7 +140,10 @@ main {
   color: none;
   background: none;
 }
+/* inputCheckBox */
 
-/* .MuiCheckbox-root {
-  padding: 1em;
-} */
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 0.9rem;
+  }
+}

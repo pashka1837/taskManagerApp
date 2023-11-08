@@ -24,7 +24,7 @@ export default function NewColumn() {
         style={{ backgroundColor: (mode === 'light') ? '#e4ebfa' : '#2B2C37' }}
       >
         <Button
-          onClick={() => navigate('/edit-board')}
+          onClick={() => navigate('/add-column')}
           color="btnList"
           variant="plain"
           startDecorator={<Add />}

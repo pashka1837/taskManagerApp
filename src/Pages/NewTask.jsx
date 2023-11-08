@@ -21,7 +21,7 @@ export function action(store) {
   };
 }
 
-export default function AddNewTask() {
+export default function NewTask() {
   const { current } = useSelector((store) => store.drawer);
   const columns = current.columns.map((col) => ({ name: col.name, id: col.id }));
 
