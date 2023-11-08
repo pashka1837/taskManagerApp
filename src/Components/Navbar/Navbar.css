@@ -23,6 +23,13 @@
   cursor: pointer;
 }
 
+.MuiMenu-root.Mui-expanded.boardsMenu {
+  width: 60vw;
+  min-width: 230px;
+  max-width: 280px;
+  transform: translate(20vw, 100px) !important;
+}
+
 @media screen and (max-width: 600px) {
   .logoContainer {
     grid-template-columns: auto auto auto;

@@ -13,13 +13,8 @@ export default function Task({ task, columnID }) {
   const { mode } = useColorScheme();
   const { subtasks, title, id } = task;
 
-  // let finnishedSubTasks = 0;
-  // if (subtasks.length) {
-  //   subtasks.forEach((st) => {
-  //     if (st.isCompleted) finnishedSubTasks += 1;
-  //   });
-  // }
-  function openTask() {
+  function openTask(e) {
+    e.stopPropagation();
     dispatch(setCurTask(id));
     dispatch(setCurColumn(columnID));
     navigate('/task');
@@ -38,6 +33,7 @@ export default function Task({ task, columnID }) {
             color: 'textPrime',
             fontWeight: '700',
             lineHeight: '1.2em',
+            caretColor: 'transparent',
           }}
         >
           {title}
@@ -48,6 +44,7 @@ export default function Task({ task, columnID }) {
           sx={{
             color: 'textSecon',
             fontWeight: '600',
+            caretColor: 'transparent',
           }}
         >
           {

@@ -19,7 +19,9 @@ export default function DropDownMenu({ stateToSend }) {
       >
         <MoreVertIcon />
       </MenuButton>
-      <Menu>
+      <Menu
+        variant="plain"
+      >
         <MenuItem
           onClick={() => navigate(stateToSend.editRoute)}
           color="dropDownEdit"

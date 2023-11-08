@@ -1,22 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import boards1 from '../../../someData';
 
-// function getBoardsFromLC() {
-//   return JSON.parse(localStorage.getItem('boards')) || boards1;
-// }
 function getBoardsFromLC() {
   return JSON.parse(localStorage.getItem('boards')) || [];
 }
 
-// function getCurrentFromLC(boards) {
-//   return JSON.parse(localStorage.getItem('current')) || boards[0];
-// }
 function getCurrentFromLC() {
   return JSON.parse(localStorage.getItem('current')) || null;
 }
-
-const boards = getBoardsFromLC();
 
 const defaultState = {
   isOpen: false,

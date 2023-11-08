@@ -1,9 +1,12 @@
 import { extendTheme } from '@mui/joy/styles';
 
 const theme = extendTheme({
-  typography: {
-    fontFamily: 'Plus Jakarta Sans,  sans-serif',
+
+  fontFamily: {
+    display: 'Plus Jakarta Sans',
+    body: 'Plus Jakarta Sans',
   },
+
   colorSchemes: {
     light: {
       palette: {

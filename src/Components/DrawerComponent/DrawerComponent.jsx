@@ -18,6 +18,7 @@ export default function DrawerComponent() {
           letterSpacing: '3px',
           fontWeight: '600',
           textTransform: 'uppercase',
+          caretColor: 'transparent',
         }}
       >
         ALL BOARDS (

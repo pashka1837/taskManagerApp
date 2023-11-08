@@ -1,12 +1,14 @@
 import './Navbar.css';
 import Add from '@mui/icons-material/Add';
 import {
-  useColorScheme, Typography, Box, Sheet, Button, Stack, Dropdown, MenuButton, IconButton, Menu,
+  useColorScheme, Typography, Box, Sheet,
+  Button, Stack, Dropdown, MenuButton, IconButton, Menu,
 } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { useRef } from 'react';
 import logoLightSvg from '../../assets/logo-dark.svg';
 import logoDarkSvg from '../../assets/logo-light.svg';
 import logoMobile from '../../assets/logo-mobile.svg';
@@ -18,6 +20,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { mode } = useColorScheme();
   const { current, boards, isMenuOpen } = useSelector((store) => store.drawer);
+  const menuRef = useRef();
   const dispatch = useDispatch();
 
   const stateToSend = {
@@ -27,7 +30,8 @@ export default function Navbar() {
     editRoute: '/edit-board',
     btnName: 'Board',
   };
-  function handelMenuOpen() {
+  function handelMenuOpen(e) {
+    setTimeout(() => menuRef.current.focus(), 10);
     dispatch(toggleMenu(!isMenuOpen));
   }
 
@@ -43,12 +47,13 @@ export default function Navbar() {
         <Typography
           fontWeight="700"
           color="textPrime"
-          sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' } }}
+          sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, caretColor: 'transparent' }}
         >
           Platform Launch
         </Typography>
         <Dropdown open={isMenuOpen} onOpenChange={handelMenuOpen}>
           <MenuButton
+            autoFocus
             slots={{ root: IconButton }}
             slotProps={{ root: { variant: 'plain', color: 'neutral' } }}
             sx={{
@@ -59,7 +64,10 @@ export default function Navbar() {
             {isMenuOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </MenuButton>
           <Menu
+            keepMounted
+            ref={menuRef}
             className="boardsMenu"
+            variant="plain"
             sx={{ display: { xs: 'flex', sm: 'none' } }}
           >
             <DrawerComponent />

@@ -13,6 +13,7 @@ export default function Column({ name, tasks, id }) {
           letterSpacing: '3px',
           fontWeight: '600',
           textTransform: 'uppercase',
+          caretColor: 'transparent',
         }}
       >
         {name}
