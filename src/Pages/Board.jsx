@@ -32,7 +32,7 @@ export default function Board() {
         gridTemplateColumns: `repeat(${columns.length + 1}, minmax(250px,280px))`,
       }}
     >
-      {columns.map((column) => <Column key={column.name} {...column} />)}
+      {columns.map((column) => <Column key={column.id} {...column} />)}
       <NewColumn />
     </Box>
   );

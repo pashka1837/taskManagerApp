@@ -19,10 +19,25 @@ export default function Task({ task, columnID }) {
     dispatch(setCurColumn(columnID));
     navigate('/task');
   }
+  function handleDrag(e) {
+    e.preventDefault();
+    // console.log(e.target.dataset.id, e.currentTarget);
+    e.dataTransfer.setData('text/plain', e.target.dataset.id);
+    e.dataTransfer.effectAllowed = 'move';
+    // e.dataTransfer.dropEffect = 'move';
+    // console.log('onDrag');
+    dispatch(setCurTask(id));
+    dispatch(setCurColumn(columnID));
+  }
 
   return (
     <Card
+      draggable
+      // onDrop={handleDrop}
+      onDrag={handleDrag}
+      // onDragOver={handleDragOver}
       onClick={openTask}
+      data-id={id}
       variant="plain"
       sx={{ boxShadow: mode === 'dark' && 'none' }}
     >
