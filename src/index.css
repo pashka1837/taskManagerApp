@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Plus Jakarta Sans";
-  src: url("./assets/font/PlusJakartaSans-VariableFont_wght.ttf") format("ttf");
+  src: url("./assets/font/PlusJakartaSans-VariableFont_wght.ttf");
 }
 
 * {
@@ -49,8 +49,7 @@ html {
   position: relative;
 }
 
-/* LANDING */
-
+/* BOARD */
 .board {
   padding: 2%;
   position: absolute;
@@ -62,8 +61,6 @@ html {
   display: grid;
   gap: 1.5em;
 }
-
-/* landing */
 .newColumn {
   display: grid;
   border-radius: 10px;
@@ -73,13 +70,12 @@ html {
 .MuiSelect-listbox {
   z-index: 1601 !important;
 }
-/* landing */
+/* BOARD */
 
 /* DROPDOWN */
 .MuiMenu-root {
   z-index: 1601 !important;
 }
-
 /* DROPDOWN */
 
 .modalBG {
@@ -99,7 +95,6 @@ html {
   justify-items: start;
   padding: 1em;
 }
-
 .inptErrorMsg {
   font-size: 0.8em;
   color: #ea5555;

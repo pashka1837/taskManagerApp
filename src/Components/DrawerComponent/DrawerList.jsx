@@ -1,7 +1,7 @@
 import { List } from '@mui/joy';
 import { useSelector } from 'react-redux';
-import BoardItem from './BoardItem';
 import NewBoardBtn from './NewBoardBtn';
+import BoardItem from './BoardItem';
 
 export default function DrawerList() {
   const { boards, current } = useSelector((store) => store.drawer);

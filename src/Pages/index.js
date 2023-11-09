@@ -5,3 +5,4 @@ export { default as Delete } from './Delete';
 export { default as SingleTask, action as actionChangeTaskStatus } from './SingleTask';
 export { default as EditTask, action as actionEditTask } from './EditTask';
 export { default as NewColumn, action as actionNewColumn } from './NewColumn';
+export { default as Board } from './Board';

@@ -1,10 +1,8 @@
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/joy';
-import Column from '../Components/LandingPage/Column/Column';
-import NewColumn from '../Components/LandingPage/Column/NewColumn';
-import NoContent from '../Components/LandingPage/NoContent';
+import { Column, NewColumn, NoContent } from '../Components/BoardPageComponents/index';
 
-export default function Landing() {
+export default function Board() {
   const { isOpen, current } = useSelector((store) => store.drawer);
 
   if (!current) {

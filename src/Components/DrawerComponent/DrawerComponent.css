@@ -7,7 +7,6 @@
   top: var(--nav-height) !important;
   right: calc(100vw - var(--drawer-width)) !important;
   z-index: 2 !important;
-  /* bottom: calc(100vh- var(--nav-height)) !important; */
 }
 
 .MuiDrawer-backdrop {
@@ -16,9 +15,6 @@
 }
 
 .MuiDrawer-content {
-  /* padding-right: 2%; */
-  /* display: grid;
-  row-gap: 2%; */
   width: var(--drawer-width) !important;
   height: calc(100dvh - var(--nav-height)) !important;
 }
@@ -31,14 +27,3 @@
   grid-template-rows: min-content 1fr;
   row-gap: 0.8em;
 }
-
-/* .MuiDrawer-content {
-  width: 20vw !important;
-} */
-/* .drawerTitle {
-  font-weight: 500;
-  color: #828fa3;
-  letter-spacing: 3px;
-  padding-left: 1em;
-  text-transform: uppercase;
-} */

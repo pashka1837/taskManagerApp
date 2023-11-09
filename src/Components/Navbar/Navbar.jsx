@@ -49,7 +49,7 @@ export default function Navbar() {
           color="textPrime"
           sx={{ fontSize: { xs: '1.2rem', md: '1.5rem' }, caretColor: 'transparent' }}
         >
-          Platform Launch
+          {current?.name || ''}
         </Typography>
         <Dropdown open={isMenuOpen} onOpenChange={handelMenuOpen}>
           <MenuButton
@@ -68,7 +68,7 @@ export default function Navbar() {
             ref={menuRef}
             className="boardsMenu"
             variant="plain"
-            sx={{ display: { xs: 'flex', sm: 'none' } }}
+            sx={{ display: { xs: 'flex', sm: 'none' }, '&:focus-visible': { border: 'none', outline: 'none' } }}
           >
             <DrawerComponent />
           </Menu>

@@ -1,8 +1,7 @@
 import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { editBoard } from '../features/drawer/drawerSlice';
-import ModalBG from '../Components/Modals/ModalBG';
-import ManageBoard from '../Components/Modals/ManageBoard';
+import { ModalBG, ManageBoard } from '../Components/Modals/index';
 
 export function action(store) {
   return async ({ request }) => {

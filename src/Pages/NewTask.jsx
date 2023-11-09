@@ -2,8 +2,7 @@ import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { addTask } from '../features/drawer/drawerSlice';
-import ModalBG from '../Components/Modals/ModalBG';
-import ManageTask from '../Components/Modals/ManageTask';
+import { ModalBG, ManageTask } from '../Components/Modals/index';
 
 export function action(store) {
   return async ({ request }) => {
@@ -14,7 +13,7 @@ export function action(store) {
       title: formData.get('taskName'),
       description: formData.get('desc') || '',
       status: formData.get('status'),
-      subtasks: subtasks.length ? subtasks : [],
+      subtasks,
     };
     store.dispatch(addTask(newTask));
     return redirect('/');

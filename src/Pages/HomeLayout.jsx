@@ -4,15 +4,14 @@ import { useSelector } from 'react-redux';
 import Navbar from '../Components/Navbar/Navbar';
 import DrawerComponent from '../Components/DrawerComponent/DrawerComponent';
 import OpenSideBarBtn from '../Components/OpenSideBarBtn';
-import Landing from './Landing';
+import { Board } from './index';
 
 export default function HomeLayout() {
-  const { isOpen, boards } = useSelector((store) => store.drawer);
+  const { isOpen } = useSelector((store) => store.drawer);
 
   return (
     <>
       <Navbar />
-      {/* <DrawerComponent /> */}
       <Drawer
         disableEnforceFocus
         open={isOpen}
@@ -21,9 +20,8 @@ export default function HomeLayout() {
         <DrawerComponent />
       </Drawer>
       <OpenSideBarBtn />
-      <Landing />
+      <Board />
       <Outlet />
     </>
-
   );
 }

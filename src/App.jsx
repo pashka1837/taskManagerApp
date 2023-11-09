@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
-import theme from './utils/them1';
+import theme from './utils/theme';
 import HomeLayout from './Pages/HomeLayout';
 import store from './store';
 import {

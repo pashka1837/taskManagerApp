@@ -133,6 +133,7 @@ export const drawerSlice = createSlice({
       const column = currentBoard.columns.find((columnn) => columnn.id === state.currentColumn);
       const newTasksAr = column.tasks.filter((task) => task.id !== state.currentTask);
       column.tasks = newTasksAr;
+      state.currentTask = null;
       state.current = currentBoard;
       drawerSlice.caseReducers.saveToLC(state);
     },

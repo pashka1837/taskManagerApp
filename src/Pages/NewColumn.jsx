@@ -1,8 +1,7 @@
 import { redirect } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { addColumns } from '../features/drawer/drawerSlice';
-import ModalBG from '../Components/Modals/ModalBG';
-import AddColumns from '../Components/Modals/AddColumns';
+import { ModalBG, AddColumns } from '../Components/Modals/index';
 
 export function action(store) {
   return async ({ request }) => {

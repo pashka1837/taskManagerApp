@@ -1,8 +1,7 @@
 import { redirect } from 'react-router-dom';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import ModalBG from '../Components/Modals/ModalBG';
-import SingleTaskComp from '../Components/Modals/SingleTaskComp';
+import { ModalBG, SingleTaskComp } from '../Components/Modals/index';
 import { changeTaskStatus } from '../features/drawer/drawerSlice';
 
 export function action(store) {
