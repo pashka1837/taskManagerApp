@@ -20,22 +20,14 @@ export default function Task({ task, columnID }) {
     navigate('/task');
   }
   function handleDrag(e) {
-    e.preventDefault();
-    // console.log(e.target.dataset.id, e.currentTarget);
-    e.dataTransfer.setData('text/plain', e.target.dataset.id);
-    e.dataTransfer.effectAllowed = 'move';
-    // e.dataTransfer.dropEffect = 'move';
-    // console.log('onDrag');
-    dispatch(setCurTask(id));
-    dispatch(setCurColumn(columnID));
+    const data = { taskID: id, columnID };
+    e.dataTransfer.setData('text/plain', JSON.stringify(data));
   }
 
   return (
     <Card
       draggable
-      // onDrop={handleDrop}
-      onDrag={handleDrag}
-      // onDragOver={handleDragOver}
+      onDragStart={handleDrag}
       onClick={openTask}
       data-id={id}
       variant="plain"

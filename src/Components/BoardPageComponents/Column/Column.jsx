@@ -1,12 +1,12 @@
+import { useDispatch } from 'react-redux';
 import { Typography } from '@mui/joy';
 import Task from '../Task/Task';
 import './Column.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { dragAndDrop } from '../../../features/drawer/drawerSlice';
 
 export default function Column({ name, tasks, id }) {
-  const { current } = useSelector((store) => store.drawer);
   const dispatch = useDispatch();
+
   function handleDrop(e) {
     e.preventDefault();
     const columnTarget = e.currentTarget;
@@ -14,18 +14,17 @@ export default function Column({ name, tasks, id }) {
     let taskTargetId;
 
     if (!columnTarget.classList.contains('columnContainer')) return;
-    const columnTargetId = columnTarget.dataset.id;
-    const nextCol = current.columns.find((col) => col.id === columnTargetId);
+    const { taskID, columnID } = JSON.parse(e.dataTransfer.getData('text/plain'));
 
     if (taskTarget.classList.contains('MuiCard-root')) {
       taskTargetId = taskTarget.dataset.id;
     } else if (taskTarget.offsetParent.classList.contains('MuiCard-root')) {
       taskTarget = taskTarget.offsetParent;
       taskTargetId = taskTarget.dataset.id;
-    } else if (nextCol) {
-      taskTargetId = 'none';
-    } else return;
-    dispatch(dragAndDrop({ newColId: columnTargetId, nextTaskId: taskTargetId }));
+    } else taskTargetId = 'none';
+    dispatch(dragAndDrop({
+      nextColId: id, nextTaskId: taskTargetId, taskID, columnID,
+    }));
   }
   function handleDragOver(e) {
     e.preventDefault();
@@ -36,7 +35,7 @@ export default function Column({ name, tasks, id }) {
       className="columnContainer"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
-      data-id={id}
+      onDragEnter={(e) => e.preventDefault()}
     >
       <Typography
         level="h5"

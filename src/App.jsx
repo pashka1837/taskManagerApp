@@ -1,3 +1,4 @@
+import { polyfill } from 'mobile-drag-drop';
 import { Provider } from 'react-redux';
 import {
   createBrowserRouter,
@@ -16,6 +17,8 @@ import {
   EditTask, actionEditTask,
   NewColumn, actionNewColumn,
 } from './Pages/index';
+
+polyfill();
 
 const router = createBrowserRouter([
   {

@@ -153,18 +153,20 @@ export const drawerSlice = createSlice({
     },
 
     dragAndDrop: (state, action) => {
-      const { newColId, nextTaskId } = action.payload;
+      const {
+        nextColId, nextTaskId, taskID, columnID,
+      } = action.payload;
       const currentBoard = state.boards.find((board) => board.id === state.current.id);
-      const column = currentBoard.columns.find((columnn) => columnn.id === state.currentColumn);
-      const task = column.tasks.find((taskk) => taskk.id === state.currentTask);
-      if (nextTaskId !== state.currentTask) {
-        const taskIndex = column.tasks.findIndex((taskk) => taskk.id === state.currentTask);
+      const column = currentBoard.columns.find((columnn) => columnn.id === columnID);
+      const task = column.tasks.find((taskk) => taskk.id === taskID);
+      if (nextTaskId !== taskID) {
+        const taskIndex = column.tasks.findIndex((taskk) => taskk.id === taskID);
         column.tasks.splice(taskIndex, 1);
-        if (state.currentColumn === newColId) {
+        if (columnID === nextColId) {
           const nextTaskIndex = column.tasks.findIndex((taskk) => taskk.id === nextTaskId);
           column.tasks.splice(nextTaskIndex, 0, task);
         } else {
-          const newColumn = currentBoard.columns.find((columnn) => columnn.id === newColId);
+          const newColumn = currentBoard.columns.find((columnn) => columnn.id === nextColId);
           if (!(newColumn.tasks?.length)) newColumn.tasks = [];
           if (nextTaskId === 'none') newColumn.tasks.push(task);
           else {
@@ -190,3 +192,24 @@ export const {
   toggleDrawer, toggleMenu, setCurrent, addBoard, addTask, editBoard, deleteBoard,
   changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask, addColumns, dragAndDrop,
 } = drawerSlice.actions;
+
+// const { nextColId, nextTaskId, taskID, columnID } = action.payload;
+// const currentBoard = state.boards.find((board) => board.id === state.current.id);
+// const column = currentBoard.columns.find((columnn) => columnn.id === state.currentColumn);
+// const task = column.tasks.find((taskk) => taskk.id === state.currentTask);
+// if (nextTaskId !== state.currentTask) {
+//   const taskIndex = column.tasks.findIndex((taskk) => taskk.id === state.currentTask);
+//   column.tasks.splice(taskIndex, 1);
+//   if (state.currentColumn === nextColId) {
+//     const nextTaskIndex = column.tasks.findIndex((taskk) => taskk.id === nextTaskId);
+//     column.tasks.splice(nextTaskIndex, 0, task);
+//   } else {
+//     const newColumn = currentBoard.columns.find((columnn) => columnn.id === nextColId);
+//     if (!(newColumn.tasks?.length)) newColumn.tasks = [];
+//     if (nextTaskId === 'none') newColumn.tasks.push(task);
+//     else {
+//       const nextTaskIndex = newColumn.tasks.findIndex((taskk) => taskk.id === nextTaskId);
+//       newColumn.tasks.splice(nextTaskIndex, 0, task);
+//     }
+//   }
+// }
