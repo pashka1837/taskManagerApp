@@ -1,11 +1,15 @@
 import { useDispatch } from 'react-redux';
-import { Typography } from '@mui/joy';
+import { Stack, Typography } from '@mui/joy';
 import Task from '../Task/Task';
 import './Column.css';
 import { dragAndDrop } from '../../../features/drawer/drawerSlice';
 
-export default function Column({ name, tasks, id }) {
+export default function Column({
+  name, tasks, id, i,
+}) {
   const dispatch = useDispatch();
+  const bgColor = `rgba(${Math.floor(Math.random() * 355) - 100},${Math.floor(Math.random() * 355) - 100},${Math.floor(Math.random() * 355) - 100}, 1)`;
+  // const bgColor = `rgba(${50 + i * 111},${0 + i * 70},${54 + i * 31}, 1)`;
 
   function handleDrop(e) {
     e.preventDefault();
@@ -37,23 +41,32 @@ export default function Column({ name, tasks, id }) {
       onDragOver={handleDragOver}
       onDragEnter={(e) => e.preventDefault()}
     >
-      <Typography
-        level="h5"
-        sx={{
-          color: 'textSecon',
-          paddingBottom: '1.5em',
-          letterSpacing: '3px',
-          fontWeight: '600',
-          textTransform: 'uppercase',
-          caretColor: 'transparent',
+      <Stack direction="row" alignItems="center" spacing={2} sx={{ paddingBottom: '1.5em' }}>
+        <span style={{
+          width: '12px',
+          height: '12px',
+          borderRadius: '100%',
+          backgroundColor: `${bgColor}`,
         }}
-      >
-        {name}
-        {' '}
-        (
-        {tasks?.length || '0'}
-        )
-      </Typography>
+        />
+        <Typography
+          level="h5"
+          sx={{
+            color: 'textSecon',
+            letterSpacing: '3px',
+            fontWeight: '600',
+            textTransform: 'uppercase',
+            caretColor: 'transparent',
+          }}
+        >
+          {name}
+          {' '}
+          (
+          {tasks?.length || '0'}
+          )
+        </Typography>
+      </Stack>
+
       {tasks?.length
         ? (
           <div className="tasksContainer">

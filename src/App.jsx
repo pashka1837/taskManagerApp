@@ -15,7 +15,7 @@ import {
   EditBoard, actionEditBoard, Delete,
   SingleTask, actionChangeTaskStatus,
   EditTask, actionEditTask,
-  NewColumn, actionNewColumn,
+  NewColumn, actionNewColumn, Login,
 } from './Pages/index';
 
 polyfill();
@@ -59,8 +59,11 @@ const router = createBrowserRouter([
         element: <SingleTask />,
         action: actionChangeTaskStatus(store),
       },
-
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]);
 function App() {
@@ -70,7 +73,6 @@ function App() {
       <Provider store={store}>
         <RouterProvider router={router} />
       </Provider>
-
     </CssVarsProvider>
   );
 }

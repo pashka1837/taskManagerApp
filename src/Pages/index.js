@@ -6,3 +6,4 @@ export { default as SingleTask, action as actionChangeTaskStatus } from './Singl
 export { default as EditTask, action as actionEditTask } from './EditTask';
 export { default as NewColumn, action as actionNewColumn } from './NewColumn';
 export { default as Board } from './Board';
+export { default as Login } from './Login';
