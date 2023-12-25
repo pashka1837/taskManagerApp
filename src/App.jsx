@@ -15,7 +15,7 @@ import {
   EditBoard, actionEditBoard, Delete,
   SingleTask, actionChangeTaskStatus,
   EditTask, actionEditTask,
-  NewColumn, actionNewColumn, Login,
+  NewColumn, actionNewColumn, Login, SignUp,
 } from './Pages/index';
 
 polyfill();
@@ -64,6 +64,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/sign-up',
+    element: <SignUp />,
   },
 ]);
 function App() {

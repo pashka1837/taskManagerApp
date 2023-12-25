@@ -6,18 +6,16 @@ import {
   Sheet,
   Typography,
 } from '@mui/joy';
-
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../fireBase/fireBase';
 
-export default function Login() {
+export default function SignUp() {
   const navigate = useNavigate();
-
-  async function handleSignIn(email, password) {
+  async function handleSignUp(email, password) {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log('logged in');
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('signd up');
 
       navigate('/');
     } catch (error) {
@@ -26,7 +24,6 @@ export default function Login() {
       console.log(errorCode, errorMessage);
     }
   }
-
   function handleSubmit(e) {
     e.preventDefault();
     const target = e.currentTarget;
@@ -38,7 +35,7 @@ export default function Login() {
       console.log('error');
       return;
     }
-    handleSignIn(data.email, data.password);
+    handleSignUp(data.email, data.password);
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -61,7 +58,7 @@ export default function Login() {
           <Typography level="h4" component="h1">
             <b>Welcome!</b>
           </Typography>
-          <Typography level="body-sm">Sign in to continue.</Typography>
+          <Typography level="body-sm">Create profile.</Typography>
         </div>
         <FormControl>
           <FormLabel>Enter your login</FormLabel>
@@ -73,14 +70,14 @@ export default function Login() {
         </FormControl>
 
         <Button type="submit" sx={{ mt: 1 }}>
-          Log in
+          Sign Up
         </Button>
         <Typography
-          endDecorator={<Link to="/sign-up">Sign up</Link>}
+          endDecorator={<Link to="/login">Login</Link>}
           fontSize="sm"
           sx={{ alignSelf: 'center' }}
         >
-          Don't have an account?
+          Already have account?
         </Typography>
       </Sheet>
     </form>
