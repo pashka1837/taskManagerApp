@@ -1,5 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import { getDatabase, ref, set } from 'firebase/database';
+
+function addTaskToDB(userId, boardId, columnId, taskId) {
+  const db = getDatabase();
+  set(ref(db, 'users/userId/1/columns/17/tasks/18'), {
+    title: 'huy',
+  });
+}
 
 function getBoardsFromLC() {
   return JSON.parse(localStorage.getItem('boards')) || [];
@@ -32,6 +40,9 @@ export const drawerSlice = createSlice({
   name: 'drawer',
   initialState: defaultState,
   reducers: {
+    setBoards: (state, action) => {
+      state.boards = action.payload;
+    },
     setCurTask: (state, action) => {
       state.currentTask = action.payload;
     },
@@ -189,6 +200,7 @@ export const drawerSlice = createSlice({
 export default drawerSlice.reducer;
 
 export const {
+  setBoards,
   toggleDrawer, toggleMenu, setCurrent, addBoard, addTask, editBoard, deleteBoard,
   changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask, addColumns, dragAndDrop,
 } = drawerSlice.actions;

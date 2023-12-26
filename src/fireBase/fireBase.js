@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getDatabase, connectDatabaseEmulator } from 'firebase/database';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDyJwz8Ey9aYwewK-3fPvliG8ZElPRT0ic',
@@ -25,5 +26,5 @@ export const db = getDatabase();
 export const auth = getAuth();
 
 connectAuthEmulator(auth, 'http://127.0.0.1:9099');
-connectDatabaseEmulator(db, 'http://127.0.0.1', 9000);
+// connectDatabaseEmulator(db, 'http://127.0.0.1', 9000);
 // const analytics = getAnalytics(app);
