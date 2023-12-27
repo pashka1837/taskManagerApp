@@ -8,13 +8,17 @@ import {
 } from '@mui/joy';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { auth } from '../fireBase/fireBase';
+import { setUser } from '../features/db/dbSlice';
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   async function handleSignUp(email, password) {
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
+      dispatch(setUser(user.user.uid));
       console.log('signd up');
 
       navigate('/');

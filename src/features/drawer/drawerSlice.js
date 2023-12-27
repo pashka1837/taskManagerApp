@@ -1,13 +1,25 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getDatabase, ref, set } from 'firebase/database';
+import {
+  addDoc, collection, doc, setDoc, updateDoc,
+} from 'firebase/firestore';
+import { db } from '../../fireBase/fireBase';
+import dbSlice from '../db/dbSlice';
+import { setDocWithTimeOutError } from '../../utils';
 
-function addTaskToDB(userId, boardId, columnId, taskId) {
-  const db = getDatabase();
-  set(ref(db, 'users/userId/1/columns/17/tasks/18'), {
-    title: 'huy',
-  });
-}
+export const addDataDB = createAsyncThunk(
+  'drawer/addDataDB',
+  async (data) => {
+    const { promissesDB, timeOut } = data;
+    try {
+      await setDocWithTimeOutError(promissesDB, 5000);
+      return 'Successfully added to server';
+    } catch (e) {
+      return 'No connection to server';
+    }
+  },
+);
 
 function getBoardsFromLC() {
   return JSON.parse(localStorage.getItem('boards')) || [];
@@ -20,8 +32,8 @@ function getCurrentFromLC() {
 const defaultState = {
   isOpen: false,
   isMenuOpen: false,
-  boards: getBoardsFromLC(),
-  current: getCurrentFromLC(),
+  boards: [],
+  current: null,
   currentTask: null,
   currentColumn: null,
 };
@@ -42,6 +54,9 @@ export const drawerSlice = createSlice({
   reducers: {
     setBoards: (state, action) => {
       state.boards = action.payload;
+    },
+    setCurBoards: (state, action) => {
+      state.current = action.payload;
     },
     setCurTask: (state, action) => {
       state.currentTask = action.payload;
@@ -99,30 +114,36 @@ export const drawerSlice = createSlice({
     },
     addColumns: (state, action) => {
       const newColumns = action.payload;
-      const currentBoard = state.boards.find((board) => board.id === state.current.id);
-      newColumns.forEach((newC) => currentBoard.columns.push(newC));
-      state.current = currentBoard;
-      drawerSlice.caseReducers.saveToLC(state);
+      // const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      // newColumns.forEach((newC) => currentBoard.columns.push(newC));
+      // state.current = currentBoard;
+      state.current.columns.push(...newColumns);
+      // drawerSlice.caseReducers.saveToLC(state);
     },
     addTask: (state, action) => {
       const newTask = action.payload;
-      const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      // const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      const currentBoard = state.current;
       const column = currentBoard.columns.find((columnn) => columnn.id === newTask.status);
-      if (column) {
-        if (!column.tasks) column.tasks = [];
-        column.tasks.push(newTask);
-        state.current = currentBoard;
-        drawerSlice.caseReducers.saveToLC(state);
-        return;
-      }
-      const newColumn = {
-        id: newTask.status,
-        name: 'New',
-        tasks: [newTask],
-      };
-      currentBoard.columns.push(newColumn);
+      column.tasks.push(newTask);
       state.current = currentBoard;
-      drawerSlice.caseReducers.saveToLC(state);
+      // if (column) {
+      //   if (!column.tasks) column.tasks = [];
+      //   column.tasks.push(newTask);
+      //   state.current = currentBoard;
+      //   // addtoDB({ newData: newTask, userId: 1, route: `boards/${currentBoard.id}/` });
+
+      //   drawerSlice.caseReducers.saveToLC(state);
+      //   return;
+      // }
+      // column = {
+      //   id: newTask.status,
+      //   name: 'New',
+      //   tasks: [newTask],
+      // };
+      // currentBoard.columns.push(column);
+      // state.current = currentBoard;
+      // drawerSlice.caseReducers.saveToLC(state);
     },
     editTask: (state, action) => {
       const {
@@ -200,7 +221,7 @@ export const drawerSlice = createSlice({
 export default drawerSlice.reducer;
 
 export const {
-  setBoards,
+  setBoards, setCurBoards,
   toggleDrawer, toggleMenu, setCurrent, addBoard, addTask, editBoard, deleteBoard,
   changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask, addColumns, dragAndDrop,
 } = drawerSlice.actions;

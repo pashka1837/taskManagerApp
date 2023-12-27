@@ -1,8 +1,12 @@
+/* eslint-disable quote-props */
 import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { addTask } from '../features/drawer/drawerSlice';
 import { ModalBG, ManageTask } from '../Components/Modals/index';
+import { updateTaskDB } from '../features/db/dbSlice';
+import { db } from '../fireBase/fireBase';
 
 export function action(store) {
   return async ({ request }) => {
@@ -15,7 +19,19 @@ export function action(store) {
       status: formData.get('status'),
       subtasks,
     };
+    const userId = `${store.getState().db.user}`;
+    const { current } = store.getState().drawer;
+    const defRoute = `users/${userId}/boards/${current.id}/columns/${newTask.status}`;
+    const curBoardRoute = `users/${userId}/current/board`;
+    const columnRef = doc(db, defRoute);
+    const curBoardRef = doc(db, curBoardRoute);
+    await updateDoc(columnRef, {
+      'tasks': arrayUnion(newTask),
+    });
     store.dispatch(addTask(newTask));
+    // await updateDoc(curBoardRef, {
+    //   'columns': [...current.columns],
+    // });
     return redirect('/');
   };
 }

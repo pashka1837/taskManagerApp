@@ -9,15 +9,19 @@ import {
 
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { auth } from '../fireBase/fireBase';
+import { setUser } from '../features/db/dbSlice';
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function handleSignIn(email, password) {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       console.log('logged in');
+      // dispatch(setUser(user.user.uid));
 
       navigate('/');
     } catch (error) {
