@@ -2,21 +2,9 @@ import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlin
 import { ListItem, ListItemButton } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
 import { doc, setDoc } from 'firebase/firestore';
-import { setCurBoards, setCurrent, toggleMenu } from '../../features/drawer/drawerSlice';
-import { getCurrendBoardDB } from '../../utils';
+import { toggleMenu } from '../../features/drawer/drawerSlice';
 import { db } from '../../fireBase/fireBase';
-
-// async function getCurrendBoardDB(useId, curBoard) {
-//   const columnsRef = collection(db, `users/${useId}/boards/${curBoard}/columns`);
-//   const currentBoard = { ...curBoard };
-//   const columns = [];
-//   const querySnapshot = await getDocs(columnsRef);
-//   querySnapshot.forEach((docs) => {
-//     columns.push(docs.data());
-//   });
-//   if (columns.length) currentBoard.columns = [...columns];
-//   return currentBoard;
-// }
+import { addDataDB } from '../../features/db/dbSlice';
 
 export default function BoardItem({ name, active, id }) {
   const userId = useSelector((store) => store.db.user);
@@ -28,12 +16,10 @@ export default function BoardItem({ name, active, id }) {
     if (current.id === id) return;
     const curBoardRoute = `users/${userId}/current/board`;
     const curBoardRef = doc(db, curBoardRoute);
-    const curBoard = await getCurrendBoardDB(userId, { name, id });
-    await setDoc(curBoardRef, { name, id });
-    dispatch(setCurBoards(curBoard));
-    // dispatch(setCurrent(id));
-    dispatch(toggleMenu(false));
+    dispatch(addDataDB({ promisesDB: [setDoc(curBoardRef, { name, id })], timeout: 1000 }));
+    // dispatch(toggleMenu(true));
   }
+
   return (
     <ListItem onClick={handleClick}>
       <ListItemButton

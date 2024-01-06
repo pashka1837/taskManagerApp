@@ -3,6 +3,8 @@ import { Stack, Typography } from '@mui/joy';
 import Task from '../Task/Task';
 import './Column.css';
 import { dragAndDrop } from '../../../features/drawer/drawerSlice';
+import { updTasksDB } from '../../../utils/dbActions';
+import store from '../../../store';
 
 export default function Column({
   name, tasks, id, i,
@@ -11,7 +13,7 @@ export default function Column({
   const bgColor = `rgba(${Math.floor(Math.random() * 355) - 100},${Math.floor(Math.random() * 355) - 100},${Math.floor(Math.random() * 355) - 100}, 1)`;
   // const bgColor = `rgba(${50 + i * 111},${0 + i * 70},${54 + i * 31}, 1)`;
 
-  function handleDrop(e) {
+  async function handleDrop(e) {
     e.preventDefault();
     const columnTarget = e.currentTarget;
     let taskTarget = e.target;
@@ -29,6 +31,7 @@ export default function Column({
     dispatch(dragAndDrop({
       nextColId: id, nextTaskId: taskTargetId, taskID, columnID,
     }));
+    await updTasksDB(store);
   }
   function handleDragOver(e) {
     e.preventDefault();
@@ -70,7 +73,7 @@ export default function Column({
       {tasks?.length
         ? (
           <div className="tasksContainer">
-            { tasks.map((task) => <Task key={task.title} task={task} columnID={id} />)}
+            { tasks.map((task) => <Task key={task.id} task={task} columnID={id} />)}
           </div>
         )
         : null}

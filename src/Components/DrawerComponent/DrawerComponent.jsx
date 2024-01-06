@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
 import { Box, Typography } from '@mui/joy';
 import './DrawerComponent.css';
-import { HideDrawerBtn, ChangeThemeBtn, DrawerList } from './index';
+import {
+  HideDrawerBtn, ChangeThemeBtn, DrawerList, LogOutBtn,
+} from './index';
 
 export default function DrawerComponent() {
   const { boards } = useSelector((store) => store.drawer);
@@ -24,8 +26,9 @@ export default function DrawerComponent() {
         )
       </Typography>
       <DrawerList />
-      <ChangeThemeBtn />
       <HideDrawerBtn />
+      <ChangeThemeBtn />
+      <LogOutBtn />
     </Box>
 
   );

@@ -1,10 +1,13 @@
-import { Outlet, redirect, useNavigate } from 'react-router-dom';
+/* eslint-disable consistent-return */
+import {
+  Outlet, useNavigate,
+} from 'react-router-dom';
 import { Drawer } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
-  onSnapshot, collection, orderBy, query, getDocs, doc, getDoc,
+  onSnapshot, collection, orderBy, query, doc, disableNetwork, getDocs,
 } from 'firebase/firestore';
 import Navbar from '../Components/Navbar/Navbar';
 import DrawerComponent from '../Components/DrawerComponent/DrawerComponent';
@@ -12,149 +15,74 @@ import OpenSideBarBtn from '../Components/OpenSideBarBtn';
 import { Board } from './index';
 import { auth, db } from '../fireBase/fireBase';
 import { setBoards, setCurBoards } from '../features/drawer/drawerSlice';
-import { setUser } from '../features/db/dbSlice';
-import { getCurrendBoardDB } from '../utils';
-
-export function loader(store) {
-  // return () => onAuthStateChanged(auth, (user) => {
-  //   if (user === null) return redirect('/login');
-  //   const userId = user.uid;
-  //   store.dispatch(setUser(userId));
-  //   const q = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
-  //   return onSnapshot(q, (qSnap) => {
-  //     if (qSnap.empty) return;
-  //     const boards = [];
-  //     qSnap.forEach((dc) => {
-  //       const data = { ...dc.data() };
-  //       delete data.timeStamp;
-  //       boards.push(data);
-  //     });
-  //     const currentBoard = boards.at(-1);
-  //     const columnsRef = collection(db, `users/${userId}/boards/${currentBoard.id}/columns`);
-  //     return onSnapshot(columnsRef, (qSnap) => {
-  //       const columns = [];
-  //       qSnap.forEach((dc) => {
-  //         const data = { ...dc.data() };
-  //         columns.push(data);
-  //       });
-  //       currentBoard.columns = columns;
-  //       store.dispatch(setCurBoards(currentBoard));
-  //       store.dispatch(setBoards(boards));
-  //       return null;
-  //     });
-  //   });
-  // });
-
-  // {
-  //   const userId = auth.currentUser || localStorage.getItem('user');
-  //   if (!userId) return redirect('/login');
-  //   const q = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
-  //   return onSnapshot(q, (qSnap) => {
-  //     if (qSnap.empty) return;
-  //     const boards = [];
-  //     qSnap.forEach((dc) => {
-  //       const data = { ...dc.data() };
-  //       delete data.timeStamp;
-  //       boards.push(data);
-  //     });
-  //     const currentBoard = boards.at(-1);
-  //     const columnsRef = collection(db, `users/${userId}/boards/${currentBoard.id}/columns`);
-  //     return onSnapshot(columnsRef, (qSnap) => {
-  //       const columns = [];
-  //       qSnap.forEach((dc) => {
-  //         const data = { ...dc.data() };
-  //         columns.push(data);
-  //       });
-  //       currentBoard.columns = columns;
-  //       store.dispatch(setCurBoards(currentBoard));
-  //       store.dispatch(setBoards(boards));
-  //       store.dispatch(setUser(userId));
-  //     });
-  //   });
-  // };
-}
+import {
+  getDataDB, setIsLoading, setTimeOut, setUser,
+} from '../features/db/dbSlice';
+import { getColumnsAsyncDB, getColumnsDB, getCurrentColumnsDB } from '../utils/dbActions';
+import Loader from '../Components/Loader/Loader';
 
 export default function HomeLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isOpen } = useSelector((store) => store.drawer);
 
-  async function getDataDB() {
-    return onAuthStateChanged(auth, (user) => {
-      if (user === null) navigate('/login');
+  const { isOpen } = useSelector((store) => store.drawer);
+  const { isLoading } = useSelector((store) => store.db);
+
+  // useLayoutEffect(() => {
+  //   console.log('useLayuout');
+
+  //   const unsub = onAuthStateChanged(auth, (user) => {
+  //     if (user === null) return navigate('/login');
+  //   });
+  //   return unsub;
+  // }, []);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      if (user === null) return navigate('/login');
+
       const userId = user.uid;
       dispatch(setUser(userId));
-      const q = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
-      return onSnapshot(q, (qSnap) => {
-        const boards = [];
-        if (qSnap.empty) return null;
-        qSnap.forEach((dc) => {
-          const data = { ...dc.data() };
-          delete data.timeStamp;
-          boards.push(data);
-        });
-        const curBoardRef = doc(db, `users/${userId}/current/board`);
-        return onSnapshot(curBoardRef, async (doc) => {
-          const curBoard = await getCurrendBoardDB(userId, doc.data());
-          dispatch(setBoards(boards));
-          dispatch(setCurBoards(curBoard));
-        });
-        // const curBoardRef = doc(db, `users/${userId}/current/board`);
-        // const curBoardDoc = await getDoc(curBoardRef);
-        // const curBoard = curBoardDoc.data();
-        // curBoard.columns = [];
-        // const columnsRef = collection(db, `users/${userId}/boards/${curBoard.id}/columns`);
-        // onSnapshot(columnsRef, (qSnap2) => {
-        //   const columns = [];
-        //   qSnap2.forEach((dc) => {
-        //     const data = { ...dc.data() };
-        //     curBoard.columns.push(data);
-        //     // columns.push(data);
-        //   });
-        //   // curBoard.columns = [...columns];
-        //   dispatch(setBoards(boards));
-        //   dispatch(setCurBoards(curBoard));
-        // });
+      // dispatch(setTimeOut(0));
+
+      const queryBoardsRef = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
+
+      // dispatch(setIsLoading(true));
+
+      const promisesDB = [];
+      // const queryBoards = getDocs(queryBoardsRef);
+      dispatch(getDataDB(queryBoardsRef));
+      // const boards = [];
+      // if (!queryBoards.empty) {
+      //   queryBoards.forEach(async (board) => {
+      //     const data = { ...board.data() };
+      //     delete data.timeStamp;
+      //     boards.push(data);
+      //     promisesDB.push(getColumnsAsyncDB(userId, data.id));
+      //     await Promise.all(promisesDB);
+      //   });
+      // }
+      const curBoardRef = doc(db, `users/${userId}/current/board`);
+
+      onSnapshot(curBoardRef, { includeMetadataChanges: true }, async (queryCurBoard) => {
+        let curBoard = null;
+        if (queryCurBoard.exists()) {
+          curBoard = queryCurBoard.data();
+          const curColumns = await getCurrentColumnsDB(userId, curBoard.id);
+          curBoard.columns = curColumns;
+        }
+        // dispatch(setBoards(boards));
+        dispatch(setCurBoards(curBoard));
+        dispatch(setIsLoading(false));
+        // await disableNetwork(db);
       });
     });
-  }
+    return unsub;
+  }, []);
 
-  // useEffect(
-  //   () => onAuthStateChanged(auth, (user) => {
-  //     if (user === null) navigate('/login');
-  //     const userId = user.uid;
-  //     dispatch(setUser(userId));
-  //     const q = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
-  //     onSnapshot(q, (qSnap) => {
-  //       if (qSnap.empty) return;
-  //       const boards = [];
-  //       qSnap.forEach((dc) => {
-  //         const data = { ...dc.data() };
-  //         delete data.timeStamp;
-  //         boards.push(data);
-  //       });
-  //       const currentBoard = boards.at(-1);
-  //       const columnsRef = collection(db, `users/${userId}/boards/${currentBoard.id}/columns`);
-
-  //       onSnapshot(columnsRef, (qSnap2) => {
-  //         const columns = [];
-  //         qSnap2.forEach((dc) => {
-  //           const data = { ...dc.data() };
-  //           columns.push(data);
-  //         });
-  //         currentBoard.columns = [...columns];
-  //         dispatch(setBoards(boards));
-  //         dispatch(setCurBoards(currentBoard));
-  //         dispatch(setBoards(boards));
-  //       });
-  //     });
-  //   }),
-  //   [],
-  // );
-
-  useEffect(() => getDataDB, []);
   return (
     <>
+      {isLoading && <Loader />}
       <Navbar />
       <Drawer
         disableEnforceFocus
@@ -169,3 +97,48 @@ export default function HomeLayout() {
     </>
   );
 }
+
+// useEffect(() => {
+//   const unsub = onAuthStateChanged(auth, (user) => {
+//     if (user === null) return navigate('/login');
+
+//     const userId = user.uid;
+//     dispatch(setUser(userId));
+//     // dispatch(setTimeOut(0));
+
+//     const queryBoardsRef = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
+
+//     onSnapshot(queryBoardsRef, { includeMetadataChanges: true }, (queryBoards) => {
+//       dispatch(setIsLoading(true));
+
+//       const boards = [];
+//       const promisesDB = [];
+//       if (!queryBoards.empty) {
+//         queryBoards.forEach(async (board) => {
+//           const data = { ...board.data() };
+//           delete data.timeStamp;
+//           boards.push(data);
+//           promisesDB.push(getColumnsAsyncDB(userId, data.id));
+//           dispatch(getDataDB(promisesDB));
+//           // getColumnsDB(userId, data.id);
+//           // await getColumnsAsyncDB(userId, data.id);
+//         });
+//       }
+//       const curBoardRef = doc(db, `users/${userId}/current/board`);
+
+//       onSnapshot(curBoardRef, { includeMetadataChanges: true }, async (queryCurBoard) => {
+//         let curBoard = null;
+//         if (queryCurBoard.exists()) {
+//           curBoard = queryCurBoard.data();
+//           const curColumns = await getCurrentColumnsDB(userId, curBoard.id);
+//           curBoard.columns = curColumns;
+//         }
+//         dispatch(setBoards(boards));
+//         dispatch(setCurBoards(curBoard));
+//         dispatch(setIsLoading(false));
+//         // await disableNetwork(db);
+//       });
+//     });
+//   });
+//   return unsub;
+// }, []);

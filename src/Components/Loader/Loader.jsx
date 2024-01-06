@@ -1,9 +1,8 @@
 import { CircularProgress } from '@mui/joy';
-import { ModalBG } from '../Modals';
 
-export default function Loader() {
+export default function Loader({ backgroundColor = 'transparent' }) {
   return (
-    <div className="modalBG" style={{ backgroundColor: 'transparent' }}>
+    <div className="modalBG" style={{ backgroundColor: `${backgroundColor}` }}>
       <CircularProgress
         color="btnList"
         size="lg"

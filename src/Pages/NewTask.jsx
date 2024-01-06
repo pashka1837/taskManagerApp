@@ -2,11 +2,10 @@
 import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { addTask } from '../features/drawer/drawerSlice';
 import { ModalBG, ManageTask } from '../Components/Modals/index';
-import { updateTaskDB } from '../features/db/dbSlice';
-import { db } from '../fireBase/fireBase';
+import { addTaskDB } from '../utils/dbActions';
+import Loader from '../Components/Loader/Loader';
 
 export function action(store) {
   return async ({ request }) => {
@@ -19,25 +18,18 @@ export function action(store) {
       status: formData.get('status'),
       subtasks,
     };
-    const userId = `${store.getState().db.user}`;
-    const { current } = store.getState().drawer;
-    const defRoute = `users/${userId}/boards/${current.id}/columns/${newTask.status}`;
-    const curBoardRoute = `users/${userId}/current/board`;
-    const columnRef = doc(db, defRoute);
-    const curBoardRef = doc(db, curBoardRoute);
-    await updateDoc(columnRef, {
-      'tasks': arrayUnion(newTask),
-    });
+
+    await addTaskDB(store, newTask);
     store.dispatch(addTask(newTask));
-    // await updateDoc(curBoardRef, {
-    //   'columns': [...current.columns],
-    // });
+
     return redirect('/');
   };
 }
 
 export default function NewTask() {
   const { current } = useSelector((store) => store.drawer);
+  const { isLoading } = useSelector((store) => store.db);
+
   const columns = current.columns.map((col) => ({ name: col.name, id: col.id }));
 
   const modalTitle = 'Add New Task';
@@ -74,6 +66,8 @@ export default function NewTask() {
 
   return (
     <ModalBG>
+      {isLoading && <Loader />}
+
       <ManageTask
         modalTitle={modalTitle}
         inputsTitle={inputsTitle}

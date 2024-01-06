@@ -2,11 +2,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  doc, query, setDoc, updateDoc, where,
-} from 'firebase/firestore';
-import { db } from '../../fireBase/fireBase';
-import { setDocWithTimeOutError } from '../../utils';
+import { getDocs } from 'firebase/firestore';
+
+function setDocWithTimeOutError(promissAr, timeout) {
+  const wait = new Promise((_, reject) => setTimeout(reject, timeout, new Error('No connection to server')));
+  return Promise.race([...promissAr, wait]);
+}
 
 export const addDataDB = createAsyncThunk(
   'db/addDataDB',
@@ -15,22 +16,25 @@ export const addDataDB = createAsyncThunk(
     await setDocWithTimeOutError(promisesDB, timeout);
   },
 );
-export const updateTaskDB = createAsyncThunk(
-  'db/addtoDB',
-  async (data) => {
-    const {
-      newData, userId, route, columnId,
-    } = data;
-    const docRef = doc(db, `users/${userId}/${route}`);
-    const q = query(docRef, where('columns', 'array-contains', `${columnId}`));
-    await updateDoc(q, {
-      'q.tasks': [newData],
-    });
+export const getDataDB = createAsyncThunk(
+  'db/getDataDB',
+  async (query) => {
+    console.log(query);
+    const res = await getDocs(query);
+    console.log(res);
+    return res;
   },
 );
+// export const addNewBoardDB = createAsyncThunk(
+//   'db/getDataDB',
+//   async (promisesDB) => {
+//     await Promise.all(promisesDB);
+//   },
+// );
 
 const defaultState = {
   user: null,
+  timeout: 1000,
   isLoading: false,
   isError: false,
   isFinished: false,
@@ -44,40 +48,47 @@ const dbSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload ? action.payload : null;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    setTimeOut: (state, action) => {
+      state.timeout = action.payload;
+    },
+
   },
   extraReducers: (builder) => {
     builder.addCase(addDataDB.pending, (state) => {
       state.isLoading = true;
       console.log('loading');
     });
-    builder.addCase(addDataDB.fulfilled, (state, action) => {
+    builder.addCase(addDataDB.fulfilled, (state) => {
       state.isLoading = false;
       console.log('finish');
     });
-    builder.addCase(addDataDB.rejected, (state, action) => {
+    builder.addCase(addDataDB.rejected, (state) => {
+      state.isLoading = false;
+      state.isError = true;
+      console.log('error');
+    });
+    builder.addCase(getDataDB.pending, (state) => {
+      state.isLoading = true;
+      console.log('loading');
+    });
+    builder.addCase(getDataDB.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.isLoading = false;
+      console.log('finish');
+    });
+    builder.addCase(getDataDB.rejected, (state, action) => {
+      console.log(action.payload);
       state.isLoading = false;
       state.isError = true;
       console.log('error');
     });
   },
-  //     extraReducers : (builder)=>{
-  //     builder.addCase(updateTaskDB.pending, (state) => {
-  //       state.isLoading = true;
-  //       console.log('loading');
-  //     });
-  //     builder.addCase(updateTaskDB.fulfilled, (state, action) => {
-  //       state.isLoading = false;
 
-//       console.log('finish');
-//     });
-//     builder.addCase(updateTaskDB.rejected, (state, action) => {
-//       state.isLoading = false;
-//       state.isError = true;
-//       console.log('error');
-//     });
-//   },
 });
 
 export default dbSlice.reducer;
 
-export const { setUser } = dbSlice.actions;
+export const { setUser, setIsLoading, setTimeOut } = dbSlice.actions;

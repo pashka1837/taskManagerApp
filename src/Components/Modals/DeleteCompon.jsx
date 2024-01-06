@@ -1,11 +1,14 @@
 import {
   Button, Sheet, Stack, Typography,
 } from '@mui/joy';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteBoard, deleteTask } from '../../features/drawer/drawerSlice';
+import { deleteBoardDB, updTasksDB } from '../../utils/dbActions';
+import store from '../../store';
 
 export default function DeleteCompon() {
+  const { current: oldBoard } = useSelector((stor) => stor.drawer);
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,10 +16,14 @@ export default function DeleteCompon() {
     title, text, deleteFN,
   } = location.state;
 
-  function deleteFunc() {
+  async function deleteFunc() {
     if (deleteFN === 'board') {
       dispatch(deleteBoard());
-    } else if (deleteFN === 'task') dispatch(deleteTask());
+      await deleteBoardDB(store, oldBoard);
+    } else if (deleteFN === 'task') {
+      dispatch(deleteTask());
+      await updTasksDB(store);
+    }
     navigate('/');
   }
   return (

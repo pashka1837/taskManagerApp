@@ -7,7 +7,7 @@ import {
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import theme from './utils/theme';
-import HomeLayout, { loader } from './Pages/HomeLayout';
+import HomeLayout from './Pages/HomeLayout';
 import store from './store';
 import {
   NewBoard,
@@ -24,7 +24,6 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <HomeLayout />,
-    // loader: loader(store),
     children: [
       {
         path: 'add-board',

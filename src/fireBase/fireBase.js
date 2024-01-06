@@ -1,9 +1,12 @@
+/* eslint-disable max-len */
 /* eslint-disable import/prefer-default-export */
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getDatabase, connectDatabaseEmulator } from 'firebase/database';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import {
+  connectFirestoreEmulator, getFirestore, initializeFirestore, memoryLocalCache, persistentLocalCache,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDyJwz8Ey9aYwewK-3fPvliG8ZElPRT0ic',
@@ -22,10 +25,11 @@ const firebaseConfig = {
 //   };
 // }
 const app = initializeApp(firebaseConfig);
+initializeFirestore(app, { localCache: persistentLocalCache({ cacheSizeBytes: 100000 }) });
 export const db = getFirestore(app);
-export const auth = getAuth();
+export const auth = getAuth(app);
 
-connectAuthEmulator(auth, 'http://127.0.0.1:9099');
-connectFirestoreEmulator(db, '127.0.0.1', 8080);
+// connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+// connectFirestoreEmulator(db, '127.0.0.1', 8080);
 // connectDatabaseEmulator(db, 'http://127.0.0.1', 9000);
 // const analytics = getAnalytics(app);

@@ -17,6 +17,9 @@ export default function AddColumns({
   function handleSubmit(e) {
     e.preventDefault();
     let isEr = false;
+    if (!inputSubValues.length) {
+      return;
+    }
     inputSubValues.forEach((st) => {
       if (!st.name) { st.isError = true; isEr = true; }
     });
@@ -40,6 +43,8 @@ export default function AddColumns({
       <Form method="post" onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <Typography level="h4" fontWeight="700">{modalTitle}</Typography>
+          {!inputSubValues.length && <Typography level="title-md" color="danger" fontWeight="500">Should be at least 1 column</Typography>}
+
           <InputsSub
             {...inputsSub}
             setSubError={setSubError}

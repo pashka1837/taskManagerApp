@@ -3,3 +3,4 @@ export { default as ChangeThemeBtn } from './ChangeThemeBtn';
 export { default as DrawerList } from './DrawerList';
 export { default as HideDrawerBtn } from './HideDrawerBtn';
 export { default as NewBoardBtn } from './NewBoardBtn';
+export { default as LogOutBtn } from './LogOutBtn';

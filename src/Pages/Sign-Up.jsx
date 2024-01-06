@@ -1,89 +1,40 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Sheet,
-  Typography,
-} from '@mui/joy';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '../fireBase/fireBase';
-import { setUser } from '../features/db/dbSlice';
+import AuthModal from '../Components/Modals/AuthModal';
+import { setIsLoading } from '../features/db/dbSlice';
 
 export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [isError, setError] = useState({ local: null, server: null });
+
+  const data = {
+    title: 'Create profile.',
+    btnName: 'Sign up',
+    link: '/login',
+    linkInfo: 'Login ',
+    linkTitle: 'Already have account?',
+  };
+
   async function handleSignUp(email, password) {
+    dispatch(setIsLoading(true));
     try {
       const user = await createUserWithEmailAndPassword(auth, email, password);
-      dispatch(setUser(user.user.uid));
-      console.log('signd up');
-
+      console.log('signup', user);
       navigate('/');
     } catch (error) {
       const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
+      console.log(errorCode);
+      setError({ ...isError, server: errorCode });
+      dispatch(setIsLoading(false));
     }
   }
-  function handleSubmit(e) {
-    e.preventDefault();
-    const target = e.currentTarget;
-    const data = {
-      email: target.email.value,
-      password: target.password.value,
-    };
-    if (!data.email || !data.password) {
-      console.log('error');
-      return;
-    }
-    handleSignUp(data.email, data.password);
-  }
-  return (
-    <form onSubmit={handleSubmit}>
-      <Sheet
-        sx={{
-          width: 300,
-          mx: 'auto',
-          my: 4,
-          py: 3,
-          px: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          borderRadius: 'sm',
-          boxShadow: 'md',
-        }}
-        variant="outlined"
-      >
-        <div>
-          <Typography level="h4" component="h1">
-            <b>Welcome!</b>
-          </Typography>
-          <Typography level="body-sm">Create profile.</Typography>
-        </div>
-        <FormControl>
-          <FormLabel>Enter your login</FormLabel>
-          <Input name="email" required type="email" />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Enter your password</FormLabel>
-          <Input name="password" required type="password" />
-        </FormControl>
 
-        <Button type="submit" sx={{ mt: 1 }}>
-          Sign Up
-        </Button>
-        <Typography
-          endDecorator={<Link to="/login">Login</Link>}
-          fontSize="sm"
-          sx={{ alignSelf: 'center' }}
-        >
-          Already have account?
-        </Typography>
-      </Sheet>
-    </form>
+  return (
+    <AuthModal handleAuth={handleSignUp} data={data} setError={setError} isError={isError} />
   );
 }

@@ -1,7 +1,10 @@
+/* eslint-disable max-len */
 import { redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { editTask } from '../features/drawer/drawerSlice';
 import { ModalBG, ManageTask } from '../Components/Modals/index';
+import { updTasksDB } from '../utils/dbActions';
+import Loader from '../Components/Loader/Loader';
 
 export function action(store) {
   return async ({ request }) => {
@@ -14,12 +17,17 @@ export function action(store) {
       subtasks,
     };
     store.dispatch(editTask(newTask));
+
+    await updTasksDB(store);
+
     return redirect('/');
   };
 }
 
 export default function EditTask() {
   const { current, currentTask, currentColumn } = useSelector((store) => store.drawer);
+  const { isLoading } = useSelector((store) => store.db);
+
   const columns = current.columns.map((col) => ({ name: col.name, id: col.id }));
   const column = current.columns.find((col) => col.id === currentColumn);
   const task = column.tasks.find((taskk) => taskk.id === currentTask);
@@ -56,6 +64,8 @@ export default function EditTask() {
 
   return (
     <ModalBG>
+      {isLoading && <Loader />}
+
       <ManageTask
         modalTitle={modalTitle}
         inputsTitle={inputsTitle}

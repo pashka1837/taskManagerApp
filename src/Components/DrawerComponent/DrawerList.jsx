@@ -7,7 +7,7 @@ export default function DrawerList() {
   const { boards, current } = useSelector((store) => store.drawer);
   return (
     <List size="lg">
-      {boards.length
+      {boards.length && current
         ? boards.map((board) => (
           <BoardItem
             key={board.id}

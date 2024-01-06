@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 import { redirect } from 'react-router-dom';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { ModalBG, SingleTaskComp } from '../Components/Modals/index';
 import { changeTaskStatus } from '../features/drawer/drawerSlice';
+import { updTasksDB } from '../utils/dbActions';
 
 export function action(store) {
   return async ({ request }) => {
@@ -14,6 +16,9 @@ export function action(store) {
       curStatus: formData.get('status'),
     };
     store.dispatch(changeTaskStatus(taskInfo));
+
+    await updTasksDB(store);
+
     return redirect('/');
   };
 }

@@ -1,5 +1,33 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getDatabase, ref, set } from 'firebase/database';
+import {
+  addDoc, collection, doc, setDoc, updateDoc,
+} from 'firebase/firestore';
+import { db } from '../../fireBase/fireBase';
+import dbSlice from '../db/dbSlice';
+import { setDocWithTimeOutError } from '../../utils';
+
+// export const addDataDB = createAsyncThunk(
+//   'drawer/addDataDB',
+//   async (data) => {
+//     const { promissesDB, timeOut } = data;
+//     try {
+//       await setDocWithTimeOutError(promissesDB, 5000);
+//       return 'Successfully added to server';
+//     } catch (e) {
+//       return 'No connection to server';
+//     }
+//   },
+// );
+
+function getBoardsFromLC() {
+  return JSON.parse(localStorage.getItem('boards')) || [];
+}
+
+function getCurrentFromLC() {
+  return JSON.parse(localStorage.getItem('current')) || null;
+}
 
 const defaultState = {
   isOpen: false,
@@ -42,9 +70,21 @@ export const drawerSlice = createSlice({
     toggleMenu: (state, action) => {
       state.isMenuOpen = action.payload;
     },
+    // setCurrent: (state, action) => {
+    //   const newCur = action.payload;
+    //   const indxOfNewBoard = state.boards.findIndex((item) => item.id === newCur);
+    //   state.current = state.boards[indxOfNewBoard];
+    //   localStorage.setItem('current', JSON.stringify(state.current));
+    // },
+    // addBoard: (state, action) => {
+    //   const newBoard = action.payload;
+    //   state.boards.push(newBoard);
+    //   state.current = state.boards.at(-1);
+    //   drawerSlice.caseReducers.saveToLC(state);
+    // },
     editBoard: (state, action) => {
       const { id, name, columns } = action.payload;
-      const currentBoard = state.current;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
       const newColumns = [];
       if (columns.length) {
         columns.forEach((updCol) => {
@@ -61,31 +101,55 @@ export const drawerSlice = createSlice({
           }
         });
       }
-      state.current.columns = newColumns;
-      state.current.name = name;
+      currentBoard.columns = newColumns;
+      currentBoard.name = name;
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
     },
     deleteBoard: (state, action) => {
-      const leftBoards = state.boards.filter((board) => board.id !== state.current.id);
+      const leftBoards = state.boards.filter((board) => board.name !== state.current.name);
       state.boards = leftBoards;
       state.current = state.boards[0] || null;
+      drawerSlice.caseReducers.saveToLC(state);
     },
-
     addColumns: (state, action) => {
       const newColumns = action.payload;
+      // const currentBoard = state.boards.find((board) => board.id === state.current.id);
+      // newColumns.forEach((newC) => currentBoard.columns.push(newC));
+      // state.current = currentBoard;
       state.current.columns.push(...newColumns);
+      // drawerSlice.caseReducers.saveToLC(state);
     },
-
     addTask: (state, action) => {
       const newTask = action.payload;
+      // const currentBoard = state.boards.find((board) => board.id === state.current.id);
       const currentBoard = state.current;
       const column = currentBoard.columns.find((columnn) => columnn.id === newTask.status);
       column.tasks.push(newTask);
+      state.current = currentBoard;
+      // if (column) {
+      //   if (!column.tasks) column.tasks = [];
+      //   column.tasks.push(newTask);
+      //   state.current = currentBoard;
+      //   // addtoDB({ newData: newTask, userId: 1, route: `boards/${currentBoard.id}/` });
+
+      //   drawerSlice.caseReducers.saveToLC(state);
+      //   return;
+      // }
+      // column = {
+      //   id: newTask.status,
+      //   name: 'New',
+      //   tasks: [newTask],
+      // };
+      // currentBoard.columns.push(column);
+      // state.current = currentBoard;
+      // drawerSlice.caseReducers.saveToLC(state);
     },
     editTask: (state, action) => {
       const {
         title, description, status, subtasks,
       } = action.payload;
-      const currentBoard = state.current;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
       const column = currentBoard.columns.find((columnn) => columnn.id === state.currentColumn);
       const updTask = column.tasks.find((tsk) => tsk.id === state.currentTask);
       updTask.title = title;
@@ -93,32 +157,38 @@ export const drawerSlice = createSlice({
 
       updTask.subtasks = subtasks;
       changeColumn(state, status, currentBoard, column, updTask);
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
     },
-
     deleteTask: (state) => {
-      const currentBoard = state.current;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
       const column = currentBoard.columns.find((columnn) => columnn.id === state.currentColumn);
       const newTasksAr = column.tasks.filter((task) => task.id !== state.currentTask);
       column.tasks = newTasksAr;
       state.currentTask = null;
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
     },
     changeTaskStatus: (state, action) => {
       const {
         columnID, taskId, subtasks, curStatus,
       } = action.payload;
-      const currentBoard = state.current;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
       const column = currentBoard.columns.find((columnn) => columnn.id === columnID);
       const task = column.tasks.find((taskk) => taskk.id === taskId);
 
       task.subtasks = subtasks;
       changeColumn(state, curStatus, currentBoard, column, task);
+
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
     },
 
     dragAndDrop: (state, action) => {
       const {
         nextColId, nextTaskId, taskID, columnID,
       } = action.payload;
-      const currentBoard = state.current;
+      const currentBoard = state.boards.find((board) => board.id === state.current.id);
       const column = currentBoard.columns.find((columnn) => columnn.id === columnID);
       const task = column.tasks.find((taskk) => taskk.id === taskID);
       if (nextTaskId !== taskID) {
@@ -137,8 +207,8 @@ export const drawerSlice = createSlice({
           }
         }
       }
-      // state.current = currentBoard;
-      // drawerSlice.caseReducers.saveToLC(state);
+      state.current = currentBoard;
+      drawerSlice.caseReducers.saveToLC(state);
     },
 
     saveToLC: (state) => {
