@@ -2,7 +2,7 @@ import { Add } from '@mui/icons-material';
 import { Button, Typography, useColorScheme } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 
-export default function NewColumn() {
+export default function AddNewColumn() {
   const { mode } = useColorScheme();
   const navigate = useNavigate();
   return (

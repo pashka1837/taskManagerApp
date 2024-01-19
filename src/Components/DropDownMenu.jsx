@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 export default function DropDownMenu({ stateToSend }) {
   const navigate = useNavigate();
-  const { boards } = useSelector((store) => store.drawer);
+  const { boards } = useSelector((store) => store.db);
 
   return (
     <Dropdown>

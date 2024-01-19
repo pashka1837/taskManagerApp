@@ -19,7 +19,8 @@ import { toggleMenu } from '../../features/drawer/drawerSlice';
 export default function Navbar() {
   const navigate = useNavigate();
   const { mode } = useColorScheme();
-  const { current, boards, isMenuOpen } = useSelector((store) => store.drawer);
+  const { current, isMenuOpen } = useSelector((store) => store.drawer);
+  const { boards } = useSelector((store) => store.db);
   const menuRef = useRef();
   const dispatch = useDispatch();
 

@@ -23,8 +23,7 @@ export default function Login() {
   async function handleSignIn(email, password) {
     dispatch(setIsLoading(true));
     try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log('login', user);
+      await signInWithEmailAndPassword(auth, email, password);
       navigate('/');
     } catch (error) {
       const errorCode = error.code;

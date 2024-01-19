@@ -1,7 +1,7 @@
 import {
   arrayUnion, collection, deleteDoc, doc, getDocs, onSnapshot, setDoc, updateDoc,
 } from 'firebase/firestore';
-import { addDataDB, getDataDB } from '../features/db/dbSlice';
+import { addDataDB, getDataDB, setBoards } from '../features/db/dbSlice';
 import { db } from '../fireBase/fireBase';
 
 import store from '../store';
@@ -79,9 +79,11 @@ async function addColumnsDB(store, columns) {
 }
 
 async function addBoardDB(store, board, columns) {
-  const { id, name, timeStamp } = board;
+  const newBoard = { ...board };
+  newBoard.timeStamp = new Date();
+  const { id, name, timeStamp } = newBoard;
   const userId = `${store.getState().db.user}`;
-  const { timeout } = store.getState().db;
+  const { timeout, boards } = store.getState().db;
 
   const boardRoute = `users/${userId}/boards/${id}`;
   const curBoardRoute = `users/${userId}/current/board`;
@@ -95,20 +97,27 @@ async function addBoardDB(store, board, columns) {
   const promisesDB = [boardPromise, curBoardPromise, ...setColumnsDoc(columns, boardRoute)];
 
   await store.dispatch(addDataDB({ promisesDB, timeout }));
+
+  store.dispatch(setBoards([...boards, board]));
+
+  // await store.dispatch(getDataDB(userId));
 }
 
 async function deleteBoardDB(store, oldBoard) {
   const userId = `${store.getState().db.user}`;
-  const { timeout } = store.getState().db;
+  const { timeout, boards } = store.getState().db;
 
   const { id: oldBoardId } = oldBoard;
+
+  const leftOverBoards = boards.filter((b) => b.id !== oldBoardId);
+
   const boardRoute = `users/${userId}/boards/${oldBoardId}`;
   const curBoardRoute = `users/${userId}/current/board`;
 
   const boardsRef = doc(db, boardRoute);
   const curBoardRef = doc(db, curBoardRoute);
 
-  const currentBoard = store.getState().drawer.current;
+  const currentBoard = leftOverBoards[0] || null;
   let curBoardPromise = null;
   if (currentBoard) {
     delete currentBoard.columns;
@@ -120,6 +129,7 @@ async function deleteBoardDB(store, oldBoard) {
   const promisesDB = [curBoardPromise, boardPromise];
 
   await store.dispatch(addDataDB({ promisesDB, timeout }));
+  store.dispatch(setBoards(leftOverBoards));
 }
 
 function getColumnsDB(userID, boardID) {

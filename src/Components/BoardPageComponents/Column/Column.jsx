@@ -1,17 +1,18 @@
 import { useDispatch } from 'react-redux';
-import { Stack, Typography } from '@mui/joy';
 import Task from '../Task/Task';
 import './Column.css';
 import { dragAndDrop } from '../../../features/drawer/drawerSlice';
 import { updTasksDB } from '../../../utils/dbActions';
 import store from '../../../store';
+import { Children } from 'react';
+import { Box } from '@mui/joy';
 
-export default function Column({
-  name, tasks, id, i,
-}) {
+export default function Column(props) {
+  const {
+    tasks, id, children,
+  } = props;
+
   const dispatch = useDispatch();
-  const bgColor = `rgba(${Math.floor(Math.random() * 355) - 100},${Math.floor(Math.random() * 355) - 100},${Math.floor(Math.random() * 355) - 100}, 1)`;
-  // const bgColor = `rgba(${50 + i * 111},${0 + i * 70},${54 + i * 31}, 1)`;
 
   async function handleDrop(e) {
     e.preventDefault();
@@ -44,37 +45,16 @@ export default function Column({
       onDragOver={handleDragOver}
       onDragEnter={(e) => e.preventDefault()}
     >
-      <Stack direction="row" alignItems="center" spacing={2} sx={{ paddingBottom: '1.5em' }}>
-        <span style={{
-          width: '12px',
-          height: '12px',
-          borderRadius: '100%',
-          backgroundColor: `${bgColor}`,
-        }}
-        />
-        <Typography
-          level="h5"
-          sx={{
-            color: 'textSecon',
-            letterSpacing: '3px',
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            caretColor: 'transparent',
-          }}
-        >
-          {name}
-          {' '}
-          (
-          {tasks?.length || '0'}
-          )
-        </Typography>
-      </Stack>
+      {children && Children.only(children)}
 
       {tasks?.length
         ? (
-          <div className="tasksContainer">
+          <Box
+            className="tasksContainer"
+            sx={{ '&::-webkit-scrollbar': { display: 'none' } }}
+          >
             { tasks.map((task) => <Task key={task.id} task={task} columnID={id} />)}
-          </div>
+          </Box>
         )
         : null}
 

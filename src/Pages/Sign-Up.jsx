@@ -23,8 +23,7 @@ export default function SignUp() {
   async function handleSignUp(email, password) {
     dispatch(setIsLoading(true));
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log('signup', user);
+      await createUserWithEmailAndPassword(auth, email, password);
       navigate('/');
     } catch (error) {
       const errorCode = error.code;

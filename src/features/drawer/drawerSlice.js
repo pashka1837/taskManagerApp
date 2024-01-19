@@ -1,5 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  collection, doc, getDoc, getDocs,
+} from 'firebase/firestore';
+import { db } from '../../fireBase/fireBase';
 
 const defaultState = {
   isOpen: false,
@@ -9,6 +13,34 @@ const defaultState = {
   currentTask: null,
   currentColumn: null,
 };
+
+async function getCurrentColumnsDB(userID, curBoardID) {
+  const columnsRef = collection(db, `users/${userID}/boards/${curBoardID}/columns`);
+  const columns = [];
+  const querySnapshot = await getDocs(columnsRef);
+
+  if (querySnapshot.empty) return columns;
+  querySnapshot.forEach((docs) => {
+    columns.push({ ...docs.data() });
+  });
+  return columns;
+}
+
+export const getCurrentBoardDB = createAsyncThunk(
+  'db/getCurrentBoardDB',
+  async (userId) => {
+    const curBoardRef = doc(db, `users/${userId}/current/board`);
+    const queryCurBoard = await getDoc(curBoardRef);
+    console.log(queryCurBoard);
+    let curBoard = null;
+    if (queryCurBoard.exists()) {
+      curBoard = queryCurBoard.data();
+      const curColumns = await getCurrentColumnsDB(userId, curBoard.id);
+      curBoard.columns = curColumns;
+    }
+    return curBoard;
+  },
+);
 
 function changeColumn(state, newColID, currentBoard, column, updTask) {
   if (state.currentColumn !== newColID) {
@@ -24,6 +56,12 @@ export const drawerSlice = createSlice({
   name: 'drawer',
   initialState: defaultState,
   reducers: {
+    setLogOutUserDrawerSlice: (state) => {
+      state.boards = [];
+      state.current = null;
+      state.isMenuOpen = false;
+      state.isOpen = false;
+    },
     setBoards: (state, action) => {
       state.boards = action.payload;
     },
@@ -43,7 +81,7 @@ export const drawerSlice = createSlice({
       state.isMenuOpen = action.payload;
     },
     editBoard: (state, action) => {
-      const { id, name, columns } = action.payload;
+      const { name, columns } = action.payload;
       const currentBoard = state.current;
       const newColumns = [];
       if (columns.length) {
@@ -56,6 +94,7 @@ export const drawerSlice = createSlice({
             const newColumn = {
               id: updCol.id,
               name: updCol.name,
+              tasks: [],
             };
             newColumns.push(newColumn);
           }
@@ -137,14 +176,24 @@ export const drawerSlice = createSlice({
           }
         }
       }
-      // state.current = currentBoard;
-      // drawerSlice.caseReducers.saveToLC(state);
     },
 
-    saveToLC: (state) => {
-      localStorage.setItem('boards', JSON.stringify(state.boards));
-      localStorage.setItem('current', JSON.stringify(state.current));
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getCurrentBoardDB.pending, (state) => {
+      // state.isLoading = true;
+      console.log('loading');
+    });
+    builder.addCase(getCurrentBoardDB.fulfilled, (state, action) => {
+      state.current = action.payload;
+      // state.isLoading = false;
+      console.log('finish');
+    });
+    builder.addCase(getCurrentBoardDB.rejected, (state) => {
+      // state.isLoading = false;
+      // state.isError = true;
+      console.log('error');
+    });
   },
 
 });
@@ -153,5 +202,5 @@ export default drawerSlice.reducer;
 export const {
   setBoards, setCurBoards,
   toggleDrawer, toggleMenu, setCurrent, addBoard, addTask, editBoard, deleteBoard,
-  changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask, addColumns, dragAndDrop,
+  changeTaskStatus, deleteTask, setCurTask, setCurColumn, editTask, addColumns, dragAndDrop, setLogOutUserDrawerSlice,
 } = drawerSlice.actions;

@@ -13,7 +13,6 @@ export function action(store) {
     const board = {
       id: nanoid(),
       name: formData.get('boardName'),
-      timeStamp: new Date(),
     };
     await addBoardDB(store, board, columns);
     return redirect('/');

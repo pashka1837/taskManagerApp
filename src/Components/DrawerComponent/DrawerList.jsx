@@ -4,7 +4,9 @@ import NewBoardBtn from './NewBoardBtn';
 import BoardItem from './BoardItem';
 
 export default function DrawerList() {
-  const { boards, current } = useSelector((store) => store.drawer);
+  const { current } = useSelector((store) => store.drawer);
+  const { boards } = useSelector((store) => store.db);
+
   return (
     <List size="lg">
       {boards.length && current

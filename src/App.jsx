@@ -1,4 +1,4 @@
-import { polyfill } from 'mobile-drag-drop';
+// import { polyfill } from 'mobile-drag-drop';
 import { Provider } from 'react-redux';
 import {
   createBrowserRouter,
@@ -18,7 +18,7 @@ import {
   NewColumn, actionNewColumn, Login, SignUp,
 } from './Pages/index';
 
-polyfill();
+// polyfill();
 
 const router = createBrowserRouter([
   {

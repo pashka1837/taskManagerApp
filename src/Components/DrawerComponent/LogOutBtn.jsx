@@ -5,18 +5,20 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { enableNetwork, waitForPendingWrites } from 'firebase/firestore';
 import { auth, db } from '../../fireBase/fireBase';
-import { setUser } from '../../features/db/dbSlice';
+import { setLogOutUserDbSlice, setUser } from '../../features/db/dbSlice';
+import { setLogOutUserDrawerSlice } from '../../features/drawer/drawerSlice';
 
 export default function LogOutBtn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   async function handleSignOut() {
     try {
-      await enableNetwork(db);
-      await waitForPendingWrites(db);
+      // await enableNetwork(db);
+      // await waitForPendingWrites(db);
       await signOut(auth);
       console.log('sign out');
-      dispatch(setUser(null));
+      dispatch(setLogOutUserDbSlice());
+      dispatch(setLogOutUserDrawerSlice());
       navigate('/login');
     } catch (error) {
       const errorCode = error.code;

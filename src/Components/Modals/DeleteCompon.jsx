@@ -3,7 +3,7 @@ import {
 } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { deleteBoard, deleteTask } from '../../features/drawer/drawerSlice';
+import { deleteTask } from '../../features/drawer/drawerSlice';
 import { deleteBoardDB, updTasksDB } from '../../utils/dbActions';
 import store from '../../store';
 
@@ -18,7 +18,6 @@ export default function DeleteCompon() {
 
   async function deleteFunc() {
     if (deleteFN === 'board') {
-      dispatch(deleteBoard());
       await deleteBoardDB(store, oldBoard);
     } else if (deleteFN === 'task') {
       dispatch(deleteTask());

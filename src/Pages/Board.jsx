@@ -1,6 +1,10 @@
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable max-len */
 import { useSelector } from 'react-redux';
-import { Box } from '@mui/joy';
-import { Column, NewColumn, NoContent } from '../Components/BoardPageComponents/index';
+
+import {
+  DesktopBoard, MobileBoard, NoContent,
+} from '../Components/BoardPageComponents/index';
 
 export default function Board() {
   const { isOpen, current } = useSelector((store) => store.drawer);
@@ -25,15 +29,10 @@ export default function Board() {
   }
 
   return (
-    <Box
-      className="board"
-      sx={{
-        left: { xs: '0', sm: isOpen ? 'var(--drawer-width)' : '0' },
-        gridTemplateColumns: `repeat(${columns.length + 1}, minmax(250px,280px))`,
-      }}
-    >
-      {columns.map((column, i) => <Column key={column.id} {...column} i={i + 1} />)}
-      <NewColumn />
-    </Box>
+    <>
+      <MobileBoard columns={columns} />
+      <DesktopBoard columns={columns} isOpen={isOpen} />
+    </>
+
   );
 }

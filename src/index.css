@@ -50,23 +50,28 @@ html {
 }
 
 /* BOARD */
-.board {
+.desktopBoard {
   padding: 2%;
   position: absolute;
   top: var(--nav-height);
   bottom: 0;
   right: 0;
   transition: all ease 0.3s;
-  overflow: scroll;
-  display: grid;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  /* display: grid; */
   gap: 1.5em;
 }
-.newColumn {
-  display: grid;
-  border-radius: 10px;
-  place-items: center;
-  height: 100%;
+.mobileBoard {
+  padding: 0;
+  position: absolute;
+  top: var(--nav-height);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: hidden;
 }
+
 .MuiSelect-listbox {
   z-index: 1601 !important;
 }
@@ -109,5 +114,8 @@ html {
 @media screen and (max-width: 600px) {
   html {
     font-size: 0.9rem;
+  }
+  .desktopBoard {
+    padding: 0;
   }
 }

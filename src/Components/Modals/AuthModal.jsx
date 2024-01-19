@@ -41,6 +41,7 @@ export default function AuthModal({
       email: target.email.value.trim(),
       password: target.password.value.trim(),
     };
+    console.log(inpData.password);
     if (!inpData.password.match(/^(\w+\S+)$/g)) { setError({ ...isError, local: 'Password can not contain spaces' }); return; }
     if (inpData.password.length < 7) { setError({ ...isError, local: 'Password should be at least 6 characters long' }); return; }
     await handleAuth(inpData.email, inpData.password);

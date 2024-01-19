@@ -2,7 +2,7 @@ import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlin
 import { ListItem, ListItemButton } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
 import { doc, setDoc } from 'firebase/firestore';
-import { toggleMenu } from '../../features/drawer/drawerSlice';
+import { getCurrentBoardDB, toggleMenu } from '../../features/drawer/drawerSlice';
 import { db } from '../../fireBase/fireBase';
 import { addDataDB } from '../../features/db/dbSlice';
 
@@ -17,7 +17,6 @@ export default function BoardItem({ name, active, id }) {
     const curBoardRoute = `users/${userId}/current/board`;
     const curBoardRef = doc(db, curBoardRoute);
     dispatch(addDataDB({ promisesDB: [setDoc(curBoardRef, { name, id })], timeout: 1000 }));
-    // dispatch(toggleMenu(true));
   }
 
   return (

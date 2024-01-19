@@ -1,24 +1,25 @@
+/* eslint-disable max-len */
 /* eslint-disable consistent-return */
 import {
   Outlet, useNavigate,
 } from 'react-router-dom';
 import { Drawer } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
-  onSnapshot, collection, orderBy, query, doc, disableNetwork, getDocs,
+  onSnapshot, doc,
 } from 'firebase/firestore';
 import Navbar from '../Components/Navbar/Navbar';
 import DrawerComponent from '../Components/DrawerComponent/DrawerComponent';
 import OpenSideBarBtn from '../Components/OpenSideBarBtn';
 import { Board } from './index';
 import { auth, db } from '../fireBase/fireBase';
-import { setBoards, setCurBoards } from '../features/drawer/drawerSlice';
+import { setCurBoards } from '../features/drawer/drawerSlice';
 import {
-  getDataDB, setIsLoading, setTimeOut, setUser,
+  getDataDB, setUser,
 } from '../features/db/dbSlice';
-import { getColumnsAsyncDB, getColumnsDB, getCurrentColumnsDB } from '../utils/dbActions';
+import { getCurrentColumnsDB } from '../utils/dbActions';
 import Loader from '../Components/Loader/Loader';
 
 export default function HomeLayout() {
@@ -28,55 +29,26 @@ export default function HomeLayout() {
   const { isOpen } = useSelector((store) => store.drawer);
   const { isLoading } = useSelector((store) => store.db);
 
-  // useLayoutEffect(() => {
-  //   console.log('useLayuout');
-
-  //   const unsub = onAuthStateChanged(auth, (user) => {
-  //     if (user === null) return navigate('/login');
-  //   });
-  //   return unsub;
-  // }, []);
-
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       if (user === null) return navigate('/login');
 
       const userId = user.uid;
       dispatch(setUser(userId));
-      // dispatch(setTimeOut(0));
+      dispatch(getDataDB(userId));
 
-      const queryBoardsRef = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
-
-      // dispatch(setIsLoading(true));
-
-      const promisesDB = [];
-      // const queryBoards = getDocs(queryBoardsRef);
-      dispatch(getDataDB(queryBoardsRef));
-      // const boards = [];
-      // if (!queryBoards.empty) {
-      //   queryBoards.forEach(async (board) => {
-      //     const data = { ...board.data() };
-      //     delete data.timeStamp;
-      //     boards.push(data);
-      //     promisesDB.push(getColumnsAsyncDB(userId, data.id));
-      //     await Promise.all(promisesDB);
-      //   });
-      // }
       const curBoardRef = doc(db, `users/${userId}/current/board`);
-
-      onSnapshot(curBoardRef, { includeMetadataChanges: true }, async (queryCurBoard) => {
+      onSnapshot(curBoardRef, async (queryCurBoard) => {
         let curBoard = null;
         if (queryCurBoard.exists()) {
           curBoard = queryCurBoard.data();
           const curColumns = await getCurrentColumnsDB(userId, curBoard.id);
           curBoard.columns = curColumns;
         }
-        // dispatch(setBoards(boards));
         dispatch(setCurBoards(curBoard));
-        dispatch(setIsLoading(false));
-        // await disableNetwork(db);
       });
     });
+
     return unsub;
   }, []);
 

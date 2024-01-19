@@ -2,7 +2,14 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy } from 'firebase/firestore';
+import { query } from 'firebase/database';
+import { db } from '../../fireBase/fireBase';
+
+function getColumnsAsyncDB(userID, boardID) {
+  const columnsRef = collection(db, `users/${userID}/boards/${boardID}/columns`);
+  return getDocs(columnsRef);
+}
 
 function setDocWithTimeOutError(promissAr, timeout) {
   const wait = new Promise((_, reject) => setTimeout(reject, timeout, new Error('No connection to server')));
@@ -18,27 +25,29 @@ export const addDataDB = createAsyncThunk(
 );
 export const getDataDB = createAsyncThunk(
   'db/getDataDB',
-  async (query) => {
-    console.log(query);
-    const res = await getDocs(query);
-    console.log(res);
-    return res;
+  async (userId) => {
+    const queryBoardsRef = query(collection(db, `users/${userId}/boards`), orderBy('timeStamp'));
+    const queryBoards = await getDocs(queryBoardsRef);
+
+    const boards = [];
+    if (!queryBoards.empty) {
+      queryBoards.forEach(async (board) => {
+        const data = { ...board.data() };
+        delete data.timeStamp;
+        boards.push(data);
+      });
+    }
+    return boards;
   },
 );
-// export const addNewBoardDB = createAsyncThunk(
-//   'db/getDataDB',
-//   async (promisesDB) => {
-//     await Promise.all(promisesDB);
-//   },
-// );
 
 const defaultState = {
   user: null,
+  boards: [],
   timeout: 1000,
   isLoading: false,
   isError: false,
   isFinished: false,
-  isOffline: false,
 };
 
 const dbSlice = createSlice({
@@ -54,36 +63,36 @@ const dbSlice = createSlice({
     setTimeOut: (state, action) => {
       state.timeout = action.payload;
     },
-
+    setBoards: (state, action) => {
+      state.boards = action.payload;
+    },
+    setLogOutUserDbSlice: (state) => {
+      state.boards = [];
+      state.user = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addDataDB.pending, (state) => {
       state.isLoading = true;
-      console.log('loading');
     });
     builder.addCase(addDataDB.fulfilled, (state) => {
       state.isLoading = false;
-      console.log('finish');
     });
     builder.addCase(addDataDB.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
-      console.log('error');
     });
     builder.addCase(getDataDB.pending, (state) => {
       state.isLoading = true;
-      console.log('loading');
     });
     builder.addCase(getDataDB.fulfilled, (state, action) => {
-      console.log(action.payload);
+      state.boards = action.payload;
+
       state.isLoading = false;
-      console.log('finish');
     });
-    builder.addCase(getDataDB.rejected, (state, action) => {
-      console.log(action.payload);
+    builder.addCase(getDataDB.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
-      console.log('error');
     });
   },
 
@@ -91,4 +100,6 @@ const dbSlice = createSlice({
 
 export default dbSlice.reducer;
 
-export const { setUser, setIsLoading, setTimeOut } = dbSlice.actions;
+export const {
+  setUser, setIsLoading, setTimeOut, setBoards, deleteBoard, setLogOutUserDbSlice,
+} = dbSlice.actions;
